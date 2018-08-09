@@ -1,0 +1,51 @@
+Configutation:
+  status: warn # log level for configuration errors
+  shutdownHook: disable
+##### Variables #####
+  Properties:
+    Property:
+      - name: default-msg-pattern
+        value: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p %c{1}:%L %m%n"
+
+##### Define logging appenders #####
+  Appenders:
+    # loggers for console
+    Console:
+      - name: root_logger
+        target: SYSTEM_OUT
+        PatternLayout:
+          Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}:%L %m%n"
+          disableAnsi: false
+          
+      - name: console_app_logger
+        target: SYSTEM_OUT
+        PatternLayout:
+          Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=magenta bold, DEBUG=magenta, TRACE=magenta}"
+          disableAnsi: false
+
+      - name: console_sql_logger
+        target: SYSTEM_OUT
+        PatternLayout:
+          Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green bold, DEBUG=green, TRACE=green}"
+          disableAnsi: false
+
+##### Define loggers #####
+  Loggers:
+    Root: # This is root logger. Every logs with catch up.
+      level: DEBUG
+      AppenderRef:
+        - ref: root_logger
+        
+    Logger:  # User defined loggers go here
+
+      - name: com.github.cataclysmuprising.myapp.migrate
+        additivity: false # don't conflicts with root logger
+        level: DEBUG
+        AppenderRef:
+          - ref: console_app_logger
+
+      - name: org.flywaydb.core.internal.database.ExecutableSqlScript
+        additivity: false
+        level: DEBUG
+        AppenderRef:
+          - ref: console_sql_logger

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~
+  ~   This source file is free software, available under the following license: MIT license.
+  ~   Copyright (c) 2018, Than Htike Aung(https://github.com/cataclysmuprising) All Rights Reserved.
+  ~
+  ~   Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~   of this software and associated documentation files (the "Software"), to deal
+  ~   in the Software without restriction, including without limitation the rights
+  ~   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~   copies of the Software, and to permit persons to whom the Software is
+  ~   furnished to do so, subject to the following conditions:
+  ~
+  ~   The above copyright notice and this permission notice shall be included in all
+  ~   copies or substantial portions of the Software.
+  ~
+  ~   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~   SOFTWARE.
+  ~
+  ~  	myapp-persistence - mybatis-config.xml
+  ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
+  ~ 	    Last Modified - 8/8/18 11:20 AM
+  ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
+  ~  	@Since 2018
+  -->
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="false"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <setting name="defaultStatementTimeout" value="25"/>
+        <setting name="safeRowBoundsEnabled" value="false"/>
+        <setting name="mapUnderscoreToCamelCase" value="false"/>
+        <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+        <setting name="localCacheScope" value="SESSION"/>
+        <setting name="jdbcTypeForNull" value="OTHER"/>
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+        <setting name="proxyFactory" value="JAVASSIST"/>
+        <setting name="defaultFetchSize" value="100"/>
+        <setting name="useActualParamName" value="true"/>
+        <setting name="logImpl" value="LOG4J2"/>
+    </settings>
+
+    <typeHandlers>
+        <typeHandler javaType="java.util.Map" jdbcType="BINARY"
+                     handler="com.t3k.common.repository.typeHandler.LongArrayListTypeHandler"/>
+        <typeHandler javaType="java.util.Map" jdbcType="BINARY"
+                     handler="com.t3k.common.repository.typeHandler.StringArrayListTypeHandler"/>
+
+        <!-- Joda DateTime Type Handler -->
+        <typeHandler javaType="org.joda.time.LocalDate" jdbcType="TIMESTAMP"
+                     handler="com.t3k.common.repository.typeHandler.LocalDateTypeHandler"/>
+        <typeHandler javaType="org.joda.time.LocalTime" jdbcType="TIMESTAMP"
+                     handler="com.t3k.common.repository.typeHandler.LocalTimeTypeHandler"/>
+        <typeHandler javaType="org.joda.time.LocalDateTime" jdbcType="TIMESTAMP"
+                     handler="com.t3k.common.repository.typeHandler.LocalDateTimeTypeHandler"/>
+        <typeHandler javaType="org.joda.time.DateTime" jdbcType="TIMESTAMP"
+                     handler="com.t3k.common.repository.typeHandler.DateTimeTypeHandler"/>
+
+    </typeHandlers>
+</configuration>
