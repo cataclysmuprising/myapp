@@ -55,19 +55,19 @@
 
     <typeHandlers>
         <typeHandler javaType="java.util.Map" jdbcType="BINARY"
-                     handler="com.t3k.common.repository.typeHandler.LongArrayListTypeHandler"/>
+				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.LongArrayListTypeHandler"/>
         <typeHandler javaType="java.util.Map" jdbcType="BINARY"
-                     handler="com.t3k.common.repository.typeHandler.StringArrayListTypeHandler"/>
+				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.StringArrayListTypeHandler"/>
 
         <!-- Joda DateTime Type Handler -->
         <typeHandler javaType="org.joda.time.LocalDate" jdbcType="TIMESTAMP"
-                     handler="com.t3k.common.repository.typeHandler.LocalDateTypeHandler"/>
+				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.LocalDateTypeHandler"/>
         <typeHandler javaType="org.joda.time.LocalTime" jdbcType="TIMESTAMP"
-                     handler="com.t3k.common.repository.typeHandler.LocalTimeTypeHandler"/>
+				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.LocalTimeTypeHandler"/>
         <typeHandler javaType="org.joda.time.LocalDateTime" jdbcType="TIMESTAMP"
-                     handler="com.t3k.common.repository.typeHandler.LocalDateTimeTypeHandler"/>
+				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.LocalDateTimeTypeHandler"/>
         <typeHandler javaType="org.joda.time.DateTime" jdbcType="TIMESTAMP"
-                     handler="com.t3k.common.repository.typeHandler.DateTimeTypeHandler"/>
+				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.DateTimeTypeHandler"/>
 
     </typeHandlers>
 </configuration>

@@ -30,5 +30,38 @@
 
 package com.github.cataclysmuprising.myapp.domain.bean;
 
-public class UserBean {
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.joda.time.LocalDate;
+
+@Getter
+@Setter
+@ToString(callSuper = true)
+public class UserBean extends BaseBean {
+	private Long contentId;
+	private String name;
+	private String email;
+	private String password;
+	private String nrc;
+	private String phone;
+	private Status status;
+	private Integer age;
+	private Gender gender;
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private LocalDate dob;
+	private String address;
+
+	public UserBean() {
+		gender = Gender.MALE;
+	}
+
+	public enum Gender {
+		MALE, FEMALE, OTHER;
+	}
+
+	public enum Status {
+		TEMPORARY, ACTIVE, LOCK;
+	}
 }

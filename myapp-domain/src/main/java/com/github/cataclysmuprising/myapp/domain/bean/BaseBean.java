@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.joda.time.LocalDateTime;
+import org.joda.time.DateTime;
 
 @Getter
 @Setter
@@ -44,7 +44,7 @@ public class BaseBean {
 	private long recordRegId;
 	private long recordUpdId;
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private LocalDateTime recordRegDate;
+	private DateTime recordRegDate;
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-	private LocalDateTime recordUpdDate;
+	private DateTime recordUpdDate;
 }

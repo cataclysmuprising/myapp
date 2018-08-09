@@ -88,6 +88,12 @@
             <artifactId>mybatis-generic-crud</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        
-    </dependencies>
+		<!-- add domain module -->
+		<dependency>
+			<groupId>com.github.cataclysmuprising</groupId>
+			<artifactId>myapp-domain</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
 </project>

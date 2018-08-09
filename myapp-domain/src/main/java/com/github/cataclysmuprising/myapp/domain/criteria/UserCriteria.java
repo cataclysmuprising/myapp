@@ -30,5 +30,18 @@
 
 package com.github.cataclysmuprising.myapp.domain.criteria;
 
-public class UserCriteria {
+import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString(callSuper = true)
+public class UserCriteria extends CommonCriteria {
+	private String name;
+	private String email;
+	private String nrc;
+	private String phone;
+	private UserBean.Status status;
 }

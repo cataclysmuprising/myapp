@@ -35,15 +35,20 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
 @Configuration
+@MapperScan(basePackages = {"com.github.cataclysmuprising.mybatis.mapper",
+		"com.github.cataclysmuprising.myapp.persistence.mapper"},
+		sqlSessionFactoryRef = PrimaryDataSourceConfig.SQL_SESSION_FACTORY_NAME)
 public class PrimaryDataSourceConfig {
 
 	public static final String SQL_SESSION_FACTORY_NAME = "primarySqlSessionFactory";
@@ -64,6 +69,9 @@ public class PrimaryDataSourceConfig {
 	public SqlSessionFactory primarySqlSessionFactory(@Qualifier("primaryDataSource") DataSource dataSource) throws Exception {
 		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
 		bean.setDataSource(dataSource);
+		bean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource("classpath:mybatis/mybatis-config.xml"));
+		bean.setTypeAliasesPackage("com.github.cataclysmuprising.myapp.domain.bean");
+		bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mapper/*.xml"));
 		return bean.getObject();
 	}
 
