@@ -30,7 +30,6 @@
 
 package com.github.cataclysmuprisingp.myapp;
 
-import com.github.cataclysmuprising.myapp.persistence.common.annotation.ExcludeFromTests;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
@@ -38,12 +37,13 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConf
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.Profile;
+
+import com.github.cataclysmuprising.myapp.persistence.common.annotation.ExcludeFromTests;
 
 @Configuration
-@Profile("test")
-@EnableAutoConfiguration(exclude = {HibernateJpaAutoConfiguration.class, ErrorMvcAutoConfiguration.class, DataSourceAutoConfiguration.class})
-@ComponentScan(basePackages = {"com.github.cataclysmuprising.myapp.persistence"}, excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = ExcludeFromTests.class))
+@EnableAutoConfiguration(exclude = { HibernateJpaAutoConfiguration.class, ErrorMvcAutoConfiguration.class, DataSourceAutoConfiguration.class })
+@ComponentScan(basePackages = {
+		"com.github.cataclysmuprising.myapp.persistence" }, excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = ExcludeFromTests.class))
 public class TestConfig {
 
 }

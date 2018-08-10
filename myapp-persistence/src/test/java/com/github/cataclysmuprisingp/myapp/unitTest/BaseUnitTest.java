@@ -30,23 +30,26 @@
 
 package com.github.cataclysmuprisingp.myapp.unitTest;
 
-import com.github.cataclysmuprising.myapp.persistence.config.PrimaryDataSourceConfig;
-import com.github.cataclysmuprisingp.myapp.TestConfig;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
-import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+
+import com.github.cataclysmuprisingp.myapp.TestConfig;
+
 @SpringBootTest(classes = TestConfig.class, webEnvironment = WebEnvironment.NONE)
-@Transactional(value = PrimaryDataSourceConfig.TX_MANAGER, rollbackFor = Exception.class)
+@Rollback(true)
+@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
 public class BaseUnitTest extends AbstractTransactionalTestNGSpringContextTests {
 	protected static final long TEST_CREATE_USER_ID = 10009l;
 	protected static final long TEST_UPDATE_USER_ID = 90001l;
