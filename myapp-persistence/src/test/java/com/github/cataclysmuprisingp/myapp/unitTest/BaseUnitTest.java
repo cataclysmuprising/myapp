@@ -23,17 +23,14 @@
  *
  *  	myapp-persistence - BaseUnitTest.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 3:43 PM
+ * 	    Last Modified - 8/10/18 5:23 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
 
 package com.github.cataclysmuprisingp.myapp.unitTest;
 
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Iterator;
-
+import com.github.cataclysmuprisingp.myapp.TestConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,10 +42,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import com.github.cataclysmuprisingp.myapp.TestConfig;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Iterator;
 
 @SpringBootTest(classes = TestConfig.class, webEnvironment = WebEnvironment.NONE)
-@Rollback(true)
+@Rollback
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
 public class BaseUnitTest extends AbstractTransactionalTestNGSpringContextTests {
 	protected static final long TEST_CREATE_USER_ID = 10009l;

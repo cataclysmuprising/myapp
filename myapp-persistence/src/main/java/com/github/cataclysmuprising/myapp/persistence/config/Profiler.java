@@ -23,7 +23,7 @@
  *
  *  	myapp-persistence - Profiler.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/10/18 5:25 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -39,7 +39,7 @@ public class Profiler {
 
 	@Configuration
 	@Profile("default")
-	@PropertySource({"classpath:repository-default.properties"})
+	@PropertySource({"classpath:repository-dev.properties"})
 	static class Defaults {
 	}
 
