@@ -23,7 +23,7 @@
  *
  *  	myapp-persistence - PrimaryDataSourceConfig.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/9/18 9:20 AM
+ * 	    Last Modified - 8/10/18 3:38 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -46,7 +46,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = {"com.github.cataclysmuprising.mybatis.mapper",
+@MapperScan(basePackages = {"com.github.cataclysmuprising.myapp.common.mybatis.mapper",
 		"com.github.cataclysmuprising.myapp.persistence.mapper"},
 		sqlSessionFactoryRef = PrimaryDataSourceConfig.SQL_SESSION_FACTORY_NAME)
 public class PrimaryDataSourceConfig {

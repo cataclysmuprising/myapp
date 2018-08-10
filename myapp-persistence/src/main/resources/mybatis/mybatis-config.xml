@@ -24,50 +24,50 @@
   ~
   ~  	myapp-persistence - mybatis-config.xml
   ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
-  ~ 	    Last Modified - 8/8/18 11:20 AM
+  ~ 	    Last Modified - 8/10/18 3:39 PM
   ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
   ~  	@Since 2018
   -->
 
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <settings>
-        <setting name="cacheEnabled" value="true"/>
-        <setting name="lazyLoadingEnabled" value="false"/>
-        <setting name="aggressiveLazyLoading" value="false"/>
-        <setting name="multipleResultSetsEnabled" value="true"/>
-        <setting name="useColumnLabel" value="true"/>
-        <setting name="useGeneratedKeys" value="true"/>
-        <setting name="autoMappingBehavior" value="PARTIAL"/>
-        <setting name="defaultExecutorType" value="SIMPLE"/>
-        <setting name="defaultStatementTimeout" value="25"/>
-        <setting name="safeRowBoundsEnabled" value="false"/>
-        <setting name="mapUnderscoreToCamelCase" value="false"/>
-        <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
-        <setting name="localCacheScope" value="SESSION"/>
-        <setting name="jdbcTypeForNull" value="OTHER"/>
-        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
-        <setting name="proxyFactory" value="JAVASSIST"/>
-        <setting name="defaultFetchSize" value="100"/>
-        <setting name="useActualParamName" value="true"/>
-        <setting name="logImpl" value="LOG4J2"/>
-    </settings>
+	<settings>
+		<setting name="cacheEnabled" value="true"/>
+		<setting name="lazyLoadingEnabled" value="false"/>
+		<setting name="aggressiveLazyLoading" value="false"/>
+		<setting name="multipleResultSetsEnabled" value="true"/>
+		<setting name="useColumnLabel" value="true"/>
+		<setting name="useGeneratedKeys" value="true"/>
+		<setting name="autoMappingBehavior" value="PARTIAL"/>
+		<setting name="defaultExecutorType" value="SIMPLE"/>
+		<setting name="defaultStatementTimeout" value="25"/>
+		<setting name="safeRowBoundsEnabled" value="false"/>
+		<setting name="mapUnderscoreToCamelCase" value="false"/>
+		<setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+		<setting name="localCacheScope" value="SESSION"/>
+		<setting name="jdbcTypeForNull" value="OTHER"/>
+		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+		<setting name="proxyFactory" value="JAVASSIST"/>
+		<setting name="defaultFetchSize" value="100"/>
+		<setting name="useActualParamName" value="true"/>
+		<setting name="logImpl" value="LOG4J2"/>
+	</settings>
 
-    <typeHandlers>
-        <typeHandler javaType="java.util.Map" jdbcType="BINARY"
-				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.LongArrayListTypeHandler"/>
-        <typeHandler javaType="java.util.Map" jdbcType="BINARY"
-				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.StringArrayListTypeHandler"/>
+	<typeHandlers>
+		<typeHandler javaType="java.util.Map" jdbcType="BINARY"
+				handler="com.github.cataclysmuprising.myapp.common.mybatis.typeHandler.LongArrayListTypeHandler"/>
+		<typeHandler javaType="java.util.Map" jdbcType="BINARY"
+				handler="com.github.cataclysmuprising.myapp.common.mybatis.typeHandler.StringArrayListTypeHandler"/>
 
-        <!-- Joda DateTime Type Handler -->
-        <typeHandler javaType="org.joda.time.LocalDate" jdbcType="TIMESTAMP"
-				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.LocalDateTypeHandler"/>
-        <typeHandler javaType="org.joda.time.LocalTime" jdbcType="TIMESTAMP"
-				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.LocalTimeTypeHandler"/>
-        <typeHandler javaType="org.joda.time.LocalDateTime" jdbcType="TIMESTAMP"
-				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.LocalDateTimeTypeHandler"/>
-        <typeHandler javaType="org.joda.time.DateTime" jdbcType="TIMESTAMP"
-				handler="com.github.cataclysmuprising.myapp.persistence.config.typeHandler.DateTimeTypeHandler"/>
+		<!-- Joda DateTime Type Handler -->
+		<typeHandler javaType="org.joda.time.LocalDate" jdbcType="TIMESTAMP"
+				handler="com.github.cataclysmuprising.myapp.common.mybatis.typeHandler.LocalDateTypeHandler"/>
+		<typeHandler javaType="org.joda.time.LocalTime" jdbcType="TIMESTAMP"
+				handler="com.github.cataclysmuprising.myapp.common.mybatis.typeHandler.LocalTimeTypeHandler"/>
+		<typeHandler javaType="org.joda.time.LocalDateTime" jdbcType="TIMESTAMP"
+				handler="com.github.cataclysmuprising.myapp.common.mybatis.typeHandler.LocalDateTimeTypeHandler"/>
+		<typeHandler javaType="org.joda.time.DateTime" jdbcType="TIMESTAMP"
+				handler="com.github.cataclysmuprising.myapp.common.mybatis.typeHandler.DateTimeTypeHandler"/>
 
-    </typeHandlers>
+	</typeHandlers>
 </configuration>

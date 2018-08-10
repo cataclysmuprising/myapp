@@ -23,18 +23,18 @@
  *
  *  	myapp-persistence - ExcludeFromTests.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/8/18 10:58 AM
+ * 	    Last Modified - 8/10/18 3:59 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
 
 package com.github.cataclysmuprising.myapp.persistence.common.annotation;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Retention(RUNTIME)
 @Target(TYPE)

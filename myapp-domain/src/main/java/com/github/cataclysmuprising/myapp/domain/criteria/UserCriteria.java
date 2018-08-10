@@ -23,13 +23,14 @@
  *
  *  	myapp-domain - UserCriteria.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/9/18 9:20 AM
+ * 	    Last Modified - 8/10/18 1:26 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
 
 package com.github.cataclysmuprising.myapp.domain.criteria;
 
+import com.github.cataclysmuprising.myapp.common.domain.criteria.CommonCriteria;
 import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,4 +45,9 @@ public class UserCriteria extends CommonCriteria {
 	private String nrc;
 	private String phone;
 	private UserBean.Status status;
+
+	@Override
+	public Class<?> getObjectClass() {
+		return UserBean.class;
+	}
 }

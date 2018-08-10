@@ -23,7 +23,7 @@
  *
  *  	myapp-persistence - TestConfig.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/8/18 11:20 AM
+ * 	    Last Modified - 8/10/18 3:41 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -31,7 +31,6 @@
 package com.github.cataclysmuprisingp.myapp;
 
 import com.github.cataclysmuprising.myapp.persistence.common.annotation.ExcludeFromTests;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
@@ -39,11 +38,12 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConf
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
-@MapperScan("com.t3k.jdbc.mybatis.mapper")
+@Profile("test")
 @EnableAutoConfiguration(exclude = {HibernateJpaAutoConfiguration.class, ErrorMvcAutoConfiguration.class, DataSourceAutoConfiguration.class})
-@ComponentScan(basePackages = {"com.github.cataclysmuprisingp.myapp.persistence"}, excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = ExcludeFromTests.class))
+@ComponentScan(basePackages = {"com.github.cataclysmuprising.myapp.persistence"}, excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, value = ExcludeFromTests.class))
 public class TestConfig {
 
 }

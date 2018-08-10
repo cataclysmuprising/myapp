@@ -24,22 +24,30 @@
   ~
   ~  	myapp-domain - pom.xml
   ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
-  ~ 	    Last Modified - 8/9/18 9:20 AM
+  ~ 	    Last Modified - 8/10/18 1:11 PM
   ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
   ~  	@Since 2018
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>myapp</artifactId>
-        <groupId>com.github.cataclysmuprising</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns="http://maven.apache.org/POM/4.0.0"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>myapp</artifactId>
+		<groupId>com.github.cataclysmuprising</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>myapp-domain</artifactId>
+	<packaging>jar</packaging>
 
-    <artifactId>myapp-domain</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>com.github.cataclysmuprising</groupId>
+			<artifactId>myapp-common-domain</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 
 
 </project>

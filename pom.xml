@@ -24,7 +24,7 @@
   ~
   ~  	myapp - pom.xml
   ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
-  ~ 	    Last Modified - 8/9/18 9:20 AM
+  ~ 	    Last Modified - 8/10/18 3:18 PM
   ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
   ~  	@Since 2018
   -->
@@ -48,7 +48,8 @@
         <module>myapp-domain</module>
         <module>myapp-persistence</module>
         <module>myapp-migrate</module>
-    </modules>
+		<module>myapp-common</module>
+	</modules>
     <packaging>pom</packaging>
 
     <properties>
@@ -60,6 +61,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.build.timestamp.format>ddMMyyyy</maven.build.timestamp.format>
+		<testng.version>6.9.8</testng.version>
     </properties>
 
     <dependencies>
@@ -68,12 +70,29 @@
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
-        <!-- Testing -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<!-- Testing libs -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.vaadin.external.google</groupId>
+					<artifactId>android-json</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
         <!-- Logging -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

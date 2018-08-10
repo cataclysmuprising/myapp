@@ -23,44 +23,43 @@
  *
  *  	myapp-persistence - BaseUnitTest.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/8/18 11:20 AM
+ * 	    Last Modified - 8/10/18 3:43 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
 
 package com.github.cataclysmuprisingp.myapp.unitTest;
 
+import com.github.cataclysmuprising.myapp.persistence.config.PrimaryDataSourceConfig;
 import com.github.cataclysmuprisingp.myapp.TestConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 
 @SpringBootTest(classes = TestConfig.class, webEnvironment = WebEnvironment.NONE)
-@Transactional(rollbackFor = Exception.class)
-@RunWith(SpringJUnit4ClassRunner.class)
-public class BaseUnitTest {
+@Transactional(value = PrimaryDataSourceConfig.TX_MANAGER, rollbackFor = Exception.class)
+public class BaseUnitTest extends AbstractTransactionalTestNGSpringContextTests {
 	protected static final long TEST_CREATE_USER_ID = 10009l;
 	protected static final long TEST_UPDATE_USER_ID = 90001l;
 	private static final Logger testLogger = LogManager.getLogger("testLogs." + BaseUnitTest.class.getName());
 
-	@Before
+	@BeforeMethod
 	public void beforeMethod(Method method) {
-		testLogger.info("***** DAO-TEST : Testing method '" + method.getName() + "' has started. *****");
+		testLogger.info("***** Unit-TEST : Testing method '" + method.getName() + "' has started. *****");
 	}
 
-	@After
+	@AfterMethod
 	public void afterMethod(Method method) {
-		testLogger.info("----- DAO-TEST : Testing method '" + method.getName() + "' has finished. -----");
+		testLogger.info("----- Unit-TEST : Testing method '" + method.getName() + "' has finished. -----");
 	}
 
 	protected <T> void showEntriesOfCollection(Collection<T> collection) {
