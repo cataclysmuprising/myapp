@@ -23,7 +23,7 @@
  *
  *  	myapp-domain - UserCriteria.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/13/18 3:40 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -45,6 +45,8 @@ public class UserCriteria extends CommonCriteria {
 	private String nrc;
 	private String phone;
 	private UserBean.Status status;
+
+	private boolean withStaticContent;
 
 	@Override
 	public Class<?> getObjectClass() {

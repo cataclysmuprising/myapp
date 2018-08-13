@@ -23,7 +23,7 @@
  *
  *  	myapp-persistence - UserUnitTest.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/13/18 10:59 AM
+ * 	    Last Modified - 8/13/18 3:41 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -83,6 +83,7 @@ public class UserUnitTest extends BaseUnitTest {
 		UserCriteria criteria = new UserCriteria();
 		criteria.setIncludeIds(Arrays.asList(1L, 2L, 3L));
 		criteria.setExcludeIds(Arrays.asList(7L, 8L, 9L));
+		criteria.setWithStaticContent(true);
 
 		criteria.setName("Super User");
 		criteria.setEmail("superuser@sample.com");

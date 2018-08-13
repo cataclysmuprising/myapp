@@ -24,7 +24,7 @@
   ~
   ~  	myapp-persistence - USER.xml
   ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
-  ~ 	    Last Modified - 8/10/18 1:26 PM
+  ~ 	    Last Modified - 8/13/18 3:39 PM
   ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
   ~  	@Since 2018
   -->
@@ -46,6 +46,7 @@
 		<result property="gender" column="usr_gender"/>
 		<result property="dob" column="usr_dob" jdbcType="DATE"/>
 		<result property="address" column="usr_address"/>
+
 	</resultMap>
 
 	<resultMap type="UserBean" id="UserResult" extends="Parent_UserResult">
@@ -53,11 +54,17 @@
 		<result property="recordUpdId" column="usr_record_upd_id"/>
 		<result property="recordRegDate" column="usr_record_reg_date"/>
 		<result property="recordUpdDate" column="usr_record_upd_date"/>
+		<association property="content" javaType="StaticContentBean" resultMap="com.github.cataclysmuprising.myapp.persistence.mapper.StaticContentMapper.Parent_StaticContentResult"/>
 	</resultMap>
 
 
 	<sql id="tables">
 		FROM mjr_user usr
+		<if test="_parameter.containsKey('criteria') and criteria != null">
+			<if test="criteria.withStaticContent == true">
+				LEFT JOIN mjr_static_content stc ON usr.content_id = stc.id
+			</if>
+		</if>
 	</sql>
 
 	<sql id="main_columns">
@@ -126,6 +133,13 @@
 
 	<sql id="columns">
 		<include refid="main_columns"/>
+		<if test="_parameter.containsKey('criteria') and criteria != null">
+			<if test="criteria.withStaticContent == true">
+				,
+				<include refid="com.github.cataclysmuprising.myapp.persistence.mapper.StaticContentMapper.main_columns"/>
+			</if>
+
+		</if>
 		<include refid="meta_columns"/>
 	</sql>
 

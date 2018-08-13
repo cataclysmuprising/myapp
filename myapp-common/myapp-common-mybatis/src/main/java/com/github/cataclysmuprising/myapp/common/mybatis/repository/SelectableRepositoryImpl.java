@@ -23,7 +23,7 @@
  *
  *  	myapp-common-mybatis - SelectableRepositoryImpl.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/13/18 9:48 AM
+ * 	    Last Modified - 8/13/18 3:44 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -69,15 +69,15 @@ public class SelectableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 	@Override
 	public T select(C criteria) throws DAOException {
 		final String objectName = getObjectName(criteria.getObjectClass());
-		logger.debug("[START] : >>> --- Fetching single {} informations with criteria ==> {} ---", objectName, criteria);
+		logger.debug("[START] : >>> --- Fetching single {} information with criteria ==> {} ---", objectName, criteria);
 		T record;
 		try {
 			record = mapper.selectSingleRecord(criteria);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while fetching single " + objectName + " informations with criteria ==> " + criteria + " xxx";
+			String errorMsg = "xxx Error occured while fetching single " + objectName + " information with criteria ==> " + criteria + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Fetching single 'User' informations with criteria ---");
+		logger.debug("[FINISH] : <<< --- Fetching single 'User' information with criteria ---");
 		return record;
 	}
 

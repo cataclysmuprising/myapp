@@ -23,7 +23,7 @@
  *
  *  	myapp-domain - UserBean.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/13/18 3:42 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -53,6 +53,8 @@ public class UserBean extends BaseBean {
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate dob;
 	private String address;
+
+	private StaticContentBean content;
 
 	public UserBean() {
 		gender = Gender.MALE;
