@@ -23,7 +23,7 @@
  *
  *  	myapp-common-mybatis - UpdateableRepositoryImpl.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/13/18 9:48 AM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -59,7 +59,7 @@ public class UpdateableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 	public long update(T record, long recordUpdId) throws DuplicatedEntryException, DAOException {
 		final String objectName = getObjectName(record);
 		long totalEffectedRows;
-		logger.debug("[START] : >>> --- Updating single '{}' informations with Id # {} ---", objectName, record.getId());
+		logger.debug("[START] : >>> --- Updating single {} informations with Id # {} ---", objectName, record.getId());
 		try {
 			record.setRecordUpdId(recordUpdId);
 			totalEffectedRows = mapper.update(record);
@@ -67,17 +67,17 @@ public class UpdateableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 			String errorMsg = "xxx " + DUPLICATE_KEY_UPDATE_FAILED_MSG + " xxx";
 			throw new DuplicatedEntryException(errorMsg, e);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while updating '" + objectName + "' data ==> " + record + " xxx";
+			String errorMsg = "xxx Error occured while updating " + objectName + " data ==> " + record + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Updating single '{}' informations with Id ---", objectName);
+		logger.debug("[FINISH] : <<< --- Updating single {} informations with Id ---", objectName);
 		return totalEffectedRows;
 	}
 
 	@Override
 	public void update(List<T> records, long recordUpdId) throws DuplicatedEntryException, DAOException {
 		final String objectName = getObjectName(records);
-		logger.debug("[START] : >>> --- Updating multi '{}' informations ---", objectName);
+		logger.debug("[START] : >>> --- Updating multi {} informations ---", objectName);
 		for (T record : records) {
 			try {
 				record.setRecordUpdId(recordUpdId);
@@ -86,18 +86,18 @@ public class UpdateableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 				String errorMsg = "xxx " + DUPLICATE_KEY_UPDATE_FAILED_MSG + " xxx";
 				throw new DuplicatedEntryException(errorMsg, e);
 			} catch (Exception e) {
-				String errorMsg = "xxx Error occured while updating '" + objectName + "' data ==> " + record + " xxx";
+				String errorMsg = "xxx Error occured while updating " + objectName + " data ==> " + record + " xxx";
 				throw new DAOException(errorMsg, e);
 			}
 		}
-		logger.debug("[FINISH] : <<< --- Updating multi '{}' informations ---", objectName);
+		logger.debug("[FINISH] : <<< --- Updating multi {} informations ---", objectName);
 	}
 
 	@Override
 	public long update(C criteria, HashMap<String, Object> updateItems, long recordUpdId) throws DAOException, DuplicatedEntryException {
 		long totalEffectedRows;
 		final String objectName = getObjectName(criteria.getObjectClass());
-		logger.debug("[START] : >>> --- Updating multi '{}' informations with criteria ==> {} ---", objectName, criteria);
+		logger.debug("[START] : >>> --- Updating multi {} informations with criteria ==> {} ---", objectName, criteria);
 		try {
 			updateItems.put("recordUpdId", recordUpdId);
 			totalEffectedRows = mapper.updateWithCriteria(criteria, updateItems);
@@ -105,10 +105,10 @@ public class UpdateableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 			String errorMsg = "xxx " + DUPLICATE_KEY_UPDATE_FAILED_MSG + " xxx";
 			throw new DuplicatedEntryException(errorMsg, e);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while updating multiple '" + objectName + "' informations [Values] ==> " + updateItems + " with [Criteria] ==> " + criteria + " xxx";
+			String errorMsg = "xxx Error occured while updating multiple " + objectName + " informations [Values] ==> " + updateItems + " with [Criteria] ==> " + criteria + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Updating multi '{}' informations with criteria ---", objectName);
+		logger.debug("[FINISH] : <<< --- Updating multi {} informations with criteria ---", objectName);
 		return totalEffectedRows;
 	}
 }

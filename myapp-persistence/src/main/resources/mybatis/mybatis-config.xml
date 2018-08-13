@@ -24,7 +24,7 @@
   ~
   ~  	myapp-persistence - mybatis-config.xml
   ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
-  ~ 	    Last Modified - 8/10/18 3:39 PM
+  ~ 	    Last Modified - 8/13/18 12:03 PM
   ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
   ~  	@Since 2018
   -->
@@ -68,6 +68,11 @@
 				handler="com.github.cataclysmuprising.myapp.common.mybatis.typeHandler.LocalDateTimeTypeHandler"/>
 		<typeHandler javaType="org.joda.time.DateTime" jdbcType="TIMESTAMP"
 				handler="com.github.cataclysmuprising.myapp.common.mybatis.typeHandler.DateTimeTypeHandler"/>
+
+		<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.github.cataclysmuprising.myapp.domain.bean.UserBean$Status"/>
+		<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.github.cataclysmuprising.myapp.domain.bean.UserBean$Gender"/>
+		<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.github.cataclysmuprising.myapp.domain.bean.StaticContentBean$FileType"/>
+		<typeHandler handler="org.apache.ibatis.type.EnumOrdinalTypeHandler" javaType="com.github.cataclysmuprising.myapp.domain.bean.ActionBean$ActionType"/>
 
 	</typeHandlers>
 </configuration>

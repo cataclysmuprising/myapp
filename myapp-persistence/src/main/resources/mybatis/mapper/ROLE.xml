@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~
+  ~   This source file is free software, available under the following license: MIT license. 
+  ~   Copyright (c) 2018, Than Htike Aung(https://github.com/cataclysmuprising) All Rights Reserved.
+  ~   
+  ~   Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~   of this software and associated documentation files (the "Software"), to deal
+  ~   in the Software without restriction, including without limitation the rights
+  ~   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~   copies of the Software, and to permit persons to whom the Software is
+  ~   furnished to do so, subject to the following conditions:
+  ~  
+  ~   The above copyright notice and this permission notice shall be included in all
+  ~   copies or substantial portions of the Software.
+  ~  
+  ~   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~   SOFTWARE.
+  ~   
+  ~  	myapp-persistence - ROLE.xml
+  ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
+  ~ 	    Last Modified - 8/13/18 2:10 PM
+  ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
+  ~  	@Since 2018
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.github.cataclysmuprising.myapp.persistence.mapper.RoleMapper">
+
+	<resultMap type="RoleBean" id="Parent_RoleResult">
+		<id property="id" column="role_id"/>
+		<result property="name" column="role_name"/>
+		<result property="description" column="role_description"/>
+	</resultMap>
+
+	<resultMap type="RoleBean" id="RoleResult" extends="Parent_RoleResult">
+		<result property="recordRegId" column="role_record_reg_id"/>
+		<result property="recordUpdId" column="role_record_upd_id"/>
+		<result property="recordRegDate" column="role_record_reg_date"/>
+		<result property="recordUpdDate" column="role_record_upd_date"/>
+	</resultMap>
+
+
+	<sql id="tables">
+		FROM mjr_role rol
+	</sql>
+
+	<sql id="main_columns">
+		rol.id AS role_id,
+		rol.name AS role_name,
+		rol.description AS role_description
+	</sql>
+
+	<sql id="meta_columns">
+		, rol.record_reg_id AS role_record_reg_id
+		, rol.record_upd_id AS role_record_upd_id
+		, rol.record_reg_date AS role_record_reg_date
+		, rol.record_upd_date AS role_record_upd_date
+	</sql>
+
+	<sql id="major_table_columns">
+		name,
+		description
+	</sql>
+
+	<sql id="major_table_fields">
+		#{name},
+		#{description}
+	</sql>
+
+	<sql id="major_table_iterate_fields">
+		#{record.name},
+		#{record.description}
+	</sql>
+
+	<sql id="columns">
+		<include refid="main_columns"/>
+		<include refid="meta_columns"/>
+	</sql>
+
+	<sql id="criterias">
+		<if test="_parameter.containsKey('criteria') and criteria != null">
+			<where>
+				<if test="criteria.id != null">
+					AND rol.id = #{criteria.id}
+				</if>
+				<if test="criteria.includeIds != null and criteria.includeIds.size gt 0">
+					AND rol.id IN
+					<foreach item="id" index="index" collection="criteria.includeIds" open="(" separator="," close=")">
+						${id}
+					</foreach>
+				</if>
+				<if test="criteria.excludeIds != null and criteria.excludeIds.size gt 0">
+					AND rol.id NOT IN
+					<foreach item="id" index="index" collection="criteria.excludeIds" open="(" separator="," close=")">
+						${id}
+					</foreach>
+				</if>
+				<if test="criteria.name != null">
+					AND rol.name = #{criteria.name}
+				</if>
+				<if test="criteria.word != null">
+					AND
+					(rol.name ILIKE '%${criteria.word}%'
+					OR rol.description ILIKE '%${criteria.word}%')
+				</if>
+			</where>
+		</if>
+	</sql>
+
+	<sql id="orders">
+		ORDER BY
+		<choose>
+			<when test="_parameter.containsKey('criteria') and criteria !=null">
+				<choose>
+					<when test="criteria.orderBy == 'id'">
+						rol.id ${criteria.order.getValue()}
+					</when>
+					<when test="criteria.orderBy == 'name'">
+						rol.name ${criteria.order.getValue()}
+					</when>
+					<otherwise>
+						rol.id DESC
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				rol.id DESC
+			</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insert" parameterType="RoleBean" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO mjr_role (
+		<include refid="major_table_columns"/>
+		<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_columns"/>
+		) VALUES (
+		<include refid="major_table_fields"/>
+		<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_fields"/>
+		)
+	</insert>
+
+	<insert id="insertList" parameterType="java.util.List">
+		<if test="records != null and records.size() > 0">
+			INSERT INTO mjr_role (
+			<include refid="major_table_columns"/>
+			<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_columns"/>
+			) VALUES
+			<foreach item="record" collection="records" open="(" separator="),(" close=")">
+				<include refid="major_table_iterate_fields"/>
+				<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_iterate_fields"/>
+			</foreach>
+		</if>
+	</insert>
+
+	<update id="update" parameterType="RoleBean">
+		UPDATE mjr_role rol
+		<set>
+			record_upd_id = #{recordUpdId},
+			record_upd_date = current_timestamp,
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="description != null">
+				description = #{description},
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!-- Notice : Email won't allow to Edit -->
+	<update id="updateWithCriteria">
+		UPDATE mjr_role rol
+		<set>
+			record_upd_date = current_timestamp,
+			<if test="updateItems != null and updateItems.keySet().size() > 0">
+				<if test="updateItems.name != null">name = #{updateItems.name},</if>
+				<if test="updateItems.description != null">description = #{updateItems.description},</if>
+				record_upd_id = #{updateItems.recordUpdId}
+			</if>
+		</set>
+		<include refid="criterias"/>
+	</update>
+
+	<delete id="deleteByPrimaryKey">
+		DELETE FROM mjr_role rol
+		WHERE id = #{primaryKey}
+	</delete>
+
+	<delete id="deleteByCriteria">
+		<if test="_parameter.containsKey('criteria') and criteria != null">
+			DELETE FROM mjr_role rol
+			<include refid="criterias"/>
+		</if>
+	</delete>
+
+	<select id="selectByPrimaryKey" resultMap="RoleResult">
+		SELECT
+		<include refid="columns"/>
+		<include refid="tables"/>
+		WHERE
+		rol.id = #{primaryKey}
+	</select>
+
+	<select id="selectSingleRecord" resultMap="RoleResult">
+		SELECT
+		<include refid="columns"/>
+		<include refid="tables"/>
+		<include refid="criterias"/>
+	</select>
+
+	<select id="selectMultiRecords" resultMap="RoleResult">
+		SELECT
+		<include refid="columns"/>
+		<include refid="tables"/>
+		<include refid="criterias"/>
+		<include refid="orders"/>
+		<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.offset_limit"/>
+	</select>
+
+	<select id="selectCounts" resultType="long">
+		SELECT count(DISTINCT rol.id)
+		<include refid="tables"/>
+		<include refid="criterias"/>
+	</select>
+
+</mapper>

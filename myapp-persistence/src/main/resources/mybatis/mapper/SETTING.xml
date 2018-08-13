@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~
+  ~   This source file is free software, available under the following license: MIT license. 
+  ~   Copyright (c) 2018, Than Htike Aung(https://github.com/cataclysmuprising) All Rights Reserved.
+  ~   
+  ~   Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~   of this software and associated documentation files (the "Software"), to deal
+  ~   in the Software without restriction, including without limitation the rights
+  ~   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~   copies of the Software, and to permit persons to whom the Software is
+  ~   furnished to do so, subject to the following conditions:
+  ~  
+  ~   The above copyright notice and this permission notice shall be included in all
+  ~   copies or substantial portions of the Software.
+  ~  
+  ~   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~   SOFTWARE.
+  ~   
+  ~  	myapp-persistence - SETTING.xml
+  ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
+  ~ 	    Last Modified - 8/13/18 1:57 PM
+  ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
+  ~  	@Since 2018
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.github.cataclysmuprising.myapp.persistence.mapper.SettingMapper">
+
+	<resultMap type="SettingBean" id="Parent_SettingResult">
+		<id property="id" column="stng_id"/>
+		<result property="name" column="stng_setting_name"/>
+		<result property="value" column="stng_setting_value"/>
+		<result property="type" column="stng_setting_type"/>
+		<result property="group" column="stng_setting_group"/>
+		<result property="subGroup" column="stng_setting_sub_group"/>
+	</resultMap>
+
+	<resultMap type="SettingBean" id="SettingResult" extends="Parent_SettingResult">
+		<result property="recordRegId" column="stng_record_reg_id"/>
+		<result property="recordUpdId" column="stng_record_upd_id"/>
+		<result property="recordRegDate" column="stng_record_reg_date"/>
+		<result property="recordUpdDate" column="stng_record_upd_date"/>
+	</resultMap>
+
+	<sql id="tables">
+		FROM mjr_setting stng
+	</sql>
+
+	<sql id="main_columns">
+		stng.id AS stng_id,
+		stng.setting_name AS stng_setting_name,
+		stng.setting_value AS stng_setting_value,
+		stng.setting_type AS stng_setting_type,
+		stng.setting_group AS stng_setting_group,
+		stng.setting_sub_group AS stng_setting_sub_group
+	</sql>
+
+	<sql id="meta_columns">
+		,stng.record_reg_id AS stng_record_reg_id
+		, stng.record_upd_id AS stng_record_upd_id
+		, stng.record_reg_date AS stng_record_reg_date
+		, stng.record_upd_date AS stng_record_upd_date
+	</sql>
+
+	<sql id="major_table_columns">
+		setting_name,
+		setting_value,
+		setting_type,
+		setting_group,
+		setting_sub_group
+	</sql>
+
+	<sql id="major_table_fields">
+		#{name},
+		#{value},
+		#{type},
+		#{group},
+		#{subGroup}
+	</sql>
+
+	<sql id="major_table_iterate_fields">
+		#{record.name},
+		#{record.value},
+		#{record.type},
+		#{record.group},
+		#{record.subGroup}
+	</sql>
+
+	<sql id="columns">
+		<include refid="main_columns"/>
+		<include refid="meta_columns"/>
+	</sql>
+
+	<sql id="criterias">
+		<if test="criteria != null">
+			<where>
+				<if test="criteria.id != null">
+					AND stng.id = ${criteria.id}
+				</if>
+				<if test="criteria.includeIds != null and criteria.includeIds.size gt 0">
+					AND stng.id IN
+					<foreach item="id" index="index" collection="criteria.includeIds" open="(" separator="," close=")">
+						${id}
+					</foreach>
+				</if>
+				<if test="criteria.excludeIds != null and criteria.excludeIds.size gt 0">
+					AND stng.id NOT IN
+					<foreach item="id" index="index" collection="criteria.excludeIds" open="(" separator="," close=")">
+						${id}
+					</foreach>
+				</if>
+				<if test="criteria.name != null">
+					AND stng.setting_name = #{criteria.name}
+				</if>
+				<if test="criteria.value != null">
+					AND stng.setting_value = #{criteria.value}
+				</if>
+				<if test="criteria.type != null">
+					AND stng.setting_type = #{criteria.type}
+				</if>
+				<if test="criteria.group != null">
+					AND stng.setting_group = #{criteria.group}
+				</if>
+				<if test="criteria.subGroup != null">
+					AND stng.setting_sub_group = #{criteria.subGroup}
+				</if>
+				<if test="criteria.word != null">
+					AND
+					(stng.setting_name ILIKE '%${criteria.word}%'
+					OR stng.setting_value ILIKE '%${criteria.word}%'
+					OR stng.setting_type ILIKE '%${criteria.word}%'
+					OR stng.setting_group ILIKE '%${criteria.word}%'
+					OR stng.setting_sub_group ILIKE '%${criteria.word}%'
+					)
+				</if>
+			</where>
+		</if>
+	</sql>
+
+	<sql id="orders">
+		ORDER BY
+		<choose>
+			<when test="_parameter.containsKey('criteria') and criteria !=null">
+				<choose>
+					<when test="criteria !=null and criteria.orderBy == 'id'">
+						stng.id ${criteria.order.getValue()}
+					</when>
+					<when test="criteria !=null and criteria.orderBy == 'group'">
+						stng.setting_group ${criteria.order.getValue()}
+					</when>
+					<when test="criteria !=null and criteria.orderBy == 'subGroup'">
+						stng.setting_sub_group ${criteria.order.getValue()}
+					</when>
+					<when test="criteria !=null and criteria.orderBy == 'name'">
+						stng.setting_name ${criteria.order.getValue()}
+					</when>
+					<otherwise>
+						stng.id DESC
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				stng.id DESC
+			</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insert" parameterType="SettingBean" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO mjr_setting (
+		<include refid="major_table_columns"/>
+		<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_columns"/>
+		) VALUES (
+		<include refid="major_table_fields"/>
+		<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_fields"/>
+		)
+	</insert>
+
+	<insert id="insertList" parameterType="java.util.List">
+		<if test="records != null and records.size() > 0">
+			INSERT INTO mjr_setting (
+			<include refid="major_table_columns"/>
+			<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_columns"/>
+			) VALUES
+			<foreach item="record" collection="records" open="(" separator="),(" close=")">
+				<include refid="major_table_iterate_fields"/>
+				<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_iterate_fields"/>
+			</foreach>
+		</if>
+	</insert>
+
+	<!-- Notice : settingName won't allow to Edit -->
+	<update id="update" parameterType="SettingBean">
+		UPDATE mjr_setting stng
+		<set>
+			record_upd_id = #{recordUpdId},
+			record_upd_date = current_timestamp,
+			setting_value = #{value},
+			setting_type = #{type},
+			setting_group = #{group},
+			setting_sub_group = #{subGroup}
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!-- Notice : settingName won't allow to Edit -->
+	<update id="updateWithCriteria">
+		UPDATE mjr_setting stng
+		<set>
+			record_upd_date = current_timestamp,
+			<if test="updateItems != null and updateItems.keySet().size() > 0">
+				<if test="updateItems.value != null">setting_value = #{updateItems.value},</if>
+				<if test="updateItems.type != null">setting_type = #{updateItems.type},</if>
+				<if test="updateItems.group != null">setting_group = #{updateItems.group},</if>
+				<if test="updateItems.subGroup != null">setting_sub_group = #{updateItems.subGroup},</if>
+				record_upd_id = #{updateItems.recordUpdId}
+			</if>
+		</set>
+		<include refid="criterias"/>
+	</update>
+
+	<delete id="deleteByPrimaryKey">
+		DELETE FROM mjr_setting stng
+		WHERE id = #{primaryKey}
+	</delete>
+
+	<delete id="deleteByCriteria">
+		<if test="criteria != null">
+			DELETE FROM mjr_setting stng
+			<include refid="criterias"/>
+		</if>
+	</delete>
+
+	<select id="selectByPrimaryKey" resultMap="SettingResult">
+		SELECT
+		<include refid="columns"/>
+		<include refid="tables"/>
+		WHERE
+		stng.id = #{primaryKey}
+	</select>
+
+	<select id="selectSingleRecord" resultMap="SettingResult">
+		SELECT
+		<include refid="columns"/>
+		<include refid="tables"/>
+		<include refid="criterias"/>
+	</select>
+
+	<select id="selectMultiRecords" resultMap="SettingResult">
+		SELECT
+		<include refid="columns"/>
+		<include refid="tables"/>
+		<include refid="criterias"/>
+		<include refid="orders"/>
+		<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.offset_limit"/>
+	</select>
+
+	<select id="selectCounts" resultType="long">
+		SELECT count(DISTINCT stng.id)
+		<include refid="tables"/>
+		<include refid="criterias"/>
+	</select>
+
+</mapper>

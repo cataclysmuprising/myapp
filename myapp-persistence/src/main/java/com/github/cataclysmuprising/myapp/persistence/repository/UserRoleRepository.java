@@ -21,33 +21,33 @@
  *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  *
- *  	myapp-persistence - UserRepository.java
+ *  	myapp-persistence - UserRoleRepository.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/13/18 12:41 PM
+ * 	    Last Modified - 8/13/18 2:52 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
 package com.github.cataclysmuprising.myapp.persistence.repository;
 
-import com.github.cataclysmuprising.myapp.common.mybatis.repository.CommonGenericRepositoryImpl;
-import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.CommonGenericRepository;
-import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
-import com.github.cataclysmuprising.myapp.domain.criteria.UserCriteria;
-import com.github.cataclysmuprising.myapp.persistence.mapper.UserMapper;
+import com.github.cataclysmuprising.myapp.common.mybatis.repository.XGenericRepositoryImpl;
+import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.XGenericRepository;
+import com.github.cataclysmuprising.myapp.domain.bean.UserRoleBean;
+import com.github.cataclysmuprising.myapp.domain.criteria.UserRoleCriteria;
+import com.github.cataclysmuprising.myapp.persistence.mapper.UserRoleMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepository extends CommonGenericRepositoryImpl<UserBean, UserCriteria> implements CommonGenericRepository<UserBean, UserCriteria> {
+public class UserRoleRepository extends XGenericRepositoryImpl<UserRoleBean, UserRoleCriteria> implements XGenericRepository<UserRoleBean, UserRoleCriteria> {
 
-	private static final Logger repositoryLogger = LogManager.getLogger("repositoryLogs." + UserRepository.class.getName());
+	private static final Logger repositoryLogger = LogManager.getLogger("repositoryLogs." + UserRoleRepository.class.getName());
 
-	private UserMapper mapper;
+	private UserRoleMapper mapper;
 
 	@Autowired
-	public UserRepository(UserMapper mapper) {
+	public UserRoleRepository(UserRoleMapper mapper) {
 		super(mapper);
 		this.mapper = mapper;
 	}

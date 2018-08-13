@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~
+  ~   This source file is free software, available under the following license: MIT license. 
+  ~   Copyright (c) 2018, Than Htike Aung(https://github.com/cataclysmuprising) All Rights Reserved.
+  ~   
+  ~   Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~   of this software and associated documentation files (the "Software"), to deal
+  ~   in the Software without restriction, including without limitation the rights
+  ~   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~   copies of the Software, and to permit persons to whom the Software is
+  ~   furnished to do so, subject to the following conditions:
+  ~  
+  ~   The above copyright notice and this permission notice shall be included in all
+  ~   copies or substantial portions of the Software.
+  ~  
+  ~   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~   SOFTWARE.
+  ~   
+  ~  	myapp-persistence - USER_ROLE.xml
+  ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
+  ~ 	    Last Modified - 8/13/18 3:04 PM
+  ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
+  ~  	@Since 2018
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.github.cataclysmuprising.myapp.persistence.mapper.UserRoleMapper">
+
+	<resultMap type="UserRoleBean" id="Parent_UserRoleResult">
+		<result property="userId" column="ur_user_id"/>
+		<result property="roleId" column="ur_role_id"/>
+	</resultMap>
+
+	<resultMap type="UserRoleBean" id="UserRoleResult" extends="Parent_UserRoleResult">
+		<result property="recordRegId" column="ur_record_reg_id"/>
+		<result property="recordUpdId" column="ur_record_upd_id"/>
+		<result property="recordRegDate" column="ur_record_reg_date"/>
+		<result property="recordUpdDate" column="ur_record_upd_date"/>
+		<association property="user" resultMap="com.github.cataclysmuprising.myapp.persistence.mapper.UserMapper.Parent_UserResult"/>
+		<association property="role" resultMap="com.github.cataclysmuprising.myapp.persistence.mapper.RoleMapper.Parent_RoleResult"/>
+	</resultMap>
+
+	<sql id="tables">
+		FROM mjr_user_role ur
+		<if test="_parameter.containsKey('criteria') and criteria != null">
+			<if test="criteria.withUser == true">
+				<choose>
+					<when test="criteria.asPerUser == true">
+						RIGHT JOIN mjr_user usr ON ur.user_id = usr.id
+					</when>
+					<otherwise>
+						INNER JOIN mjr_user usr ON ur.user_id = usr.id
+					</otherwise>
+				</choose>
+			</if>
+			<if test="criteria.withRole == true">
+				<choose>
+					<when test="criteria.asPerRole == true">
+						RIGHT JOIN mjr_role rol ON ur.role_id = rol.id
+					</when>
+					<otherwise>
+						INNER JOIN mjr_role rol ON ur.role_id = rol.id
+					</otherwise>
+				</choose>
+			</if>
+		</if>
+	</sql>
+
+	<sql id="main_columns">
+		ur.user_id AS ur_user_id,
+		ur.role_id AS ur_role_id
+	</sql>
+
+	<sql id="meta_columns">
+		, ur.record_reg_id AS ur_record_reg_id
+		, ur.record_upd_id AS ur_record_upd_id
+		, ur.record_reg_date AS ur_record_reg_date
+		, ur.record_upd_date AS ur_record_upd_date
+	</sql>
+
+	<sql id="major_table_columns">
+		user_id,
+		role_id
+	</sql>
+
+	<sql id="major_table_fields">
+		#{userId},
+		#{roleId}
+	</sql>
+
+	<sql id="major_table_iterate_fields">
+		#{record.userId},
+		#{record.roleId}
+	</sql>
+
+	<sql id="columns">
+		<include refid="main_columns"/>
+		<if test="_parameter.containsKey('criteria') and criteria != null">
+			<if test="criteria.withUser == true">
+				,
+				<include refid="com.github.cataclysmuprising.myapp.persistence.mapper.UserMapper.main_columns"/>
+			</if>
+			<if test="criteria.withRole == true">
+				,
+				<include refid="com.github.cataclysmuprising.myapp.persistence.mapper.RoleMapper.main_columns"/>
+			</if>
+		</if>
+		<include refid="meta_columns"/>
+	</sql>
+
+	<sql id="criterias">
+		<if test="_parameter.containsKey('criteria') and criteria != null">
+			<where>
+				<if test="criteria.userId != null">
+					AND ur.user_id = #{criteria.userId}
+				</if>
+				<if test="criteria.userIds != null and criteria.userIds.size gt 0">
+					AND ur.user_id IN
+					<foreach item="id" index="index" collection="criteria.userIds" open="(" separator="," close=")">
+						${id}
+					</foreach>
+				</if>
+				<if test="criteria.roleId != null">
+					AND ur.role_id = #{criteria.roleId}
+				</if>
+				<if test="criteria.roleIds != null and criteria.roleIds.size gt 0">
+					AND ur.role_id IN
+					<foreach item="id" index="index" collection="criteria.roleIds" open="(" separator="," close=")">
+						${id}
+					</foreach>
+				</if>
+			</where>
+		</if>
+	</sql>
+
+	<sql id="orders">
+		ORDER BY
+		<choose>
+			<when test="_parameter.containsKey('criteria') and criteria !=null">
+				<choose>
+					<when test="criteria.orderBy == 'userId'">
+						ur.user_id ${criteria.order.getValue()}
+					</when>
+					<when test="criteria.orderBy == 'roleId'">
+						ur.role_id ${criteria.order.getValue()}
+					</when>
+					<otherwise>
+						ur.user_id DESC
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				ur.user_id DESC
+			</otherwise>
+		</choose>
+	</sql>
+
+
+	<insert id="insert" parameterType="UserRoleBean">
+		INSERT INTO mjr_user_role (
+		<include refid="major_table_columns"/>
+		<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_columns"/>
+		) VALUES (
+		<include refid="major_table_fields"/>
+		<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_fields"/>
+		)
+	</insert>
+
+	<insert id="insertWithRelatedKeys">
+		INSERT INTO mjr_user_role (
+		<include refid="major_table_columns"/>
+		<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_columns"/>
+		) VALUES (
+		#{key1},
+		#{key2},
+		#{recordRegId},
+		#{recordRegId},<!-- both are same -->
+		current_timestamp,
+		current_timestamp
+		)
+	</insert>
+
+	<insert id="insertList" parameterType="java.util.List">
+		<if test="records != null and records.size() > 0">
+			INSERT INTO mjr_user_role (
+			<include refid="major_table_columns"/>
+			<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_columns"/>
+			) VALUES
+			<foreach item="record" collection="records" open="(" separator="),(" close=")">
+				<include refid="major_table_iterate_fields"/>
+				<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_iterate_fields"/>
+			</foreach>
+		</if>
+	</insert>
+
+	<delete id="deleteByKeys">
+		DELETE FROM mjr_user_role ur
+		WHERE ur.user_id = #{key1}
+			  AND ur.role_id = #{key2}
+	</delete>
+
+	<delete id="deleteByCriteria">
+		<if test="_parameter.containsKey('criteria') and criteria != null">
+			DELETE FROM mjr_user_role ur
+			<include refid="criterias"/>
+		</if>
+	</delete>
+
+	<select id="selectMultiRecords" resultMap="UserRoleResult">
+		SELECT
+		<include refid="columns"/>
+		<include refid="tables"/>
+		<include refid="criterias"/>
+		<include refid="orders"/>
+		<if test="criteria !=null and criteria.offset != null and criteria.limit !=null and criteria.offset > -1 and criteria.limit > 0">
+			offset #{criteria.offset} limit #{criteria.limit}
+		</if>
+	</select>
+
+	<select id="selectRelatedKeysByKey1" resultType="long">
+		SELECT ur.role_id
+		FROM mjr_user_role ur
+		WHERE
+			ur.user_id = #{key1}
+	</select>
+
+	<select id="selectRelatedKeysByKey2" resultType="long">
+		SELECT ur.user_id
+		FROM mjr_user_role ur
+		WHERE
+			ur.role_id = #{key2}
+	</select>
+
+	<select id="selectByKeys" resultMap="UserRoleResult">
+		<if test="key1 != null and key2 !=null">
+			SELECT
+			<include refid="columns"/>
+			<include refid="tables"/>
+			WHERE
+			ur.user_id = #{key1}
+			AND ur.role_id = #{key2}
+		</if>
+	</select>
+
+	<select id="selectCounts" resultType="long">
+		SELECT count(*)
+		<include refid="tables"/>
+		<include refid="criterias"/>
+	</select>
+</mapper>

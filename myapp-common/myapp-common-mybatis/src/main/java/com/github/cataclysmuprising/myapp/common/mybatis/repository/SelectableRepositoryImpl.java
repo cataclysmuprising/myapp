@@ -23,7 +23,7 @@
  *
  *  	myapp-common-mybatis - SelectableRepositoryImpl.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:37 PM
+ * 	    Last Modified - 8/13/18 9:48 AM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -69,12 +69,12 @@ public class SelectableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 	@Override
 	public T select(C criteria) throws DAOException {
 		final String objectName = getObjectName(criteria.getObjectClass());
-		logger.debug("[START] : >>> --- Fetching single '{}' informations with criteria ==> {} ---", objectName, criteria);
+		logger.debug("[START] : >>> --- Fetching single {} informations with criteria ==> {} ---", objectName, criteria);
 		T record;
 		try {
 			record = mapper.selectSingleRecord(criteria);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while fetching single '" + objectName + "' informations with criteria ==> " + criteria + " xxx";
+			String errorMsg = "xxx Error occured while fetching single " + objectName + " informations with criteria ==> " + criteria + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
 		logger.debug("[FINISH] : <<< --- Fetching single 'User' informations with criteria ---");
@@ -84,30 +84,30 @@ public class SelectableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 	@Override
 	public List<T> selectList(C criteria) throws DAOException {
 		final String objectName = getObjectName(criteria.getObjectClass());
-		logger.debug("[START] : >>> --- Fetching multi '{}' informations with criteria ==> {} ---", objectName, criteria);
+		logger.debug("[START] : >>> --- Fetching multi {} informations with criteria ==> {} ---", objectName, criteria);
 		List<T> records;
 		try {
 			records = mapper.selectMultiRecords(criteria);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while fetching multiple '" + objectName + "' informations with criteria ==> " + criteria + " xxx";
+			String errorMsg = "xxx Error occured while fetching multiple " + objectName + " informations with criteria ==> " + criteria + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Fetching multi '{}' informations with criteria ---", objectName);
+		logger.debug("[FINISH] : <<< --- Fetching multi {} informations with criteria ---", objectName);
 		return records;
 	}
 
 	@Override
 	public long selectCounts(C criteria) throws DAOException {
 		final String objectName = getObjectName(criteria.getObjectClass());
-		logger.debug("[START] : >>> --- Fetching '{}' counts with criteria ==> {} ---", objectName, criteria);
+		logger.debug("[START] : >>> --- Fetching {} counts with criteria ==> {} ---", objectName, criteria);
 		long count;
 		try {
 			count = mapper.selectCounts(criteria);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while counting '" + objectName + "' records with criteria ==> " + criteria + " xxx";
+			String errorMsg = "xxx Error occured while counting " + objectName + " records with criteria ==> " + criteria + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Fetching '{}' counts with criteria ---", objectName);
+		logger.debug("[FINISH] : <<< --- Fetching {} counts with criteria ---", objectName);
 		return count;
 	}
 }

@@ -21,9 +21,9 @@
  *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  *
- *  	myapp-persistence - UserRepository.java
+ *  	myapp-persistence - StaticContentRepository.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/13/18 12:41 PM
+ * 	    Last Modified - 8/13/18 3:12 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -31,23 +31,23 @@ package com.github.cataclysmuprising.myapp.persistence.repository;
 
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.CommonGenericRepositoryImpl;
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.CommonGenericRepository;
-import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
-import com.github.cataclysmuprising.myapp.domain.criteria.UserCriteria;
-import com.github.cataclysmuprising.myapp.persistence.mapper.UserMapper;
+import com.github.cataclysmuprising.myapp.domain.bean.StaticContentBean;
+import com.github.cataclysmuprising.myapp.domain.criteria.StaticContentCriteria;
+import com.github.cataclysmuprising.myapp.persistence.mapper.StaticContentMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepository extends CommonGenericRepositoryImpl<UserBean, UserCriteria> implements CommonGenericRepository<UserBean, UserCriteria> {
+public class StaticContentRepository extends CommonGenericRepositoryImpl<StaticContentBean, StaticContentCriteria> implements CommonGenericRepository<StaticContentBean, StaticContentCriteria> {
 
-	private static final Logger repositoryLogger = LogManager.getLogger("repositoryLogs." + UserRepository.class.getName());
+	private static final Logger repositoryLogger = LogManager.getLogger("repositoryLogs." + StaticContentRepository.class.getName());
 
-	private UserMapper mapper;
+	private StaticContentMapper mapper;
 
 	@Autowired
-	public UserRepository(UserMapper mapper) {
+	public StaticContentRepository(StaticContentMapper mapper) {
 		super(mapper);
 		this.mapper = mapper;
 	}

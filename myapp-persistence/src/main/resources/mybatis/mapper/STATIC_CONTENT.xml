@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~
+  ~   This source file is free software, available under the following license: MIT license. 
+  ~   Copyright (c) 2018, Than Htike Aung(https://github.com/cataclysmuprising) All Rights Reserved.
+  ~   
+  ~   Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~   of this software and associated documentation files (the "Software"), to deal
+  ~   in the Software without restriction, including without limitation the rights
+  ~   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~   copies of the Software, and to permit persons to whom the Software is
+  ~   furnished to do so, subject to the following conditions:
+  ~  
+  ~   The above copyright notice and this permission notice shall be included in all
+  ~   copies or substantial portions of the Software.
+  ~  
+  ~   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~   SOFTWARE.
+  ~   
+  ~  	myapp-persistence - STATIC_CONTENT.xml
+  ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
+  ~ 	    Last Modified - 8/13/18 3:23 PM
+  ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
+  ~  	@Since 2018
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.github.cataclysmuprising.myapp.persistence.mapper.StaticContentMapper">
+
+	<resultMap type="StaticContentBean" id="Parent_StaticContentResult">
+		<id property="id" column="stc_id"/>
+		<result property="fileType" column="stc_file_type"/>
+		<result property="fileName" column="stc_file_name"/>
+		<result property="filePath" column="stc_file_path"/>
+		<result property="fileSize" column="stc_file_size"/>
+	</resultMap>
+
+	<resultMap type="StaticContentBean" id="StaticContentResult" extends="Parent_StaticContentResult">
+		<result property="recordRegId" column="stc_record_reg_id"/>
+		<result property="recordUpdId" column="stc_record_upd_id"/>
+		<result property="recordRegDate" column="stc_record_reg_date"/>
+		<result property="recordUpdDate" column="stc_record_upd_date"/>
+	</resultMap>
+
+	<sql id="tables">
+		FROM mjr_static_content stc
+	</sql>
+
+	<sql id="main_columns">
+		stc.id AS stc_id,
+		stc.file_name AS stc_file_name,
+		stc.file_path AS stc_file_path,
+		stc.file_size AS stc_file_size,
+		stc.file_type AS stc_file_type
+	</sql>
+
+	<sql id="meta_columns">
+		, stc.record_reg_id AS stc_record_reg_id
+		, stc.record_upd_id AS stc_record_upd_id
+		, stc.record_reg_date AS stc_record_reg_date
+		, stc.record_upd_date AS stc_record_upd_date
+	</sql>
+
+	<sql id="major_table_columns">
+		file_name,
+		file_path,
+		file_size,
+		file_type
+	</sql>
+
+	<sql id="major_table_fields">
+		#{fileName},
+		#{filePath},
+		#{fileSize},
+		#{fileType}
+	</sql>
+
+	<sql id="major_table_iterate_fields">
+		#{record.fileName},
+		#{record.filePath},
+		#{record.fileSize},
+		#{record.fileType}
+	</sql>
+
+	<sql id="columns">
+		<include refid="main_columns"/>
+		<include refid="meta_columns"/>
+	</sql>
+
+	<sql id="criterias">
+		<if test="_parameter.containsKey('criteria') and criteria != null">
+			<where>
+				<if test="criteria.id != null">
+					AND stc.id = #{criteria.id}
+				</if>
+				<if test="criteria.includeIds != null and criteria.includeIds.size gt 0">
+					AND stc.id IN
+					<foreach item="id" index="index" collection="criteria.includeIds" open="(" separator="," close=")">
+						${id}
+					</foreach>
+				</if>
+				<if test="criteria.excludeIds != null and criteria.excludeIds.size gt 0">
+					AND stc.id NOT IN
+					<foreach item="id" index="index" collection="criteria.excludeIds" open="(" separator="," close=")">
+						${id}
+					</foreach>
+				</if>
+				<if test="criteria.fileName != null">
+					AND stc.file_name = #{criteria.fileName}
+				</if>
+				<if test="criteria.filePath != null">
+					AND stc.file_path = #{criteria.filePath}
+				</if>
+				<if test="criteria.fileSize != null">
+					AND stc.file_size = #{criteria.fileSize}
+				</if>
+				<if test="criteria.fileType != null">
+					AND stc.file_type = #{criteria.fileType}
+				</if>
+				<if test="criteria.word != null">
+					AND
+					(stc.file_name ILIKE '%${criteria.word}%'
+					OR stc.file_size ILIKE '%${criteria.word}%'
+					OR stc.file_path ILIKE '%${criteria.word}%'
+					)
+				</if>
+			</where>
+		</if>
+	</sql>
+
+	<sql id="orders">
+		ORDER BY
+		<choose>
+			<when test="_parameter.containsKey('criteria') and criteria !=null">
+				<choose>
+					<when test="criteria.orderBy == 'id'">
+						stc.id ${criteria.order.getValue()}
+					</when>
+					<when test="criteria.orderBy == 'fileName'">
+						stc.file_name ${criteria.order.getValue()}
+					</when>
+					<when test="criteria.orderBy == 'fileSize'">
+						stc.file_size ${criteria.order.getValue()}
+					</when>
+					<when test="criteria.orderBy == 'fileType'">
+						stc.file_type ${criteria.order.getValue()}
+					</when>
+					<otherwise>
+						stc.id DESC
+					</otherwise>
+				</choose>
+			</when>
+			<otherwise>
+				stc.id DESC
+			</otherwise>
+		</choose>
+	</sql>
+
+	<insert id="insert" parameterType="StaticContentBean" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO mjr_static_content (
+		<include refid="major_table_columns"/>
+		<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_columns"/>
+		) VALUES (
+		<include refid="major_table_fields"/>
+		<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_fields"/>
+		)
+	</insert>
+
+	<insert id="insertList" parameterType="java.util.List">
+		<if test="records != null and records.size() > 0">
+			INSERT INTO mjr_static_content (
+			<include refid="major_table_columns"/>
+			<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_columns"/>
+			) VALUES
+			<foreach item="record" collection="records" open="(" separator="),(" close=")">
+				<include refid="major_table_iterate_fields"/>
+				<include refid="com.github.cataclysmuprising.mybatis.mapper.BaseMapper.meta_table_iterate_fields"/>
+			</foreach>
+		</if>
+	</insert>
+
+	<update id="update" parameterType="StaticContentBean">
+		UPDATE mjr_static_content stc
+		<set>
+			record_upd_id = #{recordUpdId},
+			record_upd_date = current_timestamp,
+			file_name = #{fileName},
+			file_path = #{filePath},
+			file_size = #{fileSize},
+			file_type = #{fileType}
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateWithCriteria">
+		UPDATE mjr_static_content stc
+		<set>
+			record_upd_date = current_timestamp,
+			<if test="updateItems != null and updateItems.keySet().size() > 0">
+				<if test="updateItems.fileName != null">file_name = #{updateItems.fileName},</if>
+				<if test="updateItems.filePath != null">file_path = #{updateItems.filePath},</if>
+				<if test="updateItems.fileSize != null">file_size = #{updateItems.fileSize},</if>
+				<if test="updateItems.fileType != null">file_type = #{updateItems.fileType},</if>
+				record_upd_id = #{updateItems.recordUpdId}
+			</if>
+		</set>
+		<include refid="criterias"/>
+	</update>
+
+	<delete id="deleteByPrimaryKey">
+		DELETE FROM mjr_static_content stc
+		WHERE id = #{primaryKey}
+	</delete>
+
+	<delete id="deleteByCriteria">
+		<if test="criteria != null">
+			DELETE FROM mjr_static_content stc
+			<include refid="criterias"/>
+		</if>
+	</delete>
+
+	<select id="selectByPrimaryKey" resultMap="StaticContentResult">
+		SELECT
+		<include refid="columns"/>
+		<include refid="tables"/>
+		WHERE
+		stc.id = #{primaryKey}
+	</select>
+
+	<select id="selectSingleRecord" resultMap="StaticContentResult">
+		SELECT
+		<include refid="columns"/>
+		<include refid="tables"/>
+		<include refid="criterias"/>
+	</select>
+
+	<select id="selectMultiRecords" resultMap="StaticContentResult">
+		SELECT
+		<include refid="columns"/>
+		<include refid="tables"/>
+		<include refid="criterias"/>
+		<include refid="orders"/>
+		<if test="criteria !=null and criteria.offset != null and criteria.limit !=null and criteria.offset > -1 and criteria.limit > 0">
+			offset #{criteria.offset} limit #{criteria.limit}
+		</if>
+	</select>
+
+	<select id="selectCounts" resultType="long">
+		SELECT count(DISTINCT stc.id)
+		<include refid="tables"/>
+		<include refid="criterias"/>
+	</select>
+
+</mapper>

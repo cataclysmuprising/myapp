@@ -23,7 +23,7 @@
  *
  *  	myapp-common-mybatis - RemoveableRepositoryImpl.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/13/18 9:46 AM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -73,17 +73,17 @@ public class RemoveableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 	public long delete(C criteria, long recordUpdId) throws ConsistencyViolationException, DAOException {
 		final String objectName = getObjectName(criteria.getObjectClass());
 		long totalEffectedRows;
-		logger.debug("[START] : >>> --- Deleting '{}' informations with criteria ==> {} ---", objectName, criteria);
+		logger.debug("[START] : >>> --- Deleting {} informations with criteria ==> {} ---", objectName, criteria);
 		try {
 			totalEffectedRows = mapper.deleteByCriteria(criteria);
 		} catch (DataIntegrityViolationException e) {
 			String errorMsg = "xxx " + DATA_INTEGRITY_VIOLATION_MSG + " xxx";
 			throw new ConsistencyViolationException(errorMsg, e);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while deleting '" + objectName + "' data with criteria ==> " + criteria + " xxx";
+			String errorMsg = "xxx Error occured while deleting " + objectName + " data with criteria ==> " + criteria + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Deleting '{}' informations with criteria  ---", objectName);
+		logger.debug("[FINISH] : <<< --- Deleting {} informations with criteria  ---", objectName);
 		return totalEffectedRows;
 	}
 }

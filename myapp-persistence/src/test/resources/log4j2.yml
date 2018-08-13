@@ -1,79 +1,127 @@
 Configutation:
   status: warn # log level for configuration errors
-  shutdownHook: disable
-  ##### Variables #####
+##### Variables #####
   Properties:
     Property:
-    - name: default-msg-pattern
-      value: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p %c{1}:%L %m%n"
-
-  ##### Define logging appenders #####
+      - name: default-msg-pattern
+        value: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p %c{1}:%L %m%n"   
+ 
+##### Define logging appenders #####     
   Appenders:
     # loggers for console
     Console:
-    - name: root_logger
-      target: SYSTEM_OUT
-      PatternLayout:
-        Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}:%L %m%n"
-        disableAnsi: false
-
-    - name: console_test_logger
-      target: SYSTEM_OUT
-      PatternLayout:
-        Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=magenta bold, DEBUG=magenta, TRACE=magenta}"
-        disableAnsi: false
-
-    - name: console_error_logger
-      target: SYSTEM_OUT
-      PatternLayout:
-        Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=red bold, INFO=red bold, DEBUG=red, TRACE=red}"
-        disableAnsi: false
-
-    - name: console_service_logger
-      target: SYSTEM_OUT
-      PatternLayout:
-        Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=blue bold, DEBUG=blue, TRACE=blue}"
-        disableAnsi: false
-
-    - name: console_sql_logger
-      target: SYSTEM_OUT
-      PatternLayout:
-        Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan} %style{ ==> }{bold,blue} %highlight{%m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green bold, DEBUG=green, TRACE=green}"
-        disableAnsi: false
-
-  ##### Define loggers #####
+      - name: root_logger
+        target: SYSTEM_OUT
+        PatternLayout:
+          Pattern: "%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{white} %style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}:%L %m%n"
+          disableAnsi: false
+        
+      - name: console_test_logger
+        target: SYSTEM_OUT
+        PatternLayout:
+          Pattern: "%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{white} %style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=magenta bold, DEBUG=magenta, TRACE=magenta}"
+          disableAnsi: false
+          
+      - name: console_error_logger
+        target: SYSTEM_OUT
+        PatternLayout:
+          Pattern: "%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{white} %style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=red bold, INFO=red bold, DEBUG=red, TRACE=red}"
+          disableAnsi: false
+          
+      - name: console_service_logger
+        target: SYSTEM_OUT
+        PatternLayout:
+          Pattern: "%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{white} %style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=blue bold, DEBUG=blue, TRACE=blue}"
+          disableAnsi: false
+     
+      - name: console_repository_logger
+        target: SYSTEM_OUT
+        PatternLayout:
+          Pattern: "%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{white} %style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=yellow bold, DEBUG=yellow, TRACE=yellow}"
+          disableAnsi: false
+                    
+      - name: console_sql_logger
+        target: SYSTEM_OUT
+        PatternLayout:
+          Pattern: "%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{white} %style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green bold, DEBUG=green, TRACE=green}"
+          disableAnsi: false
+                                                 
+##### Define loggers #####        
   Loggers:
     Root: # This is root logger. Every logs with catch up.
       level: INFO
       AppenderRef:
-      - ref: root_logger
-
+        - ref: root_logger
+          
     Logger:  # User defined loggers go here
+      
+      - name: testLogs   # test Logger
+        additivity: false # don't conflicts with root logger
+        level: DEBUG
+        AppenderRef:
+          - ref: console_test_logger
 
-    - name: testLogs   # test Logger
-      additivity: false # don't conflicts with root logger
-      level: DEBUG
-      AppenderRef:
-      - ref: console_test_logger
+      - name: errorLogs  # error Logger
+        additivity: false
+        level: DEBUG
+        AppenderRef:
+          - ref: console_error_logger
 
-    - name: errorLogs  # error Logger
-      additivity: false
-      level: DEBUG
-      AppenderRef:
-      - ref: console_error_logger
+      - name: serviceLogs  # service Logger
+        additivity: false
+        level: DEBUG
+        AppenderRef:
+          - ref: console_service_logger
 
-    - name: serviceLogs  # service Logger
-      additivity: false
-      level: DEBUG
-      AppenderRef:
-      - ref: console_service_logger
+      - name: repositoryLogs  # repository Logger
+        additivity: false
+        level: DEBUG
+        AppenderRef:
+          - ref: console_repository_logger
 
-    - name: org.hibernate.SQL # sql Logger
-      additivity: false
-      level: DEBUG
-      AppenderRef:
-      - ref: console_sql_logger
+      - name: com.github.cataclysmuprising.myapp.persistence # sql Logger
+        additivity: false
+        level: DEBUG
+        AppenderRef:
+          - ref: console_sql_logger
 
       ### Spring framework ###
-    - name: org.springframework
-      level: DEBUG
+      - name : org.springframework
+        level: INFO
+      - name : org.springframework.boot.actuate
+        level: ERROR
+      - name : org.springframework.boot.autoconfigure
+        level: ERROR
+      - name : org.springframework.jdbc.datasource.DataSourceUtils
+        level: ERROR
+      ### Apache loggings ###
+      - name : org.apache.http # DEBUG to see full REST service requests info
+        level: INFO
+      - name : org.apache.commons
+        level: ERROR
+      ### Mybatis loggings ###
+      - name : org.apache.ibatis.io
+        level: WARN
+      - name : org.mybatis.spring.mapper.ClassPathMapperScanner
+        level: WARN
+      - name : org.mybatis.spring.SqlSessionFactoryBean
+        level: WARN
+      - name : com.ibatis.common.jdbc.SimpleDataSource
+        level: WARN
+      - name : com.ibatis.common.jdbc.ScriptRunner
+        level: WARN
+      - name : com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate
+        level: WARN
+      ### Others ###
+      - name : com.zaxxer # change below to DEBUG if you want to see transaction processes and connection pool properties
+        level: INFO
+      - name : org.apache.http.impl.conn.PoolingHttpClientConnectionManager
+        level: DEBUG
+      - name : org.hibernate.validator.internal
+        level: ERROR
+      - name : com.sun.mail
+        level: INFO
+      - name : org.springframework.jmx.export.annotation
+        level: WARN
+      - name : SMTP
+        level: INFO

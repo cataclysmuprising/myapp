@@ -24,14 +24,14 @@
   ~
   ~  	myapp-persistence - myapp_suit.xml
   ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
-  ~ 	    Last Modified - 8/10/18 3:26 PM
+  ~ 	    Last Modified - 8/13/18 9:18 AM
   ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
   ~  	@Since 2018
   -->
 
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="MyAppRepository_Test_Suit_Configuration_Services">
-	<test name="Portal_Test_Cases">
+	<test name="MyApp_Test_Cases">
 		<groups>
 			<define name="all_test">
 				<include name="fetch"/>

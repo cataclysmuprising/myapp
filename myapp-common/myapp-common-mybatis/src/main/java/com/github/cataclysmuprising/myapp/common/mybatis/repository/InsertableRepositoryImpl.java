@@ -23,7 +23,7 @@
  *
  *  	myapp-common-mybatis - InsertableRepositoryImpl.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/13/18 9:46 AM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -70,17 +70,17 @@ public class InsertableRepositoryImpl<T extends BaseBean> implements InsertableR
 			String errorMsg = "xxx " + DUPLICATE_KEY_INSERT_FAILED_MSG + " xxx";
 			throw new DuplicatedEntryException(errorMsg, e);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while inserting '" + objectName + "' data ==> " + record + " xxx";
+			String errorMsg = "xxx Error occured while inserting " + objectName + " data ==> " + record + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Inserting single '{}' informations with new Id # {} ---", objectName, record.getId());
+		logger.debug("[FINISH] : <<< --- Inserting single {} informations with new Id # {} ---", objectName, record.getId());
 		return record.getId();
 	}
 
 	@Override
 	public void insert(List<T> records, long recordRegId) throws DuplicatedEntryException, DAOException {
 		final String objectName = getObjectName(records);
-		logger.debug("[START] : >>> --- Inserting multi '{}' informations ---", objectName);
+		logger.debug("[START] : >>> --- Inserting multi {} informations ---", objectName);
 		DateTime now = DateTime.now();
 		for (T record : records) {
 			record.setRecordRegDate(now);
@@ -94,9 +94,9 @@ public class InsertableRepositoryImpl<T extends BaseBean> implements InsertableR
 			String errorMsg = "xxx " + DUPLICATE_KEY_INSERT_FAILED_MSG + ". xxx";
 			throw new DuplicatedEntryException(errorMsg, e);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while inserting multi '" + objectName + "' datas ==> " + records + " xxx";
+			String errorMsg = "xxx Error occured while inserting multi " + objectName + " datas ==> " + records + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Inserting multi '{}' informations ---", objectName);
+		logger.debug("[FINISH] : <<< --- Inserting multi {} informations ---", objectName);
 	}
 }

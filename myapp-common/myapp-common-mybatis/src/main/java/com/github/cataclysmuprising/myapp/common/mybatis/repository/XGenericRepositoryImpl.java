@@ -23,7 +23,7 @@
  *
  *  	myapp-common-mybatis - XGenericRepositoryImpl.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 2:54 PM
+ * 	    Last Modified - 8/13/18 2:30 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
@@ -63,7 +63,7 @@ public class XGenericRepositoryImpl<T extends BaseBean, C extends CommonCriteria
 	public void insert(T record, long recordRegId) throws DuplicatedEntryException, DAOException {
 		final String objectName = getObjectName(record);
 		try {
-			logger.debug("[START] : >>> --- Inserting single '{}' information ---", objectName);
+			logger.debug("[START] : >>> --- Inserting single {} information ---", objectName);
 			DateTime now = DateTime.now();
 			record.setRecordRegDate(now);
 			record.setRecordUpdDate(now);
@@ -74,16 +74,16 @@ public class XGenericRepositoryImpl<T extends BaseBean, C extends CommonCriteria
 			String errorMsg = "xxx " + DUPLICATE_KEY_INSERT_FAILED_MSG + " xxx";
 			throw new DuplicatedEntryException(errorMsg, e);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while inserting '" + objectName + "' data ==> " + record + " xxx";
+			String errorMsg = "xxx Error occured while inserting " + objectName + " data ==> " + record + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Inserting single '{}' information ---", objectName);
+		logger.debug("[FINISH] : <<< --- Inserting single {} information ---", objectName);
 	}
 
 	@Override
 	public void insert(List<T> records, long recordRegId) throws DuplicatedEntryException, DAOException {
 		final String objectName = getObjectName(records);
-		logger.debug("[START] : >>> --- Inserting multi '{}' informations ---", objectName);
+		logger.debug("[START] : >>> --- Inserting multi {} informations ---", objectName);
 		DateTime now = DateTime.now();
 		for (T record : records) {
 			record.setRecordRegDate(now);
@@ -97,10 +97,10 @@ public class XGenericRepositoryImpl<T extends BaseBean, C extends CommonCriteria
 			String errorMsg = "xxx " + DUPLICATE_KEY_INSERT_FAILED_MSG + ". xxx";
 			throw new DuplicatedEntryException(errorMsg, e);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while inserting '" + objectName + "' datas ==> " + records + " xxx";
+			String errorMsg = "xxx Error occured while inserting " + objectName + " datas ==> " + records + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Inserting multi '{}' informations ---", objectName);
+		logger.debug("[FINISH] : <<< --- Inserting multi {} informations ---", objectName);
 	}
 
 	@Override
@@ -137,8 +137,8 @@ public class XGenericRepositoryImpl<T extends BaseBean, C extends CommonCriteria
 
 	@Override
 	public long delete(C criteria, long recordUpdId) throws ConsistencyViolationException, DAOException {
-		final String objectName = getObjectName(criteria);
-		logger.debug("[START] : >>> --- Deleting '{}' informations with criteria ==> {} ---", objectName, criteria);
+		final String objectName = getObjectName(criteria.getObjectClass());
+		logger.debug("[START] : >>> --- Deleting {} informations with criteria ==> {} ---", objectName, criteria);
 		long effectedRows;
 		try {
 			effectedRows = mapper.deleteByCriteria(criteria);
@@ -146,10 +146,10 @@ public class XGenericRepositoryImpl<T extends BaseBean, C extends CommonCriteria
 			String errorMsg = "xxx " + DATA_INTEGRITY_VIOLATION_MSG + " xxx";
 			throw new ConsistencyViolationException(errorMsg, e);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while deleting 'RoleAction' data with criteria ==> " + criteria + " xxx";
+			String errorMsg = "xxx Error occured while deleting " + objectName + " data with criteria ==> " + criteria + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Deleting '{}' informations with criteria  ---", objectName);
+		logger.debug("[FINISH] : <<< --- Deleting {} informations with criteria  ---", objectName);
 		return effectedRows;
 	}
 
@@ -197,31 +197,31 @@ public class XGenericRepositoryImpl<T extends BaseBean, C extends CommonCriteria
 
 	@Override
 	public List<T> selectList(C criteria) throws DAOException {
-		final String objectName = getObjectName(criteria);
-		logger.debug("[START] : >>> --- Fetching multi '{}' informations with criteria ---", objectName);
+		final String objectName = getObjectName(criteria.getObjectClass());
+		logger.debug("[START] : >>> --- Fetching multi {} informations with criteria ---", objectName);
 		List<T> results;
 		try {
 			results = mapper.selectMultiRecords(criteria);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while fetching multi '" + objectName + "' informations with criteria ==> " + criteria + " xxx";
+			String errorMsg = "xxx Error occured while fetching multi " + objectName + " informations with criteria ==> " + criteria + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Fetching multi '{}' informations with criteria ---", objectName);
+		logger.debug("[FINISH] : <<< --- Fetching multi {} informations with criteria ---", objectName);
 		return results;
 	}
 
 	@Override
 	public long selectCounts(C criteria) throws DAOException {
-		final String objectName = getObjectName(criteria);
-		logger.debug("[START] : >>> --- Fetching '{}' counts with criteria ==> {} ---", objectName, criteria);
+		final String objectName = getObjectName(criteria.getObjectClass());
+		logger.debug("[START] : >>> --- Fetching {} counts with criteria ==> {} ---", objectName, criteria);
 		long count;
 		try {
 			count = mapper.selectCounts(criteria);
 		} catch (Exception e) {
-			String errorMsg = "xxx Error occured while counting '" + objectName + "' records with criteria ==> " + criteria + " xxx";
+			String errorMsg = "xxx Error occured while counting " + objectName + " records with criteria ==> " + criteria + " xxx";
 			throw new DAOException(errorMsg, e);
 		}
-		logger.debug("[FINISH] : <<< --- Fetching '{}' counts with criteria ---", objectName);
+		logger.debug("[FINISH] : <<< --- Fetching {} counts with criteria ---", objectName);
 		return count;
 	}
 }
