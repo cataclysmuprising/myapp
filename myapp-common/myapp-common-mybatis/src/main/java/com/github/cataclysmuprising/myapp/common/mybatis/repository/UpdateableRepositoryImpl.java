@@ -39,6 +39,7 @@ import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.root.Upd
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +58,7 @@ public class UpdateableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 
 	@Override
 	public long update(T record, long recordUpdId) throws DuplicatedEntryException, DAOException {
+		Assert.notNull(record, "Record shouldn't be Null.");
 		final String objectName = getObjectName(record);
 		long totalEffectedRows;
 		logger.debug("[START] : >>> --- Updating single {} informations with Id # {} ---", objectName, record.getId());
@@ -76,7 +78,9 @@ public class UpdateableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 
 	@Override
 	public void update(List<T> records, long recordUpdId) throws DuplicatedEntryException, DAOException {
-		final String objectName = getObjectName(records);
+		Assert.notNull(records, "Records shouldn't be Null.");
+		Assert.notEmpty(records, "Records shouldn't be Empty.");
+		final String objectName = getObjectName(records.get(0));
 		logger.debug("[START] : >>> --- Updating multi {} informations ---", objectName);
 		for (T record : records) {
 			try {
@@ -95,6 +99,8 @@ public class UpdateableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 
 	@Override
 	public long update(C criteria, HashMap<String, Object> updateItems, long recordUpdId) throws DAOException, DuplicatedEntryException {
+		Assert.notNull(criteria, "Criteria shouldn't be Null.");
+		Assert.notEmpty(updateItems, "UpdateItems shouldn't be Empty.");
 		long totalEffectedRows;
 		final String objectName = getObjectName(criteria.getObjectClass());
 		logger.debug("[START] : >>> --- Updating multi {} informations with criteria ==> {} ---", objectName, criteria);

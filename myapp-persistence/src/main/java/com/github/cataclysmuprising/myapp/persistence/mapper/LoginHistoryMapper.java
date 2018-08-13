@@ -21,21 +21,18 @@
  *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  *
- *  	myapp-common-util - ObjectUtil.java
+ *  	myapp-persistence - LoginHistoryMapper.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/13/18 3:33 PM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
 
-package com.github.cataclysmuprising.myapp.common.util;
+package com.github.cataclysmuprising.myapp.persistence.mapper;
 
-public class ObjectUtil {
-	public static String getObjectName(Object record) {
-		return " '" + record.getClass().getSimpleName().replace("Bean", "") + "' ";
-	}
+import com.github.cataclysmuprising.myapp.common.mybatis.mapper.base.CommonGenericMapper;
+import com.github.cataclysmuprising.myapp.domain.bean.LoginHistoryBean;
+import com.github.cataclysmuprising.myapp.domain.criteria.LoginHistoryCriteria;
 
-	public static String getObjectName(Class<?> clazz) {
-		return " '" + clazz.getSimpleName().replace("Bean", "") + "' ";
-	}
+public interface LoginHistoryMapper extends CommonGenericMapper<LoginHistoryBean, LoginHistoryCriteria> {
 }

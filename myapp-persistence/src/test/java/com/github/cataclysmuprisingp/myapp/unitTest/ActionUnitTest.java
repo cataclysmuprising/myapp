@@ -52,7 +52,7 @@ public class ActionUnitTest extends BaseUnitTest {
 	@Test(groups = {"fetch"})
 	public void testSelectAll() throws Exception {
 		ActionCriteria criteria = new ActionCriteria();
-		List<ActionBean> results = repository.selectList(criteria);
+		List<ActionBean> results = repository.selectList(null);
 		showEntriesOfCollection(results);
 	}
 

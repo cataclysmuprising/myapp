@@ -39,6 +39,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -57,6 +58,7 @@ public class InsertableRepositoryImpl<T extends BaseBean> implements InsertableR
 
 	@Override
 	public long insert(T record, long recordRegId) throws DuplicatedEntryException, DAOException {
+		Assert.notNull(record, "Record shouldn't be Null.");
 		final String objectName = getObjectName(record);
 		logger.debug("[START] : >>> --- Inserting single {} information with data ==> {} ---", objectName, record);
 		try {
@@ -79,7 +81,9 @@ public class InsertableRepositoryImpl<T extends BaseBean> implements InsertableR
 
 	@Override
 	public void insert(List<T> records, long recordRegId) throws DuplicatedEntryException, DAOException {
-		final String objectName = getObjectName(records);
+		Assert.notNull(records, "Records shouldn't be Null.");
+		Assert.notEmpty(records, "Records shouldn't be Empty.");
+		final String objectName = getObjectName(records.get(0));
 		logger.debug("[START] : >>> --- Inserting multi {} informations ---", objectName);
 		DateTime now = DateTime.now();
 		for (T record : records) {

@@ -42,6 +42,7 @@ import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Set;
@@ -61,6 +62,7 @@ public class XGenericRepositoryImpl<T extends BaseBean, C extends CommonCriteria
 
 	@Override
 	public void insert(T record, long recordRegId) throws DuplicatedEntryException, DAOException {
+		Assert.notNull(record, "Record shouldn't be Null.");
 		final String objectName = getObjectName(record);
 		try {
 			logger.debug("[START] : >>> --- Inserting single {} information ---", objectName);
@@ -82,6 +84,8 @@ public class XGenericRepositoryImpl<T extends BaseBean, C extends CommonCriteria
 
 	@Override
 	public void insert(List<T> records, long recordRegId) throws DuplicatedEntryException, DAOException {
+		Assert.notNull(records, "Records shouldn't be Null.");
+		Assert.notEmpty(records, "Records shouldn't be Empty.");
 		final String objectName = getObjectName(records);
 		logger.debug("[START] : >>> --- Inserting multi {} informations ---", objectName);
 		DateTime now = DateTime.now();
@@ -137,6 +141,7 @@ public class XGenericRepositoryImpl<T extends BaseBean, C extends CommonCriteria
 
 	@Override
 	public long delete(C criteria, long recordUpdId) throws ConsistencyViolationException, DAOException {
+		Assert.notNull(criteria, "Criteria shouldn't be Null.");
 		final String objectName = getObjectName(criteria.getObjectClass());
 		logger.debug("[START] : >>> --- Deleting {} informations with criteria ==> {} ---", objectName, criteria);
 		long effectedRows;
@@ -197,6 +202,7 @@ public class XGenericRepositoryImpl<T extends BaseBean, C extends CommonCriteria
 
 	@Override
 	public List<T> selectList(C criteria) throws DAOException {
+		Assert.notNull(criteria, "Criteria shouldn't be Null.");
 		final String objectName = getObjectName(criteria.getObjectClass());
 		logger.debug("[START] : >>> --- Fetching multi {} informations with criteria ---", objectName);
 		List<T> results;
@@ -212,6 +218,7 @@ public class XGenericRepositoryImpl<T extends BaseBean, C extends CommonCriteria
 
 	@Override
 	public long selectCounts(C criteria) throws DAOException {
+		Assert.notNull(criteria, "Criteria shouldn't be Null.");
 		final String objectName = getObjectName(criteria.getObjectClass());
 		logger.debug("[START] : >>> --- Fetching {} counts with criteria ==> {} ---", objectName, criteria);
 		long count;

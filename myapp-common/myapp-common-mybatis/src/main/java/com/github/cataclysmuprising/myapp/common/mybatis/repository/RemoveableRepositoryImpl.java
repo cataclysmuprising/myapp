@@ -39,6 +39,7 @@ import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.root.Rem
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.util.Assert;
 
 import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.DATA_INTEGRITY_VIOLATION_MSG;
 import static com.github.cataclysmuprising.myapp.common.util.ObjectUtil.getObjectName;
@@ -71,6 +72,7 @@ public class RemoveableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 
 	@Override
 	public long delete(C criteria, long recordUpdId) throws ConsistencyViolationException, DAOException {
+		Assert.notNull(criteria, "Criteria shouldn't be Null.");
 		final String objectName = getObjectName(criteria.getObjectClass());
 		long totalEffectedRows;
 		logger.debug("[START] : >>> --- Deleting {} informations with criteria ==> {} ---", objectName, criteria);

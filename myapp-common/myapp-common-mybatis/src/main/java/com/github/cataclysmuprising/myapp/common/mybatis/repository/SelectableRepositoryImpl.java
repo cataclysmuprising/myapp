@@ -37,6 +37,7 @@ import com.github.cataclysmuprising.myapp.common.mybatis.mapper.base.SelectableM
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.root.SelectableRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -68,6 +69,7 @@ public class SelectableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 
 	@Override
 	public T select(C criteria) throws DAOException {
+		Assert.notNull(criteria, "Criteria shouldn't be Null.");
 		final String objectName = getObjectName(criteria.getObjectClass());
 		logger.debug("[START] : >>> --- Fetching single {} information with criteria ==> {} ---", objectName, criteria);
 		T record;
@@ -83,6 +85,7 @@ public class SelectableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 
 	@Override
 	public List<T> selectList(C criteria) throws DAOException {
+		Assert.notNull(criteria, "Criteria shouldn't be Null.");
 		final String objectName = getObjectName(criteria.getObjectClass());
 		logger.debug("[START] : >>> --- Fetching multi {} informations with criteria ==> {} ---", objectName, criteria);
 		List<T> records;
@@ -98,6 +101,7 @@ public class SelectableRepositoryImpl<T extends BaseBean, C extends CommonCriter
 
 	@Override
 	public long selectCounts(C criteria) throws DAOException {
+		Assert.notNull(criteria, "Criteria shouldn't be Null.");
 		final String objectName = getObjectName(criteria.getObjectClass());
 		logger.debug("[START] : >>> --- Fetching {} counts with criteria ==> {} ---", objectName, criteria);
 		long count;
