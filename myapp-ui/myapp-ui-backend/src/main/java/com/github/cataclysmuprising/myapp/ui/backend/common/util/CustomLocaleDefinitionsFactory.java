@@ -21,25 +21,43 @@
  *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  *
- *  	myapp-persistence - PersistenceApplication.java
+ *  	myapp-ui-backend - CustomLocaleDefinitionsFactory.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/14/18 10:21 AM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
 
-package com.github.cataclysmuprising.myapp.persistence;
+package com.github.cataclysmuprising.myapp.ui.backend.common.util;
 
-import com.github.cataclysmuprising.myapp.persistence.common.annotation.ExcludeFromTests;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import java.util.Locale;
 
-@Configuration
-@ExcludeFromTests
-@ComponentScan("com.github.cataclysmuprising.myapp.persistence")
-public class PersistenceApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(PersistenceApplication.class, args);
+import org.apache.tiles.Definition;
+import org.apache.tiles.definition.LocaleDefinitionsFactory;
+import org.apache.tiles.definition.NoSuchDefinitionException;
+import org.apache.tiles.request.Request;
+
+public class CustomLocaleDefinitionsFactory extends LocaleDefinitionsFactory {
+
+	@Override
+	public Definition getDefinition(String name, Request tilesContext) {
+		Definition retValue;
+		Locale locale = null;
+
+		retValue = definitionDao.getDefinition(name, locale);
+		if (retValue != null) {
+			retValue = new Definition(retValue);
+			String parentDefinitionName = retValue.getExtends();
+			while (parentDefinitionName != null) {
+				Definition parent = definitionDao.getDefinition(parentDefinitionName, locale);
+				if (parent == null) {
+					throw new NoSuchDefinitionException("Cannot find definition '" + parentDefinitionName + "' ancestor of '" + retValue.getName() + "'");
+				}
+				retValue.inherit(parent);
+				parentDefinitionName = parent.getExtends();
+			}
+		}
+
+		return retValue;
 	}
 }

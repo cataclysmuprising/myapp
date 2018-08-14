@@ -21,25 +21,41 @@
  *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  *
- *  	myapp-persistence - PersistenceApplication.java
+ *  	myapp-ui-backend - ValidationFailedException.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/14/18 10:16 AM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
+package com.github.cataclysmuprising.myapp.ui.backend.common.exception;
 
-package com.github.cataclysmuprising.myapp.persistence;
+import org.springframework.ui.Model;
 
-import com.github.cataclysmuprising.myapp.persistence.common.annotation.ExcludeFromTests;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+public class ValidationFailedException extends RuntimeException {
+	private static final long serialVersionUID = 3295211324285060221L;
+	private Model model;
+	private String errorView;
 
-@Configuration
-@ExcludeFromTests
-@ComponentScan("com.github.cataclysmuprising.myapp.persistence")
-public class PersistenceApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(PersistenceApplication.class, args);
+	public ValidationFailedException(Model model, String errorView) {
+		super();
+		this.model = model;
+		this.errorView = errorView;
 	}
+
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+	}
+
+	public String getErrorView() {
+		return errorView;
+	}
+
+	public void setErrorView(String errorView) {
+		this.errorView = errorView;
+	}
+
 }

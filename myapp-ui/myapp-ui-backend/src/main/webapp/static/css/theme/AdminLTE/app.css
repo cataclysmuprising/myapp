@@ -1,0 +1,967 @@
+@CHARSET "UTF-8";
+
+.site-name {
+	color: rgba(0, 0, 0, 0.25);
+	text-shadow: 1px 1px #fff;
+	margin-left: -15px;
+	position: relative;
+	top: -2px;
+}
+/*
+ * Horizontal rule style
+ * ---------------------
+ */
+hr {
+	border: 0;
+	height: 1px;
+	background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+	background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+	background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+	background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+/*
+ * Customize contents and fonts
+ * ----------------------------
+ */
+.content-header>h1 {
+	font-size: 15px;
+}
+/*
+ * AutoComplete box style
+ * ----------------------
+ */
+.autocomplete-suggestions {
+	position: absolute;
+	z-index: 1000;
+	background-color: #F5F5F5;
+	box-shadow: 0px 1px 3px 1px #d2d6de;
+	display: none;
+}
+
+.autocomplete-suggestion {
+	padding: 2px 6px;
+	margin: 3px 0px;
+	cursor: pointer;
+	font-size: 11px;
+	color: #555;
+}
+
+.autocomplete-suggestion b {
+	text-shadow: 0px -1px #C0C0C0;
+	padding: 0px 1px;
+}
+
+.radio-inline, .checkbox-inline {
+	padding-left: 0px !important;
+}
+
+.radio-inline label, .checkbox-inline label {
+	position: relative;
+	top: 1px;
+	cursor: pointer;
+}
+/*
+ * Placeholder color
+ * -----------------
+ */
+input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+	color: #708090 !important;
+	font-size: 9px;
+}
+
+input::-moz-placeholder { /* Firefox 19+ */
+	color: #708090 !important;
+}
+
+input:-ms-input-placeholder { /* IE 10+ */
+	color: #708090 !important;
+}
+
+input:-moz-placeholder { /* Firefox 18- */
+	color: #708090 !important;
+}
+
+textarea::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+	color: #708090 !important;
+}
+
+textarea::-moz-placeholder { /* Firefox 19+ */
+	color: #708090 !important;
+}
+
+textarea:-ms-input-placeholder { /* IE 10+ */
+	color: #708090 !important
+}
+
+textarea:-moz-placeholder { /* Firefox 18- */
+	color: #708090 !important;
+}
+
+.bs-placeholder {
+	color: #708090 !important;
+}
+/*
+ * Customize Anno Tour's Style
+ * -----------------------------
+ */
+.anno-overlay {
+	z-index: 100 !important;
+}
+
+.anno .anno-inner .anno-content {
+	font-size: 13px !important;
+	white-space: normal !important;
+}
+
+.anno .anno-inner .anno-btn-container {
+	text-align: center !important;
+	background-color: #ECF0F5;
+}
+
+.anno .anno-inner .anno-btn-container .anno-btn {
+	margin: 5px !important;
+}
+
+/*
+ * Customize Bootstrap's PopOver
+ * -----------------------------
+ */
+.popover-title {
+	color: #26A69A;
+	font-size: 11px;
+}
+
+.popover-item {
+	font-size: 11px;
+	padding-bottom: 2px;
+}
+/*
+ * Disable outline style of Bootstrap
+ * ----------------------------------
+ */
+li>a, .navbar-header>a, select>option {
+	outline: none !important;
+}
+
+* {
+	outline: none !important;
+}
+/*
+ * customize hover style on nav
+ * --------------------------
+ */
+.nav-tabs>li>a:hover {
+	border-color: transparent;
+	color: #555;
+}
+/*
+ * Customize theme's dropdown item color
+ * -------------------------------------
+ */
+.dropdown-menu>li>a {
+	color: #2F4F4F;
+}
+/*
+ * Customize Lobibox font style
+ * -----------------------------
+ */
+.lobibox-notify.notify-mini .lobibox-notify-title {
+	font-size: 15px;
+}
+
+.lobibox-notify {
+	font-family: 'Roboto Regular', 'Helvetica Neue', Helvetica, Arial,
+		sans-serif;
+	font-size: 11px;
+}
+/*
+ * Disabled field style
+ * -----------------------------
+ */
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control,
+	.form-control.disabled {
+	cursor: not-allowed;
+	pointer-events: none;
+	opacity: 0.8;
+	background-color: #eee;
+}
+/*
+ * Tootip info icon color
+ * ---------------------
+ */
+.help-tooltip {
+	color: #2e8b57;
+	cursor: help;
+}
+/*
+ * Center Text Style
+ * -----------------
+ */
+.text-center {
+	text-align: center;
+}
+/*
+ * User profile logo
+ * -----------------
+ */
+.logo-mini img, .logo-lg img {
+	width: 28px;
+	height: auto;
+	position: relative;
+	margin-top: 6px;
+	float: left;
+}
+
+.logo-mini img {
+	margin-left: 5px;
+}
+
+.logo-lg img {
+	margin-left: 2px;
+}
+/*
+ * Preloading Image
+ * -----------------
+ */
+#preloader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #E9EFF3;
+	z-index: 99;
+}
+
+#preloader_status img {
+	width: 160px;
+	height: 24px;
+	position: absolute;
+	left: 55%;
+	top: 52%;
+	background-repeat: no-repeat;
+	background-position: center;
+	margin: -50px 0px 0px -50px;
+}
+
+.datatable-loading {
+	width: 100px;
+	height: 16px;
+}
+/*
+ * Bootstrap Select Plugin
+ * -----------------------
+ */
+.bootstrap-select .btn {
+	padding-top: 4.5px !important;
+}
+
+.bootstrap-select .btn-default, .bootstrap-select .dropdown-menu {
+	background-color: #fff;
+	font-size: 11px;
+}
+
+.bootstrap-select .btn {
+	border-radius: 0px;
+	height: 100%;
+}
+
+.bootstrap-select .btn-default:focus, .bootstrap-select .btn-default.focus,
+	.bootstrap-select .btn-default:active, .bootstrap-select .btn-default.active,
+	.bootstrap-select.open>.dropdown-toggle.btn-default {
+	border-color: #3c8dbc;
+	box-shadow: none;
+	background-color: #fff;
+}
+
+.bootstrap-select .btn-default.disabled:focus, .bootstrap-select .btn-default.disabled:active
+	{
+	border-color: #d2d6de !important;
+}
+
+.bootstrap-select .btn-group.open .dropdown-toggle {
+	box-shadow: none;
+}
+
+.bootstrap-select .dropdown-toggle:focus {
+	outline: none !important;
+}
+/*
+floated add button
+*/
+@
+keyframes plus-in {
+	from {transform: rotateZ(0deg);
+}
+
+to {
+	transform: rotateZ(180deg);
+}
+
+}
+@
+keyframes plus-out {
+	from {transform: rotateZ(180deg);
+}
+
+to {
+	transform: rotateZ(0deg);
+}
+
+}
+.float-add-button {
+	position: absolute;
+	width: 45px;
+	height: 45px;
+	bottom: 15px;
+	right: 15px;
+	color: #FFF;
+	border-radius: 50px;
+	text-align: center;
+	box-shadow: 0px 2px 5px 3px silver;
+	background-color: #06C;
+	transition: all 0.5s;
+	z-index: 1000;
+}
+
+.float-text {
+	font-size: 24px;
+	margin-top: 11px;
+	animation: plus-out 0.5s;
+	transition: all 0.5s;
+}
+
+.float-add-button:hover .float-text {
+	animation: plus-in 0.5s linear;
+	animation-fill-mode: forwards;
+}
+
+.float-add-button:hover {
+	background-color: #663399;
+	color: #FFA528 !important;
+	box-shadow: 0px 2px 5px #666;
+}
+/*
+ * Scroll to Top Button
+ * --------------------
+ */
+.scrollToTop {
+	bottom: 30px;
+	height: 28px;
+	line-height: 28px;
+	position: fixed;
+	right: 8px;
+	text-align: center;
+	text-decoration: none;
+	transform: rotate(45deg);
+	width: 28px;
+	z-index: 9999;
+	border: 2px solid #676d75;
+	color: #676d75;
+	cursor: pointer;
+	display: none;
+}
+
+.scrollToTop .fa {
+	padding-right: 1px;
+	transform: rotate(-45deg);
+	font-size: 20px;
+}
+
+.scrollToTop:hover {
+	background-color: rgba(0, 0, 0, 0.1);
+	color: #000;
+	border: 2px solid #000;
+}
+
+/*
+ * change modal style apperance
+ * ----------------------------
+ */
+.modal-header {
+	padding: 9px 15px;
+	border-bottom: 1px solid #357CA5;
+	background-color: #3C8DBC;
+}
+
+.modal-header .close {
+	margin-top: 2px;
+}
+
+.modal-title {
+	color: #fff;
+}
+
+.modal-body .text-warning {
+	font-size: 11px;
+}
+/*
+ * required field style
+ * --------------------
+ */
+label.required:before {
+	content: "* ";
+	color: red;
+	font-weight: bold;
+}
+/*
+ * box shadow for buttons with icons
+ * ---------------------------------
+ */
+.btn-social i.fa {
+	box-shadow: -3px 0 4px 1px #fff;
+	font-size: 13px !important;
+}
+/*
+ * avoid required style break line
+ * -------------------------------
+ */
+.control-label {
+	white-space: nowrap;
+}
+/*
+ * Set background color for Admin LTE's box style
+ * -----------------------------------------------
+ */
+.box-header {
+	background-color: rgba(0, 0, 0, 0.02);
+}
+
+.box-body {
+	background-color: rgba(0, 0, 0, 0.008);
+}
+
+.box-footer {
+	background-color: rgba(0, 0, 0, 0.02);
+}
+/*
+ * Customize the radio inline group
+ * --------------------------------
+ */
+.radio-inline-group {
+	position: relative;
+	left: -2px;
+}
+
+.radio-inline-group label {
+	padding: 5px;
+	font-weight: normal;
+	cursor: pointer;
+	position: relative;
+	top: 1px;
+}
+/*
+ * Customize Bootstrap's Table and JQuery DataTable
+ * ------------------------------------------------
+ */
+.table {
+	/* white-space: nowrap; */
+	width: 100%;
+}
+
+.table td.details-control {
+	background:
+		url('http://localhost:8181/myapp-backend/static/images/datatable/details_open.png')
+		no-repeat center center;
+	cursor: pointer;
+}
+
+.table tr.shown td.details-control {
+	background:
+		url('http://localhost:8181/myapp-backend/static/images/datatable/details_close.png')
+		no-repeat center center;
+}
+
+.table tbody {
+	background-color: #FDFDFD;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td,
+	.table>tbody>tr>td, .table>tfoot>tr>td {
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.table>tbody>tr>th, .table>tbody>tr>td {
+	padding: 1px 10px;
+	height: 26px;
+	min-height: 26px;
+	max-height: 26px;
+	white-space: nowrap;
+}
+
+.dataTables_wrapper .bottom {
+	min-height: 35px;
+}
+
+.dataTables_info {
+	float: left;
+	padding-top: 10px !important;
+}
+
+.fixedColumnsTable .btn-group .btn, .fixedColumnsTable .btn-sm,
+	.dataTable .btn-sm {
+	padding: 3px 6px;
+	font-size: 11px;
+}
+
+.datatable_scrollArea {
+	overflow-x: auto;
+	position: relative;
+}
+
+.datatable-cell-item.dropdown-menu {
+	min-width: 90px;
+	font-size: 11px;
+}
+
+.functionColumn {
+	width: 70px !important;
+	max-width: 70px !important;
+	min-width: 70px !important;
+	text-align: center;
+	font-weight: 700;
+	cursor: default !important;
+}
+
+.inlineTable {
+	margin-bottom: 0px;
+}
+
+.inlineTable:hover {
+	cursor: default !important;
+}
+
+.inlineTable thead tr {
+	background-color: #EEEDEB;
+}
+
+.inlineTable tbody {
+	background-color: #FAFAFA;
+}
+/*
+ * Selectable DataTable Style
+ * --------------------------
+ */
+table.dataTable.selectable {
+	
+}
+
+table.dataTable.selectable tbody td:first-child, table.dataTable.selectable thead th:first-child,
+	table.dataTable.selectable thead td:first-child {
+	width: 30px;
+	min-width: 30px;
+	max-width: 30px;
+	text-align: center;
+}
+
+table.dataTable.selectable tr {
+	cursor: pointer;
+}
+
+table.dataTable thead th {
+	background-color: #f9f9f9;
+}
+
+table.dataTable.selectable tr.selected {
+	background-color: #1a7a7a;
+	color: #fff;
+}
+
+.itemCountWrapper {
+	background-color: #f9f9f9;
+	border: 1px solid #f4f4f4;
+	border-radius: 3px;
+	opacity: 0;
+	left: 48%;
+	padding: 5px 10px;
+	position: fixed;
+	top: 0;
+	width: auto;
+	z-index: 999999999;
+	left: 48%;
+}
+
+.itemCountWrapper .count {
+	color: #dd4b39;
+}
+/*
+ * disable Box-solid override
+ * --------------------------
+ */
+.btn-primary:hover, .btn-primary:active, .btn-primary.hover {
+	background-color: #367fa9 !important;
+}
+/*
+ * to avoid nested border under box for tabviews
+ * ---------------------------------------------
+ */
+.box .nav-tabs-custom {
+	margin-bottom: 0px;
+	box-shadow: none;
+	border: 1px solid #f4f4f4;
+}
+/*
+ * Left-side bar user icon
+ * -----------------------
+ */
+.user-panel>.info {
+	position: unset !important;
+}
+/*
+ * reduce font-size of small-box
+ * -----------------------------
+ */
+.small-box .icon {
+	font-size: 85px !important;
+}
+
+.small-box:hover .icon {
+	font-size: 90px !important;
+}
+/*
+ * set the input-group buttons style for validation errors
+ * -------------------------------------------------------
+ */
+.form-group {
+	margin-bottom: 8px;
+}
+
+label {
+	font-weight: normal !important;
+}
+
+.form-group.has-error .input-group-btn button {
+	border-color: #dd4b39;
+}
+
+.form-group.has-error {
+	margin-bottom: 0px;
+}
+/*
+ * Reduce the font size of validation errors
+ * --------------------------------------------
+ */
+.form-group.has-error .help-block {
+	font-size: 11px;
+	white-space: nowrap;
+	margin-bottom: 7px;
+}
+
+.control-block.has-error .help-block {
+	font-size: 11px;
+	white-space: nowrap;
+	color: #dd4b39;
+	margin-bottom: -5px;
+}
+
+.control-block.has-error .form-control, .control-block.has-error .input-group-addon
+	{
+	border-color: #dd4b39;
+	box-shadow: none;
+}
+
+.radio-inline-group .help-block {
+	margin-top: -3px;
+}
+/*
+ * validation errors group panel for fieldless
+ * --------------------------------------------
+ */
+div.input-fieldless {
+	display: none;
+}
+
+div.input-fieldless blockquote {
+	box-shadow: 1px 0 3px -2px red;
+	color: #fff !important;
+	font-size: 13px;
+	border-left: 10px solid #ad8080;
+	background-color: #FFEFD5;
+	border-radius: 5px;
+	margin: 0 auto;
+	width: 80%;
+}
+
+div.input-fieldless blockquote span.help-block::before {
+	content: "\f18e";
+	font-family: FontAwesome;
+	display: inline-block;
+	padding-right: 5px;
+}
+/*
+ * control side-bar style
+ * --------------------------------------------
+ */
+.available-skins li {
+	border: 1px solid #778899;
+	float: left;
+	font-size: 9px;
+	height: 50px;
+	margin: 3px;
+	padding: 5px;
+	white-space: nowrap;
+	width: 30%;
+}
+
+.available-skins li.active {
+	border-color: #B22222;
+	border-width: 3px;
+	padding: 2px;
+	box-shadow: 0 1px 2px 1px #000;
+}
+
+.available-skins li .skin-item {
+	display: block;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+}
+
+.available-skins p.no-margin {
+	margin-top: 2px !important;
+	text-shadow: 0 0 3px #778899;
+}
+
+.available-skins li .skin-item .skin-header {
+	display: block;
+	float: left;
+	height: 7px;
+}
+
+.available-skins li .skin-item .skin-body {
+	display: block;
+	float: left;
+	height: 20px;
+}
+
+.available-skins li .skin-item .skin-header.left, .available-skins li .skin-item .skin-body.left
+	{
+	width: 20%;
+}
+
+.available-skins li .skin-item .skin-header.right, .available-skins li .skin-item .skin-body.right
+	{
+	width: 80%;
+}
+/*
+ * Custom rules
+ * ------------
+ */
+.inline-content {
+	position: relative;
+	border-radius: 3px;
+	background: #F5F5F5;
+	border-top: 3px solid #d2d6de;
+	border-top-color: #929292;
+	padding: 3em;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.half-width {
+	width: 50%;
+}
+
+.normal-font {
+	font-weight: normal;
+}
+
+.btn-add-new {
+	float: right;
+	right: -13px;
+	position: relative;
+}
+
+.small-panel {
+	width: 70%;
+	margin: 0 auto;
+}
+
+.small-margin {
+	margin: 3px;
+}
+
+.nowrap_text {
+	white-space: normal !important;
+}
+
+.type-value-chooser input.form-control {
+	border: 1px solid #367fa9;
+}
+
+.type-value-chooser .dropdown-toggle {
+	border-bottom-right-radius: 3px;
+	border-top-right-radius: 3px
+}
+
+.filterPanel {
+	background-color: #e3e3e3;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	margin: 0;
+	padding: 10px;
+	margin-bottom: 1px;
+	overflow: hidden;
+}
+
+.custom-box-header {
+	padding: 1px;
+}
+
+@media ( max-width : 991px) {
+	form.form-horizontal.control-block div {
+		margin-top: 5px;
+		text-align: center;
+	}
+	form.form-horizontal.control-block .btn-add-new {
+		float: none;
+		position: static;
+		right: 0px
+	}
+}
+
+@media ( max-width : 767px) {
+	.filterPanel div {
+		margin-top: 5px;
+		text-align: center;
+	}
+}
+
+.bootstrap-select>.dropdown-menu {
+	border: 1px solid #666666;
+	background-color: #EEEEEE;
+	box-shadow: none;
+}
+
+.bootstrap-select>.dropdown-menu>.dropdown-menu>li {
+	background-color: #EEEEEE;
+	color: white;
+}
+
+.bootstrap-select>.dropdown-menu>.dropdown-menu>li>a:hover {
+	background-color: #FFFFFF;
+}
+
+.add-icon {
+	color: #777777;
+}
+
+.add-icon:hover {
+	color: #444444;
+}
+
+.edit-icon {
+	color: #777777;
+}
+
+.edit-icon:hover {
+	color: #444444;
+}
+
+.delete-icon {
+	color: #FF0000;
+}
+
+.delete-icon:hover {
+	color: #990000;
+}
+
+/* The switch - the box around the slider */
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	height: 19px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+	display: none;
+}
+
+/* The slider */
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 13px;
+	width: 13px;
+	left: 4px;
+	bottom: 3px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.switch input:checked+.slider {
+	background-color: #444444;
+}
+
+.switch input:focus+.slider {
+	box-shadow: 0 0 1px #cccccc;
+}
+
+.switch input:checked+.slider:before {
+	-webkit-transform: translateX(18px);
+	-ms-transform: translateX(18px);
+	transform: translateX(18px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+
+.box-flat {
+	border-top-color: rgba(0, 0, 0, 0.02) !important;
+	border-radius: 0px !important;
+}
+
+.box-flat>.box-body {
+	background-color: rgba(0, 0, 0, 0.02) !important;
+	padding: 10px !important;
+}
+
+.app-input-group .form-group {
+	margin-left: 0px;
+}
+
+@media ( min-width : 767px) {
+	.copyright {
+		display: flex;
+	}
+}
+
+@media ( max-width : 767px) {
+	.copyright>div {
+		width: 100% !important;
+		text-align: center !important;
+	}
+}
+
+.badge-selected {
+	color: #fff;
+	margin-left: 5px;
+	margin-top: -2px;
+	font-size: 10px;
+}
+
+.fs-13 {
+	font-size: 13px;
+}

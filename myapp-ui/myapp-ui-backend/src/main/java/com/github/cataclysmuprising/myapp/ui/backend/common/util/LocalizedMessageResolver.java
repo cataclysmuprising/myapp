@@ -21,25 +21,45 @@
  *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  *
- *  	myapp-persistence - PersistenceApplication.java
+ *  	myapp-ui-backend - LocalizedMessageResolver.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/14/18 10:25 AM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
+package com.github.cataclysmuprising.myapp.ui.backend.common.util;
 
-package com.github.cataclysmuprising.myapp.persistence;
+import java.util.Locale;
 
-import com.github.cataclysmuprising.myapp.persistence.common.annotation.ExcludeFromTests;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
 
-@Configuration
-@ExcludeFromTests
-@ComponentScan("com.github.cataclysmuprising.myapp.persistence")
-public class PersistenceApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(PersistenceApplication.class, args);
+@Component
+public class LocalizedMessageResolver implements MessageSourceAware {
+
+	private MessageSource messageSource;
+
+	@Override
+	public void setMessageSource(MessageSource messageSource) {
+		this.messageSource = messageSource;
+	}
+
+	// message key is default message
+	public String getMessage(String code, Object... object) {
+		Locale locale = LocaleContextHolder.getLocale();
+		if (locale == null) {
+			locale = Locale.ENGLISH;
+		}
+		String message = null;
+		try {
+			message = messageSource.getMessage(code, object, locale);
+		}
+		catch (Exception e) {
+			return code;
+		}
+		return message;
+
 	}
 }

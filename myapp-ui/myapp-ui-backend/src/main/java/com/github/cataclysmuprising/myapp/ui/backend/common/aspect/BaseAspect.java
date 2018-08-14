@@ -21,25 +21,28 @@
  *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  *
- *  	myapp-persistence - PersistenceApplication.java
+ *  	myapp-ui-backend - BaseAspect.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/14/18 10:45 AM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
+package com.github.cataclysmuprising.myapp.ui.backend.common.aspect;
 
-package com.github.cataclysmuprising.myapp.persistence;
+import org.aspectj.lang.annotation.Pointcut;
 
-import com.github.cataclysmuprising.myapp.persistence.common.annotation.ExcludeFromTests;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+public class BaseAspect {
+	static final String LOG_BREAKER_OPEN = "**********************************************************************";
+	static final String LOG_BREAKER_CLOSE = "############################## xxxxxxxx ##############################";
+	static final String LOG_PREFIX = "----------  ";
+	static final String LOG_SUFFIX = "  ----------";
 
-@Configuration
-@ExcludeFromTests
-@ComponentScan("com.github.cataclysmuprising.myapp.persistence")
-public class PersistenceApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(PersistenceApplication.class, args);
+	@Pointcut("execution(* com.github.cataclysmuprising..controller..*.initBinder(..))")
+	protected void initBinderMethod() {
+
+	}
+
+	@Pointcut("execution(public * *(..))")
+	protected void publicMethod() {
 	}
 }

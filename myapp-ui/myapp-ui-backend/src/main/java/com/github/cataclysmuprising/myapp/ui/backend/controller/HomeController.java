@@ -21,25 +21,50 @@
  *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  *
- *  	myapp-persistence - PersistenceApplication.java
+ *  	myapp-ui-backend - HomeController.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/14/18 11:17 AM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
 
-package com.github.cataclysmuprising.myapp.persistence;
+package com.github.cataclysmuprising.myapp.ui.backend.controller;
 
-import com.github.cataclysmuprising.myapp.persistence.common.annotation.ExcludeFromTests;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import com.github.cataclysmuprising.myapp.ui.backend.common.annotation.Loggable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Configuration
-@ExcludeFromTests
-@ComponentScan("com.github.cataclysmuprising.myapp.persistence")
-public class PersistenceApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(PersistenceApplication.class, args);
+@Controller
+@Loggable
+@RequestMapping("/")
+public class HomeController {
+
+	@GetMapping
+	public String home(Model model, RedirectAttributes ra) {
+		return "redirect:/dashboard";
+	}
+
+	@GetMapping("/dashboard")
+	public String dashboard(Model model) {
+		return "dashboard";
+	}
+
+	@GetMapping("/error/{code}")
+	public String errorPage(Model model, @PathVariable String code) {
+		return "error/" + code;
+	}
+
+	@GetMapping("/404.html")
+	public String pageNotFound(Model model) {
+		return "error/404";
+	}
+
+	@GetMapping("/accessDenied")
+	public String accessDenied(Model model) {
+		return "error/403";
 	}
 }

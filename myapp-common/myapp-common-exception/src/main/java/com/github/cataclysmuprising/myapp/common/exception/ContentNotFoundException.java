@@ -21,25 +21,31 @@
  *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  *
- *  	myapp-persistence - PersistenceApplication.java
+ *  	myapp-common-exception - ContentNotFoundException.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/8/18 10:58 AM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
 
-package com.github.cataclysmuprising.myapp.persistence;
+package com.github.cataclysmuprising.myapp.common.exception;
 
-import com.github.cataclysmuprising.myapp.persistence.common.annotation.ExcludeFromTests;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+public class ContentNotFoundException extends RuntimeException {
+	private static final long serialVersionUID = 1482043579012714991L;
 
-@Configuration
-@ExcludeFromTests
-@ComponentScan("com.github.cataclysmuprising.myapp.persistence")
-public class PersistenceApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(PersistenceApplication.class, args);
+	public ContentNotFoundException() {
+		super();
+	}
+
+	public ContentNotFoundException(final String message) {
+		super(message);
+	}
+
+	public ContentNotFoundException(final String message, final Throwable cause) {
+		super(message, cause);
+	}
+
+	public ContentNotFoundException(final Throwable cause) {
+		super(cause);
 	}
 }

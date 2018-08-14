@@ -21,25 +21,23 @@
  *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *   SOFTWARE.
  *
- *  	myapp-persistence - PersistenceApplication.java
+ *  	myapp-ui-backend - BcryptPasswordEncoderTest.java
  *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/10/18 1:26 PM
+ * 	    Last Modified - 8/14/18 11:49 AM
  *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
  *  	@Since 2018
  */
 
-package com.github.cataclysmuprising.myapp.persistence;
+package com.cataclysmuprising.myapp.ui.backend;
 
-import com.github.cataclysmuprising.myapp.persistence.common.annotation.ExcludeFromTests;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Configuration
-@ExcludeFromTests
-@ComponentScan("com.github.cataclysmuprising.myapp.persistence")
-public class PersistenceApplication {
+public class BcryptPasswordEncoderTest {
+
 	public static void main(String[] args) {
-		SpringApplication.run(PersistenceApplication.class, args);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String inputText = "CWSP@ssw0rd";
+		String encodedString = encoder.encode(inputText);
+		System.out.println("Encoding '" + inputText + "' ==> " + encodedString);
 	}
 }

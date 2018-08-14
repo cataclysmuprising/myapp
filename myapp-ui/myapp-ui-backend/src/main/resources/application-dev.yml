@@ -1,0 +1,19 @@
+### embedded Tomcat server settings ###
+server:
+  port: 8181
+  servlet: 
+    context-path: /myapp-backend
+    jsp:
+      init-parameters:
+        development: true     
+  connection-timeout: 10000s
+  error:
+    whitelabel:
+      enabled: false
+  undertow: 
+    ioThreads: 15
+    workerThreads: 150
+  compression: 
+    enabled: true
+    mimeTypes: text/xml, text/css, text/html, application/json
+    minResponseSize: 4096

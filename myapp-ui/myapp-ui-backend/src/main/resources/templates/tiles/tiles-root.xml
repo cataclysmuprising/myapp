@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~
+  ~   This source file is free software, available under the following license: MIT license.
+  ~   Copyright (c) 2018, Than Htike Aung(https://github.com/cataclysmuprising) All Rights Reserved.
+  ~
+  ~   Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~   of this software and associated documentation files (the "Software"), to deal
+  ~   in the Software without restriction, including without limitation the rights
+  ~   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~   copies of the Software, and to permit persons to whom the Software is
+  ~   furnished to do so, subject to the following conditions:
+  ~
+  ~   The above copyright notice and this permission notice shall be included in all
+  ~   copies or substantial portions of the Software.
+  ~
+  ~   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~   SOFTWARE.
+  ~
+  ~  	myapp-ui-backend - tiles-root.xml
+  ~  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
+  ~ 	    Last Modified - 8/14/18 1:04 PM
+  ~  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
+  ~  	@Since 2018
+  -->
+
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+		"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="simpleLayout" template="/WEB-INF/views/template/default/simpleLayout.jsp">
+		<put-attribute name="content" value=""/>
+	</definition>
+
+	<definition name="login_page" extends="simpleLayout">
+		<put-attribute name="content" value="/WEB-INF/views/site/login.jsp"/>
+		<put-list-attribute name="pageScripts">
+			<add-attribute value="common/icheck"/>
+			<add-attribute value="app/login/page"/>
+		</put-list-attribute>
+		<put-list-attribute name="pageStyles">
+			<add-attribute value="common/icheck-minimal-red"/>
+			<add-attribute value="app/login/page"/>
+		</put-list-attribute>
+	</definition>
+
+	<definition name="dashboard" extends="baseLayout">
+		<put-attribute name="content" value="/WEB-INF/views/site/dashboard.jsp"/>
+		<put-list-attribute name="pageScripts">
+			<add-attribute value="app/dashboard/page"/>
+		</put-list-attribute>
+		<put-list-attribute name="pageStyles">
+			<add-attribute value="app/dashboard/page"/>
+		</put-list-attribute>
+	</definition>
+	<definition name="error/*" template="/WEB-INF/views/error/error-layout.jsp">
+		<put-attribute name="content" value="/WEB-INF/views/error/{1}.jsp"/>
+	</definition>
+</tiles-definitions>

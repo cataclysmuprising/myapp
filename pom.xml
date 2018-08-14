@@ -49,6 +49,7 @@
         <module>myapp-persistence</module>
         <module>myapp-migrate</module>
 		<module>myapp-common</module>
+		<module>myapp-ui</module>
 	</modules>
     <packaging>pom</packaging>
 
