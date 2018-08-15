@@ -30,16 +30,44 @@
 
 package com.github.cataclysmuprising.myapp.persistence.service;
 
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
+import com.github.cataclysmuprising.myapp.common.exception.DAOException;
 import com.github.cataclysmuprising.myapp.common.mybatis.service.CommonGenericServiceImpl;
+import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
 import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.UserCriteria;
 import com.github.cataclysmuprising.myapp.persistence.repository.UserRepository;
 import com.github.cataclysmuprising.myapp.persistence.service.api.UserService;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl extends CommonGenericServiceImpl<UserBean, UserCriteria> implements UserService {
+	private static final Logger serviceLogger = LogManager.getLogger("serviceLogs." + UserServiceImpl.class.getName());
+
+	private UserRepository userRepository;
+
 	public UserServiceImpl(UserRepository repository) {
 		super(repository);
+		this.userRepository = repository;
+	}
+
+	@Override
+	public AuthenticatedUserBean selectAuthenticatedUser(String email) throws BusinessException {
+		serviceLogger.info(LOG_PREFIX + "Transaction start for fetching Authenticated UserInfo by Email # " + email + LOG_SUFFIX);
+		AuthenticatedUserBean record = null;
+		try {
+			record = userRepository.selectAuthenticatedUser(email);
+		}
+		catch (DAOException e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully for fetching Authenticated UserInfo." + LOG_SUFFIX);
+		return record;
 	}
 }

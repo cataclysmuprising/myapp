@@ -37,6 +37,7 @@ package com.github.cataclysmuprisingp.myapp.unitTest;
 
 import com.github.cataclysmuprising.myapp.common.exception.DAOException;
 import com.github.cataclysmuprising.myapp.common.exception.DuplicatedEntryException;
+import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
 import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.UserCriteria;
 import com.github.cataclysmuprising.myapp.persistence.repository.UserRepository;
@@ -58,27 +59,27 @@ public class UserUnitTest extends BaseUnitTest {
 	@Autowired
 	private UserRepository repository;
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectAll() throws Exception {
 		UserCriteria criteria = new UserCriteria();
 		List<UserBean> results = repository.selectList(criteria);
 		showEntriesOfCollection(results);
 	}
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectByPrimaryKey() throws Exception {
 		UserBean result = repository.select(1L);
 		testLogger.info("Result ==> " + result);
 	}
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectAllCount() throws Exception {
 		UserCriteria criteria = new UserCriteria();
 		long count = repository.selectCounts(criteria);
 		testLogger.info("Total counts ==> " + count);
 	}
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectByCriteria() throws Exception {
 		UserCriteria criteria = new UserCriteria();
 		criteria.setIncludeIds(Arrays.asList(1L, 2L, 3L));
@@ -94,7 +95,13 @@ public class UserUnitTest extends BaseUnitTest {
 		testLogger.info("Result ==> " + result);
 	}
 
-	@Test(groups = {"insert"})
+	@Test(groups = { "fetch" })
+	public void testSelectAuthenticatedUserInfo() throws Exception {
+		AuthenticatedUserBean result = repository.selectAuthenticatedUser("superuser@sample.com");
+		testLogger.info("Result ==> " + result);
+	}
+
+	@Test(groups = { "insert" })
 	public void insertSingle() throws DAOException, DuplicatedEntryException {
 		UserBean record = new UserBean();
 		record.setContentId(1L);
@@ -113,7 +120,7 @@ public class UserUnitTest extends BaseUnitTest {
 		testLogger.info("Last inserted ID ==> " + lastInsertedRecordId);
 	}
 
-	@Test(groups = {"insert"})
+	@Test(groups = { "insert" })
 	public void insertMulti() throws DAOException, DuplicatedEntryException {
 
 		List<UserBean> records = new ArrayList<>();
@@ -149,7 +156,7 @@ public class UserUnitTest extends BaseUnitTest {
 		repository.insert(records, TEST_CREATE_USER_ID);
 	}
 
-	@Test(groups = {"update"})
+	@Test(groups = { "update" })
 	public void testSingleRecordUpdate() throws Exception {
 		UserBean record = new UserBean();
 		record.setId(3L);
@@ -167,7 +174,7 @@ public class UserUnitTest extends BaseUnitTest {
 		testLogger.info("Total effected rows = " + totalEffectedRows);
 	}
 
-	@Test(groups = {"update"})
+	@Test(groups = { "update" })
 	public void testUpdateByCriteria() throws Exception {
 		UserCriteria criteria = new UserCriteria();
 		criteria.setId(3L);
@@ -179,13 +186,13 @@ public class UserUnitTest extends BaseUnitTest {
 		repository.update(criteria, updateItems, TEST_UPDATE_USER_ID);
 	}
 
-	@Test(groups = {"delete"})
+	@Test(groups = { "delete" })
 	public void testDeleteByPrimaryKey() throws Exception {
 		long totalEffectedRows = repository.delete(3, TEST_UPDATE_USER_ID);
 		testLogger.info("Total effected rows = " + totalEffectedRows);
 	}
 
-	@Test(groups = {"delete"})
+	@Test(groups = { "delete" })
 	public void testDeleteByCriteria() throws Exception {
 		UserCriteria criteria = new UserCriteria();
 		criteria.setIncludeIds(Arrays.asList(1L, 2L, 3L));

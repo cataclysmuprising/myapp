@@ -29,15 +29,16 @@
  */
 package com.github.cataclysmuprising.myapp.persistence.repository;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.XGenericRepositoryImpl;
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.XGenericRepository;
 import com.github.cataclysmuprising.myapp.domain.bean.UserRoleBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.UserRoleCriteria;
 import com.github.cataclysmuprising.myapp.persistence.mapper.UserRoleMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserRoleRepository extends XGenericRepositoryImpl<UserRoleBean, UserRoleCriteria> implements XGenericRepository<UserRoleBean, UserRoleCriteria> {
@@ -51,4 +52,5 @@ public class UserRoleRepository extends XGenericRepositoryImpl<UserRoleBean, Use
 		super(mapper);
 		this.mapper = mapper;
 	}
+
 }

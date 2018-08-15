@@ -29,15 +29,18 @@
  */
 package com.github.cataclysmuprising.myapp.persistence.repository;
 
-import com.github.cataclysmuprising.myapp.common.mybatis.repository.CommonGenericRepositoryImpl;
-import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.CommonGenericRepository;
-import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
-import com.github.cataclysmuprising.myapp.domain.criteria.UserCriteria;
-import com.github.cataclysmuprising.myapp.persistence.mapper.UserMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.github.cataclysmuprising.myapp.common.exception.DAOException;
+import com.github.cataclysmuprising.myapp.common.mybatis.repository.CommonGenericRepositoryImpl;
+import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.CommonGenericRepository;
+import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
+import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
+import com.github.cataclysmuprising.myapp.domain.criteria.UserCriteria;
+import com.github.cataclysmuprising.myapp.persistence.mapper.UserMapper;
 
 @Repository
 public class UserRepository extends CommonGenericRepositoryImpl<UserBean, UserCriteria> implements CommonGenericRepository<UserBean, UserCriteria> {
@@ -50,5 +53,19 @@ public class UserRepository extends CommonGenericRepositoryImpl<UserBean, UserCr
 	public UserRepository(UserMapper mapper) {
 		super(mapper);
 		this.mapper = mapper;
+	}
+
+	public AuthenticatedUserBean selectAuthenticatedUser(String email) throws DAOException {
+		repositoryLogger.debug("[START] : >>> --- Fetching Authenticated 'User' informations with Email # " + email + " ---");
+		AuthenticatedUserBean user = new AuthenticatedUserBean();
+		try {
+			user = mapper.selectAuthenticatedUser(email);
+		}
+		catch (Exception e) {
+			String errorMsg = "xxx Error occured while fetching Authenticated 'User' informations with Email ==> " + email + " xxx";
+			throw new DAOException(errorMsg, e);
+		}
+		repositoryLogger.debug("[FINISH] : <<< --- Fetching Authenticated 'User' informations with Email # " + email + " ---");
+		return user;
 	}
 }

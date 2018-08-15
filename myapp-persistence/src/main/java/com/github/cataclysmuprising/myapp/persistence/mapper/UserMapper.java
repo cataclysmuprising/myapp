@@ -29,9 +29,13 @@
  */
 package com.github.cataclysmuprising.myapp.persistence.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.github.cataclysmuprising.myapp.common.mybatis.mapper.base.CommonGenericMapper;
+import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
 import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.UserCriteria;
 
 public interface UserMapper extends CommonGenericMapper<UserBean, UserCriteria> {
+	public AuthenticatedUserBean selectAuthenticatedUser(@Param("email") String email);
 }

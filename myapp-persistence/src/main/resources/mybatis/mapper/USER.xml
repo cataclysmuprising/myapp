@@ -57,7 +57,18 @@
 		<association property="content" javaType="StaticContentBean" resultMap="com.github.cataclysmuprising.myapp.persistence.mapper.StaticContentMapper.Parent_StaticContentResult"/>
 	</resultMap>
 
-
+	<resultMap  	 type="AuthenticatedUserBean" 	id="AuthenticatedUserResult">
+		<id 		 property="id" 							column="usr_id" />
+		<result 	 property="name" 						column="usr_name" />
+		<result 	 property="email" 						column="usr_email" />
+		<result 	 property="password" 					column="usr_password" />
+		<result 	 property="nrc"                	 		column="usr_nrc" />	
+		<result 	 property="contentId" 					column="usr_content_id" />	
+		<result 	 property="status" 						column="usr_status" />
+		<result 	 property="roleIds" 					column="role_ids" 						javaType="java.util.ArrayList" 	jdbcType="BIGINT"  	typeHandler="com.github.cataclysmuprising.myapp.common.mybatis.typeHandler.LongArrayListTypeHandler"/>
+		<result 	 property="roles" 						column="role_names" 					javaType="java.util.ArrayList" 	jdbcType="VARCHAR" 	typeHandler="com.github.cataclysmuprising.myapp.common.mybatis.typeHandler.StringArrayListTypeHandler"/>
+	</resultMap>
+	
 	<sql id="tables">
 		FROM mjr_user usr
 		<if test="_parameter.containsKey('criteria') and criteria != null">
@@ -339,6 +350,25 @@
 		SELECT count(DISTINCT usr.id)
 		<include refid="tables"/>
 		<include refid="criterias"/>
+	</select>
+	
+	<select id="selectAuthenticatedUser" resultMap="AuthenticatedUserResult">
+		SELECT
+		usr.id AS usr_id,
+		usr.name AS usr_name,
+		usr.email AS usr_email,
+		usr.password AS usr_password,
+		usr.nrc AS usr_nrc,
+		usr.content_id AS usr_content_id,
+		usr.status AS usr_status,
+		string_agg(distinct(CONCAT(role.id,'')), ',') AS role_ids,
+	    string_agg(distinct(CONCAT(role.id,'_',role.name)), ',') AS role_names
+		FROM mjr_user usr   
+		LEFT JOIN mjr_user_role ur ON ur.user_id = usr.id
+		LEFT JOIN mjr_role role ON role.id = ur.role_id 
+		WHERE     
+		usr.email = #{email}
+		GROUP BY usr.id
 	</select>
 
 </mapper>
