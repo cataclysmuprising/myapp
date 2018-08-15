@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.cataclysmuprising.myapp.common.util.response.PageMessage;
 import com.github.cataclysmuprising.myapp.common.util.response.PageMessageStyle;
 import com.github.cataclysmuprising.myapp.common.util.response.PageMode;
+import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
+import com.github.cataclysmuprising.myapp.ui.backend.config.security.LoggedUserBean;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 public abstract class BaseController {
 	protected static final Logger applicationLogger = LogManager.getLogger("applicationLogs." + BaseController.class.getName());
@@ -42,20 +40,14 @@ public abstract class BaseController {
 
 	@ModelAttribute
 	public void init(Model model) {
-//		SignInUserDetailInfoBean oauthUser = getSignInUserInfo();
-//		if (oauthUser != null) {
-//			model.addAttribute("loginUserName", oauthUser.getName());
-//			model.addAttribute("loginUserId", oauthUser.getId());
-//			model.addAttribute("contentId", oauthUser.getContentId());
-//			DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("MMM,yyyy");
-//			String recordRegisterDateString = "";
-//			LocalDateTime recordRegisterDate = oauthUser.getRecordRegDate();
-//			if (recordRegisterDate != null) {
-//				recordRegisterDateString = dateFormatter.print(recordRegisterDate);
-//			}
-//			model.addAttribute("since", recordRegisterDateString);
-//			model.addAttribute("userPreference", userPreference);
-//		}
+		LoggedUserBean authUser = getSignInUserInfo();
+		if (authUser != null) {
+			AuthenticatedUserBean user = authUser.getUserDetail();
+			model.addAttribute("loginUserName", user.getName());
+			model.addAttribute("loginUserId", user.getId());
+			model.addAttribute("contentId", user.getContentId());
+			model.addAttribute("since", user.getSince());
+		}
 		setMetaData(model);
 		subInit(model);
 	}
@@ -112,8 +104,7 @@ public abstract class BaseController {
 				if (!fieldErrors.containsKey(errorKeyPrefix + item.getField())) {
 					fieldErrors.put(errorKeyPrefix + item.getField(), item.getDefaultMessage());
 				}
-			}
-			else {
+			} else {
 				if (!fieldErrors.containsKey(item.getField())) {
 					fieldErrors.put(item.getField(), item.getDefaultMessage());
 				}
@@ -141,16 +132,6 @@ public abstract class BaseController {
 		return response;
 	}
 
-	public static String getApplicationContextPath(HttpServletRequest request) {
-		return request.getRequestURL().toString().replace(request.getServletPath(), "");
-	}
-
-	// http://stackoverflow.com/questions/23699371/java-8-distinct-by-property
-	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
-		Map<Object, Boolean> seen = new ConcurrentHashMap<>();
-		return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
-	}
-
 	protected boolean isRolePresent(Collection<? extends GrantedAuthority> collection, String role) {
 		boolean isRolePresent = false;
 		for (GrantedAuthority grantedAuthority : collection) {
@@ -162,21 +143,21 @@ public abstract class BaseController {
 		return isRolePresent;
 	}
 
-//	protected Long getLoginUserId() {
-//		SignInUserDetailInfoBean oauthUser = getSignInUserInfo();
-//		if (oauthUser != null) {
-//			return oauthUser.getId();
-//		}
-//		return null;
-//	}
-//
-//	protected SignInUserDetailInfoBean getSignInUserInfo() {
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		if (auth != null && !auth.getPrincipal().equals("anonymousUser")) {
-//			return mapper.convertValue(auth.getPrincipal(), SignInUserDetailInfoBean.class);
-//		}
-//		return null;
-//	}
+	protected Long getLoginUserId() {
+		LoggedUserBean authUser = getSignInUserInfo();
+		if (authUser != null) {
+			return authUser.getId();
+		}
+		return null;
+	}
+
+	protected LoggedUserBean getSignInUserInfo() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null && !auth.getPrincipal().equals("anonymousUser")) {
+			return mapper.convertValue(auth.getPrincipal(), LoggedUserBean.class);
+		}
+		return null;
+	}
 
 	private void setMetaData(Model model) {
 		// set the project version
@@ -186,5 +167,4 @@ public abstract class BaseController {
 	}
 
 	public abstract void subInit(Model model);
-
 }

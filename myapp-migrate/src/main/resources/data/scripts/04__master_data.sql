@@ -25,9 +25,9 @@ VALUES
 INSERT INTO mjr_action 
 (id,	  	page,			action_name,			display_name,			action_type,	url,						description												,record_reg_id,record_upd_id,record_reg_date,record_upd_date) 
 VALUES 
-(1001,		'Dashboard',	'dashboard',		   	'Dashboard Page',		0,				'^/dashboard$',				'Control panel page for Sign-in user'					,1,1,'2018-01-01','2018-01-01'),
+(1001,		'Dashboard',	'dashboard',		   	'Dashboard Page',		0,				'^/dashboard$',				'Control panel page for Sign-in authUser'					,1,1,'2018-01-01','2018-01-01'),
 /******      User Management        ******/ 
-(1002,		'User',			'userList',				'User List Page',		0,				'^/user$',					'Home page to view the all user informations.'			,1,1,'2018-01-01','2018-01-01');
+(1002,		'User',			'userList',				'User List Page',		0,				'^/authUser$',					'Home page to view the all authUser informations.'			,1,1,'2018-01-01','2018-01-01');
 
 /******      Role Action        ******/ 
 INSERT INTO mjr_role_action 

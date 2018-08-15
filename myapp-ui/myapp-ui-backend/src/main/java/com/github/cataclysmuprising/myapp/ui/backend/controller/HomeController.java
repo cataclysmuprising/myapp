@@ -36,35 +36,40 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Loggable
 @RequestMapping("/")
-public class HomeController {
+public class HomeController extends BaseController {
 
 	@GetMapping
-	public String home(Model model, RedirectAttributes ra) {
+	public String home() {
 		return "redirect:/dashboard";
 	}
 
 	@GetMapping("/dashboard")
 	public String dashboard(Model model) {
+		setAuthorities(model, "dashboard");
 		return "dashboard";
 	}
 
 	@GetMapping("/error/{code}")
-	public String errorPage(Model model, @PathVariable String code) {
+	public String errorPage(@PathVariable String code) {
 		return "error/" + code;
 	}
 
 	@GetMapping("/404.html")
-	public String pageNotFound(Model model) {
+	public String pageNotFound() {
 		return "error/404";
 	}
 
 	@GetMapping("/accessDenied")
-	public String accessDenied(Model model) {
+	public String accessDenied() {
 		return "error/403";
+	}
+
+	@Override
+	public void subInit(Model model) {
+
 	}
 }

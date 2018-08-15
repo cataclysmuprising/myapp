@@ -102,7 +102,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <spring:url value="${portalAppUrl}/user/profile" var="profileUrl" scope="application"/>
+                                <spring:url value="${portalAppUrl}/authUser/profile" var="profileUrl" scope="application"/>
                                 <a href="${profileUrl}" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">

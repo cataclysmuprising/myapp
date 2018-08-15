@@ -84,7 +84,7 @@ public class StaticContentUnitTest extends BaseUnitTest {
 		criteria.setExcludeIds(Arrays.asList(7L, 8L, 9L));
 
 		criteria.setFileName("Sample File");
-		criteria.setFilePath("D:\\temp\\user.jpg");
+		criteria.setFilePath("D:\\temp\\authUser.jpg");
 		criteria.setFileSize("10KB");
 		criteria.setFileType(StaticContentBean.FileType.IMAGE);
 		StaticContentBean result = repository.select(criteria);

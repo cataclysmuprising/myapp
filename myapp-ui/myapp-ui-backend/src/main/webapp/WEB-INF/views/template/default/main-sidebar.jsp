@@ -33,7 +33,7 @@
   --%>
 <aside class="main-sidebar">
 	<section class="sidebar">
-		<!-- Sidebar user panel -->
+		<!-- Sidebar authUser panel -->
 		<div class="user-panel">
 			<div class="pull-left image">
 				<c:choose>

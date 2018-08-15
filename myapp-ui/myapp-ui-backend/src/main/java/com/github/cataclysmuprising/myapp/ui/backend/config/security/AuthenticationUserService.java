@@ -30,6 +30,7 @@
 package com.github.cataclysmuprising.myapp.ui.backend.config.security;
 
 import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
+import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
 import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.UserCriteria;
 import com.github.cataclysmuprising.myapp.persistence.service.api.UserService;
@@ -58,22 +59,18 @@ public class AuthenticationUserService implements UserDetailsService {
 	public final UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
 		applicationLogger.info(LOG_BREAKER_OPEN);
 		try {
-			//AuthenticatedUserBean authUser = userService.selectAuthenticatedUser(email);
-			UserCriteria criteria = new UserCriteria();
-			criteria.setEmail(email);
-			UserBean authUser = userService.select(criteria);
-			List<String> roles = new ArrayList<>();
+			AuthenticatedUserBean authUser = userService.selectAuthenticatedUser(email);
 			if (authUser == null) {
 				throw new UsernameNotFoundException("User doesn`t exist");
 			}
-			applicationLogger.info(LOG_PREFIX + "Roles of :" + authUser.getName() + " are " + roles + LOG_SUFFIX);
-			// pass user object and roles to LoggedUser
-			LoggedUserBean loggedUser = new LoggedUserBean(authUser, roles);
+			applicationLogger.info(LOG_PREFIX + "Roles of :" + authUser.getName() + " are " + authUser.getRoles() + LOG_SUFFIX);
+			// pass authUser object and roles to LoggedUser
+			LoggedUserBean loggedUser = new LoggedUserBean(authUser, authUser.getRoles());
 			applicationLogger.info(LOG_BREAKER_CLOSE);
 			return loggedUser;
 		} catch (BusinessException e) {
 			e.printStackTrace();
-			errorLogger.error(LOG_PREFIX + "Signin user is not valid or found" + LOG_SUFFIX, e);
+			errorLogger.error(LOG_PREFIX + "Signin authUser is not valid or found" + LOG_SUFFIX, e);
 			return null;
 		}
 	}

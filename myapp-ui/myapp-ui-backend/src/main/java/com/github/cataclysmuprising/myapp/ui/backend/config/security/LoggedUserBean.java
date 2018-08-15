@@ -30,11 +30,11 @@
 
 package com.github.cataclysmuprising.myapp.ui.backend.config.security;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
 import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,17 +43,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@JsonIgnoreProperties({"handler"})
+@Getter
+@Setter
 @NoArgsConstructor
 public class LoggedUserBean implements UserDetails {
-	private static final long serialVersionUID = 1260667404772902490L;
-	private UserBean user;
+	private AuthenticatedUserBean authUser;
 	private List<String> roles;
 
-	public LoggedUserBean(UserBean user, List<String> roles) {
-		this.user = user;
+	public LoggedUserBean(AuthenticatedUserBean user, List<String> roles) {
+		this.authUser = user;
 		this.roles = roles;
 	}
 
@@ -68,22 +66,20 @@ public class LoggedUserBean implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return user.getPassword();
+		return authUser.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		// Login in with LoginId , not userName. So , this must set with email
-		// If you don't understand , don't touch this.. :)
-		return user.getEmail();
+		return authUser.getEmail();
 	}
 
-	public UserBean getUserDeatail() {
-		return this.user;
+	public Long getId() {
+		return this.authUser.getId();
 	}
 
-	public void setUserDetail(UserBean user) {
-		this.user = user;
+	public AuthenticatedUserBean getUserDetail() {
+		return this.authUser;
 	}
 
 	@Override
@@ -93,7 +89,7 @@ public class LoggedUserBean implements UserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return user.getStatus() != UserBean.Status.LOCK;
+		return authUser.getStatus() != UserBean.Status.LOCK;
 	}
 
 	@Override
@@ -103,6 +99,6 @@ public class LoggedUserBean implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return this.user.getStatus() == UserBean.Status.ACTIVE;
+		return this.authUser.getStatus() == UserBean.Status.ACTIVE;
 	}
 }
