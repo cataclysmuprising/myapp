@@ -122,6 +122,8 @@ CREATE TABLE mjr_user
 	phone varchar(50) NOT NULL UNIQUE,
 	status smallint DEFAULT 0 NOT NULL,
 	age int,
+	gender smallint,
+	dob date,
 	address varchar(200),
 	record_reg_id bigint NOT NULL,
 	record_upd_id bigint NOT NULL,

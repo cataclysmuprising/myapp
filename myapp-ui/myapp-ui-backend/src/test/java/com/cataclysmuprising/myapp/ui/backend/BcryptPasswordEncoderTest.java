@@ -36,7 +36,7 @@ public class BcryptPasswordEncoderTest {
 
 	public static void main(String[] args) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String inputText = "CWSP@ssw0rd";
+		String inputText = "mgmgP@ssw0rd";
 		String encodedString = encoder.encode(inputText);
 		System.out.println("Encoding '" + inputText + "' ==> " + encodedString);
 	}
