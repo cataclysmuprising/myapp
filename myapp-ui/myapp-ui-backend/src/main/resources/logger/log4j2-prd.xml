@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+	<Properties>
+		<Property name="log-file-dir" value="D:\\logs\\myapp\\myapp-backend\\"/>
+		<Property name="default-msg-pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p %c{1}:%L %m%n"/>
+		<Property name="backup-file-pattern" value="%d{_[yyyy-MM-dd]_hh}"/>
+	</Properties>
+
+	<Appenders>
+		<!-- Console Appender -->
+		<Console name="root_logger" target="SYSTEM_OUT">
+			<PatternLayout pattern="%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{white} %style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}:%L %m%n" disableAnsi="false"/>
+		</Console>
+		<Console name="console_app_logger" target="SYSTEM_OUT">
+			<PatternLayout pattern="%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{white} %style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=magenta bold, DEBUG=magenta, TRACE=magenta}" disableAnsi="false"/>
+		</Console>
+		<Console name="console_error_logger" target="SYSTEM_OUT">
+			<PatternLayout pattern="%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{white} %style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=red bold, INFO=red bold, DEBUG=red, TRACE=red}" disableAnsi="false"/>
+		</Console>
+	</Appenders>
+
+	<Loggers>
+		<!-- Root Logger -->
+		<Root level="debug">
+			<AppenderRef ref="root_logger"/>
+		</Root>
+		<Logger name="applicationLogs" level="debug" additivity="false">
+			<AppenderRef ref="console_app_logger"/>
+		</Logger>
+		<Logger name="errorLogs" level="debug" additivity="false">
+			<AppenderRef ref="console_error_logger"/>
+		</Logger>
+
+		<Logger name="org.springframework" level="info"/>
+		<Logger name="org.springframework.security" level="debug"/>
+		<Logger name="org.springframework.boot.actuate" level="error"/>
+		<Logger name="org.springframework.boot.autoconfigure" level="error"/>
+		<Logger name="org.apache.http" level="info"/>
+		<Logger name="org.apache.commons" level="error"/>
+		<Logger name="org.apache.tiles" level="debug"/>
+		<Logger name="javax.servlet.http.HttpServletRequestWrapper" level="warn"/>
+		<Logger name="com.zaxxer" level="warn"/>
+		<Logger name="org.apache.http.impl.conn.PoolingHttpClientConnectionManager" level="error"/>
+		<Logger name="org.hibernate.validator.internal" level="error"/>
+		<Logger name="com.sun.mail" level="info"/>
+		<Logger name="org.springframework.jmx.export.annotation" level="warn"/>
+		<Logger name="SMTP" level="info"/>
+	</Loggers>
+</Configuration>

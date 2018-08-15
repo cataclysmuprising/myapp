@@ -4,8 +4,6 @@
 DROP TABLE IF EXISTS mjr_role_action;
 DROP TABLE IF EXISTS mjr_action;
 DROP TABLE IF EXISTS mjr_login_history;
-DROP TABLE IF EXISTS mjr_subscription;
-DROP TABLE IF EXISTS mjr_plan;
 DROP TABLE IF EXISTS mjr_user_role;
 DROP TABLE IF EXISTS mjr_role;
 DROP TABLE IF EXISTS mjr_setting;
@@ -47,28 +45,6 @@ CREATE TABLE mjr_login_history
 	os varchar(100),
 	user_agent varchar(100),
 	login_date timestamp NOT NULL,
-	record_reg_id bigint NOT NULL,
-	record_upd_id bigint NOT NULL,
-	record_reg_date timestamp DEFAULT current_timestamp NOT NULL,
-	record_upd_date timestamp DEFAULT current_timestamp NOT NULL,
-	PRIMARY KEY (id)
-) WITHOUT OIDS;
-
-
-CREATE TABLE mjr_plan
-(
-	id bigint NOT NULL UNIQUE,
-	product_id bigint NOT NULL,
-	name varchar(50) NOT NULL,
-	price numeric NOT NULL,
-	currency varchar(5) NOT NULL,
-	rate numeric NOT NULL,
-	discount numeric,
-	duration int NOT NULL,
-	duration_type smallint DEFAULT 0 NOT NULL,
-	user_limit int NOT NULL,
-	description varchar(500),
-	is_featured boolean DEFAULT '0' NOT NULL,
 	record_reg_id bigint NOT NULL,
 	record_upd_id bigint NOT NULL,
 	record_reg_date timestamp DEFAULT current_timestamp NOT NULL,
@@ -135,25 +111,6 @@ CREATE TABLE mjr_static_content
 ) WITHOUT OIDS;
 
 
-CREATE TABLE mjr_subscription
-(
-	id bigint NOT NULL UNIQUE,
-	group_id bigint NOT NULL,
-	product_id bigint NOT NULL,
-	plan_id bigint NOT NULL,
-	start_date timestamp NOT NULL,
-	expiry_date timestamp NOT NULL,
-	status smallint DEFAULT 0 NOT NULL,
-	code varchar(50) NOT NULL,
-	remark varchar(500),
-	record_reg_id bigint NOT NULL,
-	record_upd_id bigint NOT NULL,
-	record_reg_date timestamp DEFAULT current_timestamp NOT NULL,
-	record_upd_date timestamp DEFAULT current_timestamp NOT NULL,
-	PRIMARY KEY (id)
-) WITHOUT OIDS;
-
-
 CREATE TABLE mjr_user
 (
 	id bigint NOT NULL UNIQUE,
@@ -191,14 +148,6 @@ CREATE TABLE mjr_user_role
 ALTER TABLE mjr_role_action
 	ADD FOREIGN KEY (action_id)
 	REFERENCES mjr_action (id)
-	ON UPDATE RESTRICT
-	ON DELETE RESTRICT
-;
-
-
-ALTER TABLE mjr_subscription
-	ADD FOREIGN KEY (plan_id)
-	REFERENCES mjr_plan (id)
 	ON UPDATE RESTRICT
 	ON DELETE RESTRICT
 ;

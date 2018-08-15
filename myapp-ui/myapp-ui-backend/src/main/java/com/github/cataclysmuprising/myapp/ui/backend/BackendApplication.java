@@ -31,9 +31,7 @@
 package com.github.cataclysmuprising.myapp.ui.backend;
 
 import com.github.cataclysmuprising.myapp.persistence.PersistenceApplication;
-import com.github.cataclysmuprising.myapp.ui.backend.config.ServletInitializer;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -45,10 +43,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Import;
 
-@SpringBootApplication
-@Import(PersistenceApplication.class)
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class,
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class,
 		HibernateJpaAutoConfiguration.class, ErrorMvcAutoConfiguration.class, FreeMarkerAutoConfiguration.class, ThymeleafAutoConfiguration.class})
+@Import(PersistenceApplication.class)
 public class BackendApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
@@ -57,6 +54,7 @@ public class BackendApplication extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(BackendApplication.class, ServletInitializer.class);
+		//return application.sources(BackendApplication.class, ServletInitializer.class);
+		return application.sources(BackendApplication.class);
 	}
 }

@@ -60,7 +60,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
+		registry.addResourceHandler("/src/main/webapp/static/**").addResourceLocations("/src/main/webapp/static/");
 	}
 
 	// https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-using-type-converters-with-spring-mvc/
@@ -82,7 +82,7 @@ public class MvcConfig implements WebMvcConfigurer {
 	@Bean
 	public TilesConfigurer tilesConfigurer() {
 		final TilesConfigurer configurer = new TilesConfigurer();
-		configurer.setDefinitions("classpath:templates/tiles/tiles-*.xml");
+		configurer.setDefinitions("classpath*:templates/tiles/tiles-*.xml");
 		configurer.setCheckRefresh(true);
 		configurer.setDefinitionsFactoryClass(CustomLocaleDefinitionsFactory.class);
 		return configurer;
