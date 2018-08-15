@@ -30,11 +30,8 @@
 
 package com.github.cataclysmuprising.myapp.ui.backend.config;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
-import com.github.cataclysmuprising.myapp.common.util.converter.DateTimeConverter;
-import com.github.cataclysmuprising.myapp.common.util.converter.LocalDateConverter;
-import com.github.cataclysmuprising.myapp.ui.backend.common.util.CustomLocaleDefinitionsFactory;
+import java.util.Locale;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,7 +49,11 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
-import java.util.Locale;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.github.cataclysmuprising.myapp.common.util.converter.DateTimeConverter;
+import com.github.cataclysmuprising.myapp.common.util.converter.LocalDateConverter;
+import com.github.cataclysmuprising.myapp.ui.backend.common.util.CustomLocaleDefinitionsFactory;
 
 @Configuration
 @EnableWebMvc
@@ -60,7 +61,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/src/main/webapp/static/**").addResourceLocations("/src/main/webapp/static/");
+		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
 	}
 
 	// https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-using-type-converters-with-spring-mvc/
