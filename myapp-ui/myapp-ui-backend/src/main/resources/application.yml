@@ -19,7 +19,7 @@ spring:
     default-domain: portal-backend
 
   ### disable spring-boot's multipath resolver ###
-  http:
+  servlet:
     multipart:
       enabled: false
 

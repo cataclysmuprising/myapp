@@ -31,8 +31,10 @@
 
 package com.github.cataclysmuprising.myapp.ui.backend.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -41,13 +43,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.LocaleResolver;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Locale;
-
 @Controller
 public class AuthenticationController {
 
-	private static final Logger logger = LogManager.getLogger("applicationLogs." + AuthenticationController.class.getName());
 	@Autowired
 	private MessageSource messageSource;
 	@Autowired
@@ -60,11 +58,14 @@ public class AuthenticationController {
 			model.addAttribute("messageStyle", "alert-danger");
 			if (error.equals("account-disabled")) {
 				model.addAttribute("pageMessage", messageSource.getMessage("Serverity.common.auth.message.disabled", null, locale));
-			} else if (error.equals("account-locked")) {
+			}
+			else if (error.equals("account-locked")) {
 				model.addAttribute("pageMessage", messageSource.getMessage("Serverity.common.auth.message.locked", null, locale));
-			} else if (error.equals("account-expired")) {
+			}
+			else if (error.equals("account-expired")) {
 				model.addAttribute("pageMessage", messageSource.getMessage("Serverity.common.auth.message.expired", null, locale));
-			} else {
+			}
+			else {
 				model.addAttribute("pageMessage", messageSource.getMessage("Serverity.common.auth.message.badCredentials", null, locale));
 			}
 		}

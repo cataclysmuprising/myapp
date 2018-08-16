@@ -12,9 +12,9 @@ body {
 }
 
 .card {
-	width: 45%;
+	width: 40%;
 	box-shadow: 0px 4px 5px silver;
-	margin: 50px auto;
+	margin: 100px auto;
 	text-align: center;
 }
 

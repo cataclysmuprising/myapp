@@ -30,9 +30,14 @@
 
 package com.github.cataclysmuprising.myapp.persistence.service.api;
 
+import java.util.List;
+
+import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
 import com.github.cataclysmuprising.myapp.common.mybatis.service.api.CommonGenericService;
 import com.github.cataclysmuprising.myapp.domain.bean.RoleBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.RoleCriteria;
 
 public interface RoleService extends CommonGenericService<RoleBean, RoleCriteria> {
+
+	List<String> selectRolesByActionUrl(String actionUrl) throws BusinessException;
 }

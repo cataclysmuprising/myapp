@@ -30,9 +30,13 @@
 
 package com.github.cataclysmuprising.myapp.persistence.service.api;
 
+import java.util.List;
+
+import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
 import com.github.cataclysmuprising.myapp.common.mybatis.service.api.root.SelectableService;
 import com.github.cataclysmuprising.myapp.domain.bean.ActionBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.ActionCriteria;
 
 public interface ActionService extends SelectableService<ActionBean, ActionCriteria> {
+	List<String> selectAvailableActionsForUser(String pageName, List<Long> roleIds) throws BusinessException;
 }

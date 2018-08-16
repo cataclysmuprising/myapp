@@ -1,0 +1,20 @@
+.profile-user-img {
+	width : 100px;	
+}
+
+.smallPanel {
+	max-width: 60%;
+	margin: 0 auto;
+}
+
+.custom-list-group {
+	padding-left: 6% !important;
+	padding-right: 6% !important;
+}
+
+.custom-list-group-item {
+	padding-left: 3% !important;
+	padding-right: 3% !important;
+	padding-top: 1.5% !important;
+	padding-bottom: 1.5% !important;
+}

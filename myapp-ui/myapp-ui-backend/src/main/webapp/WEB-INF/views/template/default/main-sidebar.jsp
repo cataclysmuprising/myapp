@@ -56,13 +56,24 @@
 		</div>
 		<ul class="sidebar-menu" data-widget="tree">
 			<li class="header">MAIN NAVIGATION</li>
-			<spring:url value="/dashboard" var="dashboardURL" scope="application" />
-			<li class="${page eq 'dashboard' ? 'active' : '' }">
-				<a href="${dashboardURL}">
-					<i class="fa fa-dashboard"></i>
-					<span>Dashboard</span>
-				</a>
-			</li>
+			<c:if test="${dashboard}">
+				<li class="${page eq 'dashboard' ? 'active' : '' }">
+					<spring:url value="/dashboard" var="dashboardURL" scope="application" />
+					<a href="${dashboardURL}">
+						<i class="fa fa-dashboard"></i>
+						<span>Dashboard</span>
+					</a>
+				</li>
+			</c:if>
+			<c:if test="${userList}">
+				<li class="${page eq 'user' ? 'active' : '' }">
+					<spring:url value="/user" var="userHomeUrl" scope="application" />
+					<a href="${userHomeUrl}">
+						<i class="fa fa-users"></i>
+						<span>User</span>
+					</a>
+				</li>
+			</c:if>
 		</ul>
 	</section>
 	<!-- /.sidebar -->

@@ -35,20 +35,21 @@
  */
 package com.github.cataclysmuprisingp.myapp.unitTest;
 
-import com.github.cataclysmuprising.myapp.common.exception.DAOException;
-import com.github.cataclysmuprising.myapp.common.exception.DuplicatedEntryException;
-import com.github.cataclysmuprising.myapp.domain.bean.RoleBean;
-import com.github.cataclysmuprising.myapp.domain.criteria.RoleCriteria;
-import com.github.cataclysmuprising.myapp.persistence.repository.RoleRepository;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import com.github.cataclysmuprising.myapp.common.exception.DAOException;
+import com.github.cataclysmuprising.myapp.common.exception.DuplicatedEntryException;
+import com.github.cataclysmuprising.myapp.domain.bean.RoleBean;
+import com.github.cataclysmuprising.myapp.domain.criteria.RoleCriteria;
+import com.github.cataclysmuprising.myapp.persistence.repository.RoleRepository;
 
 public class RoleUnitTest extends BaseUnitTest {
 
@@ -57,27 +58,27 @@ public class RoleUnitTest extends BaseUnitTest {
 	@Autowired
 	private RoleRepository repository;
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectAll() throws Exception {
 		RoleCriteria criteria = new RoleCriteria();
 		List<RoleBean> results = repository.selectList(criteria);
 		showEntriesOfCollection(results);
 	}
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectByPrimaryKey() throws Exception {
 		RoleBean result = repository.select(1L);
 		testLogger.info("Result ==> " + result);
 	}
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectAllCount() throws Exception {
 		RoleCriteria criteria = new RoleCriteria();
 		long count = repository.selectCounts(criteria);
 		testLogger.info("Total counts ==> " + count);
 	}
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectByCriteria() throws Exception {
 		RoleCriteria criteria = new RoleCriteria();
 		criteria.setIncludeIds(Arrays.asList(1L, 2L, 3L));
@@ -88,7 +89,13 @@ public class RoleUnitTest extends BaseUnitTest {
 		testLogger.info("Result ==> " + result);
 	}
 
-	@Test(groups = {"insert"})
+	@Test(groups = { "fetch" })
+	public void testSelectRolesByActionUrl() throws Exception {
+		List<String> results = repository.selectRolesByActionUrl("/dashboard");
+		showEntriesOfCollection(results);
+	}
+
+	@Test(groups = { "insert" })
 	public void insertSingle() throws DAOException, DuplicatedEntryException {
 		RoleBean record = new RoleBean();
 		record.setName("MANAGER");
@@ -97,7 +104,7 @@ public class RoleUnitTest extends BaseUnitTest {
 		testLogger.info("Last inserted ID ==> " + lastInsertedRecordId);
 	}
 
-	@Test(groups = {"insert"})
+	@Test(groups = { "insert" })
 	public void insertMulti() throws DAOException, DuplicatedEntryException {
 
 		List<RoleBean> records = new ArrayList<>();
@@ -115,7 +122,7 @@ public class RoleUnitTest extends BaseUnitTest {
 		repository.insert(records, TEST_CREATE_USER_ID);
 	}
 
-	@Test(groups = {"update"})
+	@Test(groups = { "update" })
 	public void testSingleRecordUpdate() throws Exception {
 		RoleBean record = new RoleBean();
 		record.setId(1L);
@@ -125,7 +132,7 @@ public class RoleUnitTest extends BaseUnitTest {
 		testLogger.info("Total effected rows = " + totalEffectedRows);
 	}
 
-	@Test(groups = {"update"})
+	@Test(groups = { "update" })
 	public void testUpdateByCriteria() throws Exception {
 		RoleCriteria criteria = new RoleCriteria();
 		criteria.setId(3L);
@@ -137,13 +144,13 @@ public class RoleUnitTest extends BaseUnitTest {
 		repository.update(criteria, updateItems, TEST_UPDATE_USER_ID);
 	}
 
-	@Test(groups = {"delete"})
+	@Test(groups = { "delete" })
 	public void testDeleteByPrimaryKey() throws Exception {
 		long totalEffectedRows = repository.delete(3, TEST_UPDATE_USER_ID);
 		testLogger.info("Total effected rows = " + totalEffectedRows);
 	}
 
-	@Test(groups = {"delete"})
+	@Test(groups = { "delete" })
 	public void testDeleteByCriteria() throws Exception {
 		RoleCriteria criteria = new RoleCriteria();
 		criteria.setIncludeIds(Arrays.asList(1L, 2L, 3L));

@@ -17,3 +17,5 @@ server:
     enabled: true
     mimeTypes: text/xml, text/css, text/html, application/json
     minResponseSize: 4096
+    
+fileupload-root-dir : 'D:/web-resources/myapp/uploadFiles'

@@ -32,7 +32,7 @@
 <footer class="main-footer">
     <div class="pull-right hidden-xs">
         <b>version</b> 1.0
-        <small class="text-muted">[build ${projectVersion}-]</small>
+        <small class="text-muted">[build-${projectVersion}]</small>
     </div>
     <div class="copyright">
             <strong>

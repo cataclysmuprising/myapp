@@ -30,9 +30,14 @@
 
 package com.github.cataclysmuprising.myapp.persistence.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.github.cataclysmuprising.myapp.common.mybatis.mapper.base.CommonGenericMapper;
 import com.github.cataclysmuprising.myapp.domain.bean.RoleBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.RoleCriteria;
 
 public interface RoleMapper extends CommonGenericMapper<RoleBean, RoleCriteria> {
+	public List<String> selectRolesByActionUrl(@Param("actionUrl") String actionUrl);
 }

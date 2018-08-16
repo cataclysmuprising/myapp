@@ -29,15 +29,19 @@
  */
 package com.github.cataclysmuprising.myapp.persistence.repository;
 
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.github.cataclysmuprising.myapp.common.exception.DAOException;
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.SelectableRepositoryImpl;
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.root.SelectableRepository;
 import com.github.cataclysmuprising.myapp.domain.bean.ActionBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.ActionCriteria;
 import com.github.cataclysmuprising.myapp.persistence.mapper.ActionMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class ActionRepository extends SelectableRepositoryImpl<ActionBean, ActionCriteria> implements SelectableRepository<ActionBean, ActionCriteria> {
@@ -50,5 +54,19 @@ public class ActionRepository extends SelectableRepositoryImpl<ActionBean, Actio
 	public ActionRepository(ActionMapper mapper) {
 		super(mapper);
 		this.mapper = mapper;
+	}
+
+	public List<String> selectAvailableActionsForAuthenticatedUser(String pageName, List<Long> roleIds) throws DAOException {
+		repositoryLogger.debug("[START] : >>> --- Fetching all 'ActionNames' for Authenticated User with pageName = '{}' ---", pageName);
+		List<String> actionNames;
+		try {
+			actionNames = mapper.selectAvailableActionsForAuthenticatedUser(pageName, roleIds);
+		}
+		catch (Exception e) {
+			String errorMsg = "xxx Error occured while fetching all 'ActionNames' for Authenticated User xxx";
+			throw new DAOException(errorMsg, e);
+		}
+		repositoryLogger.debug("[FINISH] : <<< --- Fetching all 'ActionNames' for Authenticated User with pageName = '{}' ---", pageName);
+		return actionNames;
 	}
 }

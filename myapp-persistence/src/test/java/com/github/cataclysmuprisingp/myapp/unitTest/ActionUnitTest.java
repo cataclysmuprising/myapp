@@ -30,17 +30,18 @@
 
 package com.github.cataclysmuprisingp.myapp.unitTest;
 
-import com.github.cataclysmuprising.myapp.common.domain.criteria.CommonCriteria;
-import com.github.cataclysmuprising.myapp.domain.bean.ActionBean;
-import com.github.cataclysmuprising.myapp.domain.criteria.ActionCriteria;
-import com.github.cataclysmuprising.myapp.persistence.repository.ActionRepository;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.List;
+import com.github.cataclysmuprising.myapp.common.domain.criteria.CommonCriteria;
+import com.github.cataclysmuprising.myapp.domain.bean.ActionBean;
+import com.github.cataclysmuprising.myapp.domain.criteria.ActionCriteria;
+import com.github.cataclysmuprising.myapp.persistence.repository.ActionRepository;
 
 public class ActionUnitTest extends BaseUnitTest {
 
@@ -49,27 +50,27 @@ public class ActionUnitTest extends BaseUnitTest {
 	@Autowired
 	private ActionRepository repository;
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectAll() throws Exception {
 		ActionCriteria criteria = new ActionCriteria();
 		List<ActionBean> results = repository.selectList(null);
 		showEntriesOfCollection(results);
 	}
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectByPrimaryKey() throws Exception {
 		ActionBean result = repository.select(1L);
 		testLogger.info("Result ==> " + result);
 	}
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectAllCount() throws Exception {
 		ActionCriteria criteria = new ActionCriteria();
 		long count = repository.selectCounts(criteria);
 		testLogger.info("Total counts ==> " + count);
 	}
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectCountByCriteria() throws Exception {
 		ActionCriteria criteria = new ActionCriteria();
 		criteria.setId(1001L);
@@ -79,7 +80,7 @@ public class ActionUnitTest extends BaseUnitTest {
 		testLogger.info("Total counts ==> " + count);
 	}
 
-	@Test(groups = {"fetch"})
+	@Test(groups = { "fetch" })
 	public void testSelectByCriteria() throws Exception {
 		ActionCriteria criteria = new ActionCriteria();
 		criteria.setId(1L);
@@ -91,6 +92,12 @@ public class ActionUnitTest extends BaseUnitTest {
 		criteria.setOrderBy("id");
 		criteria.setOrder(CommonCriteria.Order.ASC);
 		List<ActionBean> results = repository.selectList(criteria);
+		showEntriesOfCollection(results);
+	}
+
+	@Test(groups = { "fetch" })
+	public void testSelectAvailableActionsForAuthenticatedUser() throws Exception {
+		List<String> results = repository.selectAvailableActionsForAuthenticatedUser("Dashboard", Arrays.asList(1L));
 		showEntriesOfCollection(results);
 	}
 }

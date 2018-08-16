@@ -102,7 +102,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <spring:url value="${portalAppUrl}/authUser/profile" var="profileUrl" scope="application"/>
+                                <spring:url value="/user/profile" var="profileUrl" scope="application"/>
                                 <a href="${profileUrl}" class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
@@ -118,11 +118,6 @@
                     </ul>
                 </li>
                 <!-- Control Sidebar Toggle Button -->
-                <li>
-                    <a href="#" data-toggle="control-sidebar">
-                        <i class="fa fa-sliders"></i>
-                    </a>
-                </li>
             </ul>
         </div>
     </nav>

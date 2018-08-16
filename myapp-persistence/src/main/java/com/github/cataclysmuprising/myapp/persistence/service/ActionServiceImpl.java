@@ -30,17 +30,47 @@
 
 package com.github.cataclysmuprising.myapp.persistence.service;
 
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
+import com.github.cataclysmuprising.myapp.common.exception.DAOException;
 import com.github.cataclysmuprising.myapp.common.mybatis.service.SelectableServiceImpl;
 import com.github.cataclysmuprising.myapp.domain.bean.ActionBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.ActionCriteria;
 import com.github.cataclysmuprising.myapp.persistence.repository.ActionRepository;
 import com.github.cataclysmuprising.myapp.persistence.service.api.ActionService;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ActionServiceImpl extends SelectableServiceImpl<ActionBean, ActionCriteria> implements ActionService {
 
+	private static final Logger serviceLogger = LogManager.getLogger("serviceLogs." + ActionServiceImpl.class.getName());
+
+	private ActionRepository repository;
+
 	public ActionServiceImpl(ActionRepository repository) {
 		super(repository);
+		this.repository = repository;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> selectAvailableActionsForUser(String pageName, List<Long> roleIds) throws BusinessException {
+		List<String> results;
+		serviceLogger.info(LOG_PREFIX + "Transaction start for fetching 'ActionNames' Authenticated User with pageName = '{}' ---", pageName);
+		try {
+			results = repository.selectAvailableActionsForAuthenticatedUser(pageName, roleIds);
+		}
+		catch (DAOException e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully fetching 'ActionNames' for Authenticated User with pageName = '{}' ---", pageName);
+		return results;
 	}
 }

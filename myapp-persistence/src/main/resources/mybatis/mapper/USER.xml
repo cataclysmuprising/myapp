@@ -35,7 +35,7 @@
 
 	<resultMap type="UserBean" id="Parent_UserResult">
 		<id property="id" column="usr_id"/>
-		<result property="contentId" column="content_id"/>
+		<result property="contentId" column="usr_content_id"/>
 		<result property="name" column="usr_name"/>
 		<result property="email" column="usr_email"/>
 		<result property="password" column="usr_password"/>

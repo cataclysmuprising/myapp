@@ -30,7 +30,10 @@
 
 package com.github.cataclysmuprising.myapp.persistence.service.api;
 
+import java.util.Set;
+
 import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
+import com.github.cataclysmuprising.myapp.common.exception.DuplicatedEntryException;
 import com.github.cataclysmuprising.myapp.common.mybatis.service.api.CommonGenericService;
 import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
 import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
@@ -38,4 +41,6 @@ import com.github.cataclysmuprising.myapp.domain.criteria.UserCriteria;
 
 public interface UserService extends CommonGenericService<UserBean, UserCriteria> {
 	AuthenticatedUserBean selectAuthenticatedUser(String email) throws BusinessException;
+
+	long createNewUserWithRoles(UserBean user, Set<Long> roleIds, long recordRegId) throws BusinessException, DuplicatedEntryException;
 }

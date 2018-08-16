@@ -33,17 +33,26 @@ package com.github.cataclysmuprising.myapp.persistence.service;
 import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
 import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
 import com.github.cataclysmuprising.myapp.common.exception.DAOException;
+import com.github.cataclysmuprising.myapp.common.exception.DuplicatedEntryException;
 import com.github.cataclysmuprising.myapp.common.mybatis.service.CommonGenericServiceImpl;
 import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
 import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
+import com.github.cataclysmuprising.myapp.domain.bean.UserRoleBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.UserCriteria;
 import com.github.cataclysmuprising.myapp.persistence.repository.UserRepository;
+import com.github.cataclysmuprising.myapp.persistence.repository.UserRoleRepository;
 import com.github.cataclysmuprising.myapp.persistence.service.api.UserService;
 
 @Service
@@ -52,12 +61,16 @@ public class UserServiceImpl extends CommonGenericServiceImpl<UserBean, UserCrit
 
 	private UserRepository userRepository;
 
+	@Autowired
+	private UserRoleRepository userRoleRepository;
+
 	public UserServiceImpl(UserRepository repository) {
 		super(repository);
 		this.userRepository = repository;
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public AuthenticatedUserBean selectAuthenticatedUser(String email) throws BusinessException {
 		serviceLogger.info(LOG_PREFIX + "Transaction start for fetching Authenticated UserInfo by Email # " + email + LOG_SUFFIX);
 		AuthenticatedUserBean record = null;
@@ -69,5 +82,31 @@ public class UserServiceImpl extends CommonGenericServiceImpl<UserBean, UserCrit
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully for fetching Authenticated UserInfo." + LOG_SUFFIX);
 		return record;
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public long createNewUserWithRoles(UserBean user, Set<Long> roleIds, long recordRegId) throws BusinessException, DuplicatedEntryException {
+		final String objectName = "User";
+		serviceLogger.info(LOG_PREFIX + "This transaction was initiated by User ID # {}" + LOG_SUFFIX, recordRegId);
+		serviceLogger.info(LOG_PREFIX + "Transaction start for registering new {} informations." + LOG_SUFFIX, objectName);
+		long lastInsertedId;
+		try {
+			lastInsertedId = userRepository.insert(user, recordRegId);
+			if (roleIds != null && !roleIds.isEmpty()) {
+				List<UserRoleBean> userRoles = new ArrayList<>();
+				roleIds.forEach(roleId -> userRoles.add(new UserRoleBean(lastInsertedId, roleId)));
+				userRoleRepository.insert(userRoles, recordRegId);
+			}
+			else {
+				// register with 'User' Role
+				userRoleRepository.insert(new UserRoleBean(lastInsertedId, 2L), recordRegId);
+			}
+		}
+		catch (DAOException e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
+		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully for registering new {} informations." + LOG_SUFFIX, objectName);
+		return lastInsertedId;
 	}
 }

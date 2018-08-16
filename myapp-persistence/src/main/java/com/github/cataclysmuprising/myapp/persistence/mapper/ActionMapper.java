@@ -30,9 +30,14 @@
 
 package com.github.cataclysmuprising.myapp.persistence.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.github.cataclysmuprising.myapp.common.mybatis.mapper.base.SelectableMapper;
 import com.github.cataclysmuprising.myapp.domain.bean.ActionBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.ActionCriteria;
 
 public interface ActionMapper extends SelectableMapper<ActionBean, ActionCriteria> {
+	public List<String> selectAvailableActionsForAuthenticatedUser(@Param("pageName") String pageName, @Param("roleIds") List<Long> roleIds);
 }

@@ -181,7 +181,7 @@
 		<include refid="criterias"/>
 	</select>
 
-	<select id="selectAvailableActionsForUser" resultType="String">
+	<select id="selectAvailableActionsForAuthenticatedUser" resultType="String">
 		SELECT act.action_name
 		FROM mjr_role_action ra
 		INNER JOIN mjr_action act ON ra.action_id = act.id
@@ -201,7 +201,6 @@
 			<foreach item="id" index="index" collection="roleIds" open="(" separator="," close=")">
 				${id}
 			</foreach>
-			AND act.product_id = #{productId}
 			AND act.page= #{pageName} AND act.action_type = 1
 		</if>
 	</select>

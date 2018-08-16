@@ -29,15 +29,19 @@
  */
 package com.github.cataclysmuprising.myapp.persistence.repository;
 
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.github.cataclysmuprising.myapp.common.exception.DAOException;
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.CommonGenericRepositoryImpl;
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.CommonGenericRepository;
 import com.github.cataclysmuprising.myapp.domain.bean.RoleBean;
 import com.github.cataclysmuprising.myapp.domain.criteria.RoleCriteria;
 import com.github.cataclysmuprising.myapp.persistence.mapper.RoleMapper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class RoleRepository extends CommonGenericRepositoryImpl<RoleBean, RoleCriteria> implements CommonGenericRepository<RoleBean, RoleCriteria> {
@@ -50,5 +54,19 @@ public class RoleRepository extends CommonGenericRepositoryImpl<RoleBean, RoleCr
 	public RoleRepository(RoleMapper mapper) {
 		super(mapper);
 		this.mapper = mapper;
+	}
+
+	public List<String> selectRolesByActionUrl(String actionUrl) throws DAOException {
+		repositoryLogger.debug("[START] : >>> --- Fetching all 'RoleNames' by actionUrl = '" + actionUrl + "' ---");
+		List<String> roleNames = null;
+		try {
+			roleNames = mapper.selectRolesByActionUrl(actionUrl);
+		}
+		catch (Exception e) {
+			String errorMsg = "xxx Error occured while fetching all 'RoleNames' by actionUrl = '" + actionUrl + "' ---";
+			throw new DAOException(errorMsg, e);
+		}
+		repositoryLogger.debug("[FINISH] : <<< --- Fetching all 'RoleNames' by actionUrl = '" + actionUrl + "' ---");
+		return roleNames;
 	}
 }

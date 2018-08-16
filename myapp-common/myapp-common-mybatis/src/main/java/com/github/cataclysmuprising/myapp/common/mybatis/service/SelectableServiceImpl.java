@@ -29,27 +29,28 @@
  */
 package com.github.cataclysmuprising.myapp.common.mybatis.service;
 
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.github.cataclysmuprising.myapp.common.domain.bean.BaseBean;
 import com.github.cataclysmuprising.myapp.common.domain.criteria.CommonCriteria;
 import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
 import com.github.cataclysmuprising.myapp.common.exception.DAOException;
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.root.SelectableRepository;
 import com.github.cataclysmuprising.myapp.common.mybatis.service.api.root.SelectableService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
-import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
 
 public class SelectableServiceImpl<T extends BaseBean, C extends CommonCriteria> implements SelectableService<T, C> {
 	private static final Logger serviceLogger = LogManager.getLogger("serviceLogs." + SelectableServiceImpl.class.getName());
-	private SelectableRepository<T, C> dao;
+	private SelectableRepository<T, C> repository;
 
-	public SelectableServiceImpl(SelectableRepository<T, C> dao) {
-		this.dao = dao;
+	public SelectableServiceImpl(SelectableRepository<T, C> repository) {
+		this.repository = repository;
 	}
 
 	@Override
@@ -58,8 +59,9 @@ public class SelectableServiceImpl<T extends BaseBean, C extends CommonCriteria>
 		serviceLogger.info(LOG_PREFIX + "Transaction start for fetch by primary key # {} ==> " + LOG_SUFFIX, primaryKey);
 		T record;
 		try {
-			record = dao.select(primaryKey);
-		} catch (DAOException e) {
+			record = repository.select(primaryKey);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -72,8 +74,9 @@ public class SelectableServiceImpl<T extends BaseBean, C extends CommonCriteria>
 		serviceLogger.info(LOG_PREFIX + "Transaction start for fetching single record by criteria ==> {}" + LOG_SUFFIX, criteria);
 		T record;
 		try {
-			record = dao.select(criteria);
-		} catch (DAOException e) {
+			record = repository.select(criteria);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -86,8 +89,9 @@ public class SelectableServiceImpl<T extends BaseBean, C extends CommonCriteria>
 		serviceLogger.info(LOG_PREFIX + "Transaction start for fetching multi records by criteria ==> {}" + LOG_SUFFIX, criteria);
 		List<T> records;
 		try {
-			records = dao.selectList(criteria);
-		} catch (DAOException e) {
+			records = repository.selectList(criteria);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -100,8 +104,9 @@ public class SelectableServiceImpl<T extends BaseBean, C extends CommonCriteria>
 		serviceLogger.info(LOG_PREFIX + "Transaction start for fetching record counts by criteria ==> {}" + LOG_SUFFIX, criteria);
 		long count;
 		try {
-			count = dao.selectCounts(criteria);
-		} catch (DAOException e) {
+			count = repository.selectCounts(criteria);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);

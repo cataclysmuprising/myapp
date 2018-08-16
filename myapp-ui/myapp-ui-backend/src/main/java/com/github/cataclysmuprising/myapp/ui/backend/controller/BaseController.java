@@ -1,11 +1,12 @@
 package com.github.cataclysmuprising.myapp.ui.backend.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.cataclysmuprising.myapp.common.util.response.PageMessage;
-import com.github.cataclysmuprising.myapp.common.util.response.PageMessageStyle;
-import com.github.cataclysmuprising.myapp.common.util.response.PageMode;
-import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
-import com.github.cataclysmuprising.myapp.ui.backend.config.security.LoggedUserBean;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,14 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
+import com.github.cataclysmuprising.myapp.common.util.response.PageMessage;
+import com.github.cataclysmuprising.myapp.common.util.response.PageMessageStyle;
+import com.github.cataclysmuprising.myapp.common.util.response.PageMode;
+import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
+import com.github.cataclysmuprising.myapp.persistence.service.api.ActionService;
+import com.github.cataclysmuprising.myapp.ui.backend.config.security.LoggedUserBean;
 
 public abstract class BaseController {
 	protected static final Logger applicationLogger = LogManager.getLogger("applicationLogs." + BaseController.class.getName());
@@ -31,6 +39,8 @@ public abstract class BaseController {
 	protected MessageSource messageSource;
 	@Autowired
 	protected Environment environment;
+	@Autowired
+	private ActionService actionService;
 
 	@Value("${build.version}")
 	private String projectVersion;
@@ -67,12 +77,22 @@ public abstract class BaseController {
 				page = page.substring(0, 1).toUpperCase() + page.substring(1);
 			}
 			request.put("pageName", page);
-			List<String> actions = new ArrayList<>();
-			actions.forEach(actionName -> {
-				model.addAttribute(actionName, true);
-				accessments.put(actionName, true);
-			});
-			model.addAttribute("accessments", accessments);
+			LoggedUserBean authUser = getSignInUserInfo();
+			AuthenticatedUserBean user = authUser.getUserDetail();
+			List<String> actions = null;
+			try {
+				actions = actionService.selectAvailableActionsForUser(page, user.getRoleIds());
+			}
+			catch (BusinessException e) {
+				e.printStackTrace();
+			}
+			if (actions != null) {
+				actions.forEach(actionName -> {
+					model.addAttribute(actionName, true);
+					accessments.put(actionName, true);
+				});
+				model.addAttribute("accessments", accessments);
+			}
 		}
 	}
 
@@ -104,7 +124,8 @@ public abstract class BaseController {
 				if (!fieldErrors.containsKey(errorKeyPrefix + item.getField())) {
 					fieldErrors.put(errorKeyPrefix + item.getField(), item.getDefaultMessage());
 				}
-			} else {
+			}
+			else {
 				if (!fieldErrors.containsKey(item.getField())) {
 					fieldErrors.put(item.getField(), item.getDefaultMessage());
 				}

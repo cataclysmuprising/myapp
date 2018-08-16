@@ -30,12 +30,15 @@
 
 package com.github.cataclysmuprising.myapp.domain.bean;
 
+import org.joda.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.cataclysmuprising.myapp.common.domain.bean.BaseBean;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.joda.time.LocalDate;
 
 @Getter
 @Setter
@@ -44,6 +47,7 @@ public class UserBean extends BaseBean {
 	private Long contentId;
 	private String name;
 	private String email;
+	@JsonIgnore
 	private String password;
 	private String nrc;
 	private String phone;

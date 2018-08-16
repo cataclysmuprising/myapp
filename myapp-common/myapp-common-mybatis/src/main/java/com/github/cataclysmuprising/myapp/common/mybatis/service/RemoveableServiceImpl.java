@@ -29,6 +29,13 @@
  */
 package com.github.cataclysmuprising.myapp.common.mybatis.service;
 
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.github.cataclysmuprising.myapp.common.domain.bean.BaseBean;
 import com.github.cataclysmuprising.myapp.common.domain.criteria.CommonCriteria;
 import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
@@ -36,19 +43,13 @@ import com.github.cataclysmuprising.myapp.common.exception.ConsistencyViolationE
 import com.github.cataclysmuprising.myapp.common.exception.DAOException;
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.root.RemoveableRepository;
 import com.github.cataclysmuprising.myapp.common.mybatis.service.api.root.RemoveableService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
-
-import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
-import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
 
 public class RemoveableServiceImpl<T extends BaseBean, C extends CommonCriteria> implements RemoveableService<T, C> {
 	private static final Logger serviceLogger = LogManager.getLogger("serviceLogs." + RemoveableServiceImpl.class.getName());
-	private RemoveableRepository<T, C> dao;
+	private RemoveableRepository<T, C> repository;
 
-	public RemoveableServiceImpl(RemoveableRepository<T, C> dao) {
-		this.dao = dao;
+	public RemoveableServiceImpl(RemoveableRepository<T, C> repository) {
+		this.repository = repository;
 	}
 
 	@Override
@@ -58,8 +59,9 @@ public class RemoveableServiceImpl<T extends BaseBean, C extends CommonCriteria>
 		serviceLogger.info(LOG_PREFIX + "Transaction start for delete by ID ==> {}" + LOG_SUFFIX, id);
 		long totalEffectedRows;
 		try {
-			totalEffectedRows = dao.delete(id, recordUpdId);
-		} catch (DAOException e) {
+			totalEffectedRows = repository.delete(id, recordUpdId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -73,8 +75,9 @@ public class RemoveableServiceImpl<T extends BaseBean, C extends CommonCriteria>
 		serviceLogger.info(LOG_PREFIX + "Transaction start for delete by criteria ==> {}" + LOG_SUFFIX, criteria);
 		long totalEffectedRows;
 		try {
-			totalEffectedRows = dao.delete(criteria, recordUpdId);
-		} catch (DAOException e) {
+			totalEffectedRows = repository.delete(criteria, recordUpdId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);

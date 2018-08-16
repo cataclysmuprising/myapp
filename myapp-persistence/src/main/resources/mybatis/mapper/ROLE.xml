@@ -229,5 +229,14 @@
 		<include refid="tables"/>
 		<include refid="criterias"/>
 	</select>
+	
+	<select id="selectRolesByActionUrl" resultType="String">
+		SELECT	DISTINCT
+		rol.name AS role_name
+		FROM mjr_action act
+		INNER JOIN mjr_role_action ra ON ra.action_id = act.id
+		INNER JOIN mjr_role rol ON rol.id = ra.role_id 		
+		WHERE #{actionUrl} ~ act.url
+	</select>
 
 </mapper>

@@ -29,6 +29,17 @@
  */
 package com.github.cataclysmuprising.myapp.common.mybatis.service;
 
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
+import static com.github.cataclysmuprising.myapp.common.util.ObjectUtil.getObjectName;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.github.cataclysmuprising.myapp.common.domain.bean.BaseBean;
 import com.github.cataclysmuprising.myapp.common.domain.criteria.CommonCriteria;
 import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
@@ -36,23 +47,13 @@ import com.github.cataclysmuprising.myapp.common.exception.DAOException;
 import com.github.cataclysmuprising.myapp.common.exception.DuplicatedEntryException;
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.root.UpdateableRepository;
 import com.github.cataclysmuprising.myapp.common.mybatis.service.api.root.UpdateableService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.List;
-
-import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
-import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
-import static com.github.cataclysmuprising.myapp.common.util.ObjectUtil.getObjectName;
 
 public class UpdateableServiceImpl<T extends BaseBean, C extends CommonCriteria> implements UpdateableService<T, C> {
 	private static final Logger serviceLogger = LogManager.getLogger("serviceLogs." + UpdateableServiceImpl.class.getName());
-	private UpdateableRepository<T, C> dao;
+	private UpdateableRepository<T, C> repository;
 
-	public UpdateableServiceImpl(UpdateableRepository<T, C> dao) {
-		this.dao = dao;
+	public UpdateableServiceImpl(UpdateableRepository<T, C> repository) {
+		this.repository = repository;
 	}
 
 	@Override
@@ -63,8 +64,9 @@ public class UpdateableServiceImpl<T extends BaseBean, C extends CommonCriteria>
 		serviceLogger.info(LOG_PREFIX + "Transaction start for updating {} informations." + LOG_SUFFIX, objectName);
 		long totalEffectedRows;
 		try {
-			totalEffectedRows = dao.update(record, recordUpdId);
-		} catch (DAOException e) {
+			totalEffectedRows = repository.update(record, recordUpdId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully for updating {} informations." + LOG_SUFFIX, objectName);
@@ -78,8 +80,9 @@ public class UpdateableServiceImpl<T extends BaseBean, C extends CommonCriteria>
 		serviceLogger.info(LOG_PREFIX + "This transaction was initiated by User ID # {}" + LOG_SUFFIX, recordUpdId);
 		serviceLogger.info(LOG_PREFIX + "Transaction start for updating multi {} informations." + LOG_SUFFIX, objectName);
 		try {
-			dao.update(records, recordUpdId);
-		} catch (DAOException e) {
+			repository.update(records, recordUpdId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully for updating multi {} informations." + LOG_SUFFIX, objectName);
@@ -92,8 +95,9 @@ public class UpdateableServiceImpl<T extends BaseBean, C extends CommonCriteria>
 		serviceLogger.info(LOG_PREFIX + "Transaction start for updating {} with criteria ==> {}" + LOG_SUFFIX, updateItems, criteria);
 		long totalEffectedRows;
 		try {
-			totalEffectedRows = dao.update(criteria, updateItems, recordUpdId);
-		} catch (DAOException e) {
+			totalEffectedRows = repository.update(criteria, updateItems, recordUpdId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);

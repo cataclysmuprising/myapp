@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="user_home_page" extends="baseLayout">
+		<put-attribute name="content" value="/WEB-INF/views/site/user/home.jsp" />
+		<put-list-attribute name="pageScripts">
+			<add-attribute value="common/jquery.dataTables" />
+			<add-attribute value="common/dataTables-util" />
+			<add-attribute value="app/user/home/page" />
+		</put-list-attribute>
+		<put-list-attribute name="pageStyles">
+			<add-attribute value="common/jquery.dataTables" />
+			<add-attribute value="app/user/home/page" />
+		</put-list-attribute>
+	</definition>
+	<definition name="user_profile_page" extends="baseLayout">
+		<put-attribute name="content" value="/WEB-INF/views/site/user/profile.jsp" />
+		<put-list-attribute name="pageScripts">
+			<add-attribute value="common/md5" />
+			<add-attribute value="common/moment" />
+			<add-attribute value="common/bootstrap-datetimepicker" />
+			<add-attribute value="common/icheck" />
+			<add-attribute value="common/cropper" />
+			<add-attribute value="common/jquery.validate" />
+			<add-attribute value="app/user/profile/page" />
+		</put-list-attribute>
+		<put-list-attribute name="pageStyles">
+			<add-attribute value="common/bootstrap-datetimepicker" />
+			<add-attribute value="common/icheck-minimal-red" />
+			<add-attribute value="common/cropper" />
+			<add-attribute value="app/user/profile/page" />
+		</put-list-attribute>
+	</definition>
+	<definition name="user_input_page" extends="baseLayout">
+		<put-attribute name="content" value="/WEB-INF/views/site/user/input.jsp" />
+		<put-list-attribute name="pageScripts">
+			<add-attribute value="common/jquery.validate" />
+			<add-attribute value="app/user/input/page" />
+		</put-list-attribute>
+		<put-list-attribute name="pageStyles">
+			<add-attribute value="app/user/input/page" />
+		</put-list-attribute>
+	</definition>
+	<definition name="user_detail_page" extends="baseLayout">
+		<put-attribute name="content" value="/WEB-INF/views/site/user/detail.jsp" />
+		<put-list-attribute name="pageScripts">
+			<add-attribute value="common/jquery.dataTables" />
+			<add-attribute value="common/dataTables-util" />
+			<add-attribute value="app/user/detail/page" />
+		</put-list-attribute>
+		<put-list-attribute name="pageStyles">
+			<add-attribute value="common/css/jquery.dataTables" />
+			<add-attribute value="app/user/detail/page" />
+		</put-list-attribute>
+	</definition>
+</tiles-definitions>

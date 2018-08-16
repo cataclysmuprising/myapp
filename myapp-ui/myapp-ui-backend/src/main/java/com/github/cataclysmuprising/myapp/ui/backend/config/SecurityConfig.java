@@ -30,18 +30,36 @@
 
 package com.github.cataclysmuprising.myapp.ui.backend.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.vote.AuthenticatedVoter;
+import org.springframework.security.access.vote.RoleVoter;
+import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.expression.WebExpressionVoter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.github.cataclysmuprising.myapp.persistence.service.api.RoleService;
+import com.github.cataclysmuprising.myapp.ui.backend.config.security.CustomAuthenticationSuccessHandler;
+import com.github.cataclysmuprising.myapp.ui.backend.config.security.RoleBasedAccessDecisionVoter;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+	private static final String REMEMBER_ME_COOKIE = "myapp_rbm";
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -50,11 +68,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService userDetailsService;
 
 	@Autowired
+	private RoleService roleService;
+
+	@Autowired
+	private CustomAuthenticationSuccessHandler successHandler;
+
+	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
 		// Setting Service to find User in the database.
 		// And Setting PassswordEncoder
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	@Override
@@ -71,18 +100,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/login")
 				.usernameParameter("email")
 				.passwordParameter("password")
-				.and()
-				.csrf().disable();
+				.successHandler(successHandler);
 		http
 				.rememberMe()
 				.key("ci11c2VyIiwic2NvcGUiOlsiYmFja2VuZCIsInJlYWQiLCJ3cml0ZSIsInVwZG") // hash-key
-				.rememberMeCookieName("myapp_rbm")
+				.rememberMeCookieName(REMEMBER_ME_COOKIE)
 				.tokenValiditySeconds(604800) // 1 week
 				.rememberMeParameter("remember-me")
 				.userDetailsService(userDetailsService);
 		http
 				.exceptionHandling()
 				.accessDeniedPage("/accessDenied");
+		http	
+				.logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.deleteCookies(REMEMBER_ME_COOKIE)
+				.clearAuthentication(true)
+				.invalidateHttpSession(true)
+				.logoutSuccessUrl("/login");
 		http
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
@@ -91,11 +126,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers(
 						"/login*"
-						, "logout"
 						, "/accessDenied"
 						, "/error/*"
 				).permitAll()
-				.anyRequest().authenticated();
+				.antMatchers("/api/*","/ajax/*","/files/*").access("isAuthenticated()")
+				.anyRequest().authenticated()
+				.accessDecisionManager(accessDecisionManager(roleService));
 		// @formatter:on
+	}
+
+	@Bean
+	public AccessDecisionManager accessDecisionManager(RoleService roleService) {
+		// @formatter:off
+        List<AccessDecisionVoter<? extends Object>> decisionVoters
+                = Arrays.asList(
+                new WebExpressionVoter(),
+                new RoleVoter(),
+                new AuthenticatedVoter(),
+                new RoleBasedAccessDecisionVoter(roleService)                         
+        );
+     // @formatter:on
+		return new UnanimousBased(decisionVoters);
 	}
 }

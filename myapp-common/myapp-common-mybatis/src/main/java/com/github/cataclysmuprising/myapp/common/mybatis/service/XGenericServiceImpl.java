@@ -29,6 +29,17 @@
  */
 package com.github.cataclysmuprising.myapp.common.mybatis.service;
 
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
+import static com.github.cataclysmuprising.myapp.common.util.ObjectUtil.getObjectName;
+
+import java.util.List;
+import java.util.Set;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.github.cataclysmuprising.myapp.common.domain.bean.BaseBean;
 import com.github.cataclysmuprising.myapp.common.domain.criteria.CommonCriteria;
 import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
@@ -37,23 +48,13 @@ import com.github.cataclysmuprising.myapp.common.exception.DAOException;
 import com.github.cataclysmuprising.myapp.common.exception.DuplicatedEntryException;
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.XGenericRepository;
 import com.github.cataclysmuprising.myapp.common.mybatis.service.api.XGenericService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Set;
-
-import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
-import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
-import static com.github.cataclysmuprising.myapp.common.util.ObjectUtil.getObjectName;
 
 public class XGenericServiceImpl<T extends BaseBean, C extends CommonCriteria> implements XGenericService<T, C> {
 	private static final Logger serviceLogger = LogManager.getLogger("serviceLogs." + XGenericServiceImpl.class.getName());
-	private XGenericRepository<T, C> dao;
+	private XGenericRepository<T, C> repository;
 
-	public XGenericServiceImpl(XGenericRepository<T, C> dao) {
-		this.dao = dao;
+	public XGenericServiceImpl(XGenericRepository<T, C> repository) {
+		this.repository = repository;
 	}
 
 	@Override
@@ -63,8 +64,9 @@ public class XGenericServiceImpl<T extends BaseBean, C extends CommonCriteria> i
 		serviceLogger.info(LOG_PREFIX + "This transaction was initiated by User ID # {}" + LOG_SUFFIX, recordRegId);
 		serviceLogger.info(LOG_PREFIX + "Transaction start for inserting {} informations." + LOG_SUFFIX, objectName);
 		try {
-			dao.insert(record, recordRegId);
-		} catch (DAOException e) {
+			repository.insert(record, recordRegId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -77,8 +79,9 @@ public class XGenericServiceImpl<T extends BaseBean, C extends CommonCriteria> i
 		serviceLogger.info(LOG_PREFIX + "This transaction was initiated by User ID # {}" + LOG_SUFFIX, recordRegId);
 		serviceLogger.info(LOG_PREFIX + "Transaction start for inserting {} informations." + LOG_SUFFIX, objectName);
 		try {
-			dao.insert(records, recordRegId);
-		} catch (DAOException e) {
+			repository.insert(records, recordRegId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -90,8 +93,9 @@ public class XGenericServiceImpl<T extends BaseBean, C extends CommonCriteria> i
 		serviceLogger.info(LOG_PREFIX + "This transaction was initiated by User ID # {}" + LOG_SUFFIX, recordRegId);
 		serviceLogger.info(LOG_PREFIX + "Transaction start for inserting with keys [key1={},key2={}]" + LOG_SUFFIX, key1, key2);
 		try {
-			dao.insert(key1, key2, recordRegId);
-		} catch (DAOException e) {
+			repository.insert(key1, key2, recordRegId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -104,8 +108,9 @@ public class XGenericServiceImpl<T extends BaseBean, C extends CommonCriteria> i
 		serviceLogger.info(LOG_PREFIX + "Transaction start for delete by Keys ==> [key1={},key2={}]" + LOG_SUFFIX, key1, key2);
 		long totalEffectedRows;
 		try {
-			totalEffectedRows = dao.delete(key1, key2, recordUpdId);
-		} catch (DAOException e) {
+			totalEffectedRows = repository.delete(key1, key2, recordUpdId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully.");
@@ -119,8 +124,9 @@ public class XGenericServiceImpl<T extends BaseBean, C extends CommonCriteria> i
 		serviceLogger.info(LOG_PREFIX + "Transaction start for delete by criteria ==> {}" + LOG_SUFFIX, criteria);
 		long totalEffectedRows;
 		try {
-			totalEffectedRows = dao.delete(criteria, recordUpdId);
-		} catch (DAOException e) {
+			totalEffectedRows = repository.delete(criteria, recordUpdId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -133,8 +139,9 @@ public class XGenericServiceImpl<T extends BaseBean, C extends CommonCriteria> i
 		serviceLogger.info(LOG_PREFIX + "Transaction start for fetching related keys by key1 # {}" + LOG_SUFFIX, key1);
 		Set<Long> relatedKeys;
 		try {
-			relatedKeys = dao.selectByKey1(key1);
-		} catch (DAOException e) {
+			relatedKeys = repository.selectByKey1(key1);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -147,8 +154,9 @@ public class XGenericServiceImpl<T extends BaseBean, C extends CommonCriteria> i
 		serviceLogger.info(LOG_PREFIX + "Transaction start for fetching related keys by key2 # {}" + LOG_SUFFIX, key2);
 		Set<Long> relatedKeys;
 		try {
-			relatedKeys = dao.selectByKey2(key2);
-		} catch (DAOException e) {
+			relatedKeys = repository.selectByKey2(key2);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -161,8 +169,9 @@ public class XGenericServiceImpl<T extends BaseBean, C extends CommonCriteria> i
 		serviceLogger.info(LOG_PREFIX + "Transaction start for fetching single record by Keys ==> [key1={},key2={}]" + LOG_SUFFIX, key1, key2);
 		T record;
 		try {
-			record = dao.select(key1, key2);
-		} catch (DAOException e) {
+			record = repository.select(key1, key2);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -175,8 +184,9 @@ public class XGenericServiceImpl<T extends BaseBean, C extends CommonCriteria> i
 		serviceLogger.info(LOG_PREFIX + "Transaction start for fetching multi records by criteria ==> {}" + LOG_SUFFIX, criteria);
 		List<T> records;
 		try {
-			records = dao.selectList(criteria);
-		} catch (DAOException e) {
+			records = repository.selectList(criteria);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);
@@ -189,8 +199,9 @@ public class XGenericServiceImpl<T extends BaseBean, C extends CommonCriteria> i
 		serviceLogger.info(LOG_PREFIX + "Transaction start for fetching record counts by criteria ==> {}" + LOG_SUFFIX, criteria);
 		long count;
 		try {
-			count = dao.selectCounts(criteria);
-		} catch (DAOException e) {
+			count = repository.selectCounts(criteria);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully." + LOG_SUFFIX);

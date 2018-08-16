@@ -30,18 +30,20 @@
 
 package com.github.cataclysmuprising.myapp.ui.backend.config.security;
 
-import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
-import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import com.github.cataclysmuprising.myapp.domain.bean.AuthenticatedUserBean;
+import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -76,6 +78,10 @@ public class LoggedUserBean implements UserDetails {
 
 	public Long getId() {
 		return this.authUser.getId();
+	}
+
+	public String getEmail() {
+		return this.authUser.getEmail();
 	}
 
 	public AuthenticatedUserBean getUserDetail() {

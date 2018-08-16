@@ -413,6 +413,7 @@ label.required:before {
 .btn-social i.fa {
 	box-shadow: -3px 0 4px 1px #fff;
 	font-size: 13px !important;
+	line-height: 26px !important;
 }
 /*
  * avoid required style break line

@@ -29,6 +29,24 @@ Configutation:
       PatternLayout:
         Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=magenta bold, DEBUG=magenta, TRACE=magenta}"
         disableAnsi: false
+        
+    - name: console_service_logger
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=blue bold, DEBUG=blue, TRACE=blue}"
+        disableAnsi: false
+   
+    - name: console_repository_logger
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=yellow bold, DEBUG=yellow, TRACE=yellow}"
+        disableAnsi: false  
+        
+    - name: console_sql_logger
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: "%style{%-5p}{bold,yellow} %style{%c{1}}{bold,cyan}%highlight{:%L %m%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green bold, DEBUG=green, TRACE=green}"
+        disableAnsi: false              
 
     - name: console_error_logger
       target: SYSTEM_OUT
@@ -56,6 +74,24 @@ Configutation:
       level: DEBUG
       AppenderRef:
       - ref: console_error_logger
+      
+    - name: serviceLogs  # service Logger
+      additivity: false
+      level: DEBUG
+      AppenderRef:
+        - ref: console_service_logger
+
+    - name: repositoryLogs  # repository Logger
+      additivity: false
+      level: DEBUG
+      AppenderRef:
+        - ref: console_repository_logger
+
+    - name: com.github.cataclysmuprising.myapp.persistence # sql Logger
+      additivity: false
+      level: DEBUG
+      AppenderRef:
+        - ref: console_sql_logger      
 
     ### Spring framework ###
     - name: org.springframework
@@ -72,7 +108,24 @@ Configutation:
     - name: org.apache.commons
       level: ERROR
     - name: org.apache.tiles
-      level: DEBUG
+      level: INFO
+      ### Mybatis loggings ###
+    - name : org.apache.ibatis.io
+      level: WARN
+    - name : org.mybatis.spring.mapper.ClassPathMapperScanner
+      level: WARN
+    - name : org.mybatis.spring.SqlSessionFactoryBean
+      level: WARN
+    - name : com.ibatis.common.jdbc.SimpleDataSource
+      level: WARN
+    - name : com.ibatis.common.jdbc.ScriptRunner
+      level: WARN
+    - name : com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate
+      level: WARN  
+    - name : org.mybatis.spring.SqlSessionUtils
+      level: WARN   
+    - name : org.mybatis.spring.transaction
+      level: WARN              
     ### Others ###
     - name: javax.servlet.http.HttpServletRequestWrapper
       level: WARN

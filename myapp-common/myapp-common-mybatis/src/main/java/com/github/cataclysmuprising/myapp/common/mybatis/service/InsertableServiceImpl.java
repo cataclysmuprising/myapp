@@ -29,28 +29,29 @@
  */
 package com.github.cataclysmuprising.myapp.common.mybatis.service;
 
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
+import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
+import static com.github.cataclysmuprising.myapp.common.util.ObjectUtil.getObjectName;
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.github.cataclysmuprising.myapp.common.domain.bean.BaseBean;
 import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
 import com.github.cataclysmuprising.myapp.common.exception.DAOException;
 import com.github.cataclysmuprising.myapp.common.exception.DuplicatedEntryException;
 import com.github.cataclysmuprising.myapp.common.mybatis.repository.api.root.InsertableRepository;
 import com.github.cataclysmuprising.myapp.common.mybatis.service.api.root.InsertableService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_PREFIX;
-import static com.github.cataclysmuprising.myapp.common.util.LoggerConstants.LOG_SUFFIX;
-import static com.github.cataclysmuprising.myapp.common.util.ObjectUtil.getObjectName;
 
 public class InsertableServiceImpl<T extends BaseBean> implements InsertableService<T> {
 	private static final Logger serviceLogger = LogManager.getLogger("serviceLogs." + InsertableServiceImpl.class.getName());
-	private InsertableRepository<T> dao;
+	private InsertableRepository<T> repository;
 
-	public InsertableServiceImpl(InsertableRepository<T> dao) {
-		this.dao = dao;
+	public InsertableServiceImpl(InsertableRepository<T> repository) {
+		this.repository = repository;
 	}
 
 	@Override
@@ -61,8 +62,9 @@ public class InsertableServiceImpl<T extends BaseBean> implements InsertableServ
 		serviceLogger.info(LOG_PREFIX + "Transaction start for inserting {} informations." + LOG_SUFFIX, objectName);
 		long lastInsertedId;
 		try {
-			lastInsertedId = dao.insert(record, recordRegId);
-		} catch (DAOException e) {
+			lastInsertedId = repository.insert(record, recordRegId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully for inserting {} informations." + LOG_SUFFIX, objectName);
@@ -76,8 +78,9 @@ public class InsertableServiceImpl<T extends BaseBean> implements InsertableServ
 		serviceLogger.info(LOG_PREFIX + "This transaction was initiated by User ID # {}" + LOG_SUFFIX, recordRegId);
 		serviceLogger.info(LOG_PREFIX + "Transaction start for inserting multi {} informations." + LOG_SUFFIX, objectName);
 		try {
-			dao.insert(records, recordRegId);
-		} catch (DAOException e) {
+			repository.insert(records, recordRegId);
+		}
+		catch (DAOException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 		serviceLogger.info(LOG_PREFIX + "Transaction finished successfully for inserting multi {} informations." + LOG_SUFFIX, objectName);
