@@ -1,32 +1,24 @@
-/*
- *
- *   This source file is free software, available under the following license: MIT license.
- *   Copyright (c) 2018, Than Htike Aung(https://github.com/cataclysmuprising) All Rights Reserved.
- *
- *   Permission is hereby granted, free of charge, to any person obtaining a copy
- *   of this software and associated documentation files (the "Software"), to deal
- *   in the Software without restriction, including without limitation the rights
- *   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *   copies of the Software, and to permit persons to whom the Software is
- *   furnished to do so, subject to the following conditions:
- *
- *   The above copyright notice and this permission notice shall be included in all
- *   copies or substantial portions of the Software.
- *
- *   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *   SOFTWARE.
- *
- *  	myapp-persistence - ActionRepository.java
- *  	Using Java(TM) SE Runtime Environment (build 1.8.0_151-b12)
- * 	    Last Modified - 8/13/18 12:55 PM
- *  	@author Than Htike Aung {@literal <rage.cataclysm@gmail.com>}
- *  	@Since 2018
- */
+/*******************************************************************************
+ * Copyright (C) 2018 Than Htike Aung
+ * myapp-persistence - ActionRepository.java
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package com.github.cataclysmuprising.myapp.persistence.repository;
 
 import java.util.List;
@@ -46,27 +38,26 @@ import com.github.cataclysmuprising.myapp.persistence.mapper.ActionMapper;
 @Repository
 public class ActionRepository extends SelectableRepositoryImpl<ActionBean, ActionCriteria> implements SelectableRepository<ActionBean, ActionCriteria> {
 
-	private static final Logger repositoryLogger = LogManager.getLogger("repositoryLogs." + ActionRepository.class.getName());
+    private static final Logger repositoryLogger = LogManager.getLogger("repositoryLogs." + ActionRepository.class.getName());
 
-	private ActionMapper mapper;
+    private ActionMapper mapper;
 
-	@Autowired
-	public ActionRepository(ActionMapper mapper) {
-		super(mapper);
-		this.mapper = mapper;
-	}
+    @Autowired
+    public ActionRepository(ActionMapper mapper) {
+        super(mapper);
+        this.mapper = mapper;
+    }
 
-	public List<String> selectAvailableActionsForAuthenticatedUser(String pageName, List<Long> roleIds) throws DAOException {
-		repositoryLogger.debug("[START] : >>> --- Fetching all 'ActionNames' for Authenticated User with pageName = '{}' ---", pageName);
-		List<String> actionNames;
-		try {
-			actionNames = mapper.selectAvailableActionsForAuthenticatedUser(pageName, roleIds);
-		}
-		catch (Exception e) {
-			String errorMsg = "xxx Error occured while fetching all 'ActionNames' for Authenticated User xxx";
-			throw new DAOException(errorMsg, e);
-		}
-		repositoryLogger.debug("[FINISH] : <<< --- Fetching all 'ActionNames' for Authenticated User with pageName = '{}' ---", pageName);
-		return actionNames;
-	}
+    public List<String> selectAvailableActionsForAuthenticatedUser(String pageName, List<Long> roleIds) throws DAOException {
+        repositoryLogger.debug("[START] : >>> --- Fetching all 'ActionNames' for Authenticated User with pageName = '{}' ---", pageName);
+        List<String> actionNames;
+        try {
+            actionNames = mapper.selectAvailableActionsForAuthenticatedUser(pageName, roleIds);
+        } catch (Exception e) {
+            String errorMsg = "xxx Error occured while fetching all 'ActionNames' for Authenticated User xxx";
+            throw new DAOException(errorMsg, e);
+        }
+        repositoryLogger.debug("[FINISH] : <<< --- Fetching all 'ActionNames' for Authenticated User with pageName = '{}' ---", pageName);
+        return actionNames;
+    }
 }
