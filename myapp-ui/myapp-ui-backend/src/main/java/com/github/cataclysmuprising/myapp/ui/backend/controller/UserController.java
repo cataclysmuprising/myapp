@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,30 +21,18 @@
  ******************************************************************************/
 package com.github.cataclysmuprising.myapp.ui.backend.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.cataclysmuprising.myapp.common.exception.BusinessException;
@@ -56,12 +44,8 @@ import com.github.cataclysmuprising.myapp.domain.bean.UserBean;
 import com.github.cataclysmuprising.myapp.domain.bean.UserBean.Status;
 import com.github.cataclysmuprising.myapp.domain.criteria.UserCriteria;
 import com.github.cataclysmuprising.myapp.persistence.service.api.UserService;
-import com.github.cataclysmuprising.myapp.ui.backend.common.annotation.HandleAjaxException;
 import com.github.cataclysmuprising.myapp.ui.backend.common.annotation.Loggable;
 import com.github.cataclysmuprising.myapp.ui.backend.common.annotation.ValidateEntity;
-import com.github.cataclysmuprising.myapp.ui.backend.common.validation.BaseValidator;
-import com.github.cataclysmuprising.myapp.ui.backend.common.validation.FieldValidator;
-import com.github.cataclysmuprising.myapp.ui.backend.dto.PasswordDto;
 import com.github.cataclysmuprising.myapp.ui.backend.dto.UserDto;
 import com.github.cataclysmuprising.myapp.ui.backend.validator.UserValidator;
 
@@ -72,12 +56,6 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
-
-    @Resource(name = "passwordEncoder")
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private BaseValidator baseValidator;
 
     @InitBinder("UserDto")
     public void initBinder(WebDataBinder binder) {
@@ -92,26 +70,6 @@ public class UserController extends BaseController {
     @GetMapping
     public String home() {
         return "user_home_page";
-    }
-
-    @GetMapping("/profile")
-    public String profile(Model model) throws BusinessException {
-        UserBean user = userService.select(getLoginUserId());
-        if (user == null) {
-            throw new ContentNotFoundException("User Not found !");
-        }
-        model.addAttribute("user", user);
-        return "user_profile_page";
-    }
-
-    @PostMapping("/profile")
-    public String profile(Model model, RedirectAttributes redirectAttributes, @ModelAttribute("user") @Validated UserBean user, BindingResult bindResult) throws BusinessException, DuplicatedEntryException {
-        user.setId(getLoginUserId());
-        user.setPassword(null);
-        user.setStatus(Status.ACTIVE);
-        userService.update(user, getLoginUserId());
-        setPageMessage(redirectAttributes, "Success", "Notification.User.Profile.SuccessfullyUpdated", PageMessageStyle.SUCCESS);
-        return "redirect:/user/profile";
     }
 
     @GetMapping("/add")
@@ -134,44 +92,17 @@ public class UserController extends BaseController {
         return "redirect:/user";
     }
 
-    @PostMapping("/changedPassword")
-    @HandleAjaxException
-    public @ResponseBody Map<String, Object> changedPassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String confirmPassword) throws ServletRequestBindingException, BusinessException, DuplicatedEntryException {
-        String email = getSignInUserInfo().getEmail();
-        PasswordDto passwordDto = new PasswordDto();
-        passwordDto.setOldPassword(oldPassword);
-        passwordDto.setNewPassword(newPassword);
-        passwordDto.setConfirmPassword(confirmPassword);
-        Errors errors = new BeanPropertyBindingResult(passwordDto, "passwordDto");
-        // validate passwords
-        baseValidator.validateIsEqual("newPassword", new FieldValidator("newPassword", "New Password", passwordDto.getNewPassword(), errors), new FieldValidator("confirmPassword", "Confirm Password", passwordDto.getConfirmPassword(), errors), errors);
-        baseValidator.validateIsValidPasswordPattern(new FieldValidator("oldPassword", "Old Password", passwordDto.getOldPassword(), errors));
-        baseValidator.validateIsValidPasswordPattern(new FieldValidator("newPassword", "New Password", passwordDto.getNewPassword(), errors));
-        baseValidator.validateIsValidPasswordPattern(new FieldValidator("confirmPassword", "Confirm Password", passwordDto.getConfirmPassword(), errors));
-        // fetch user information with given email
+    @GetMapping("/{id}")
+    public String detail(@PathVariable long id, Model model) throws BusinessException {
+        model.addAttribute("pageMode", PageMode.VIEW);
         UserCriteria criteria = new UserCriteria();
-        criteria.setEmail(email);
-        UserBean user = userService.select(criteria);
+        criteria.setId(id);
+        UserBean user = userService.select(id);
         if (user == null) {
-            throw new ServletRequestBindingException("Trying to make illegal access for changing password of unknown email=" + email);
+            throw new ContentNotFoundException();
         }
-
-        // check is oldpassword correct ?
-        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            errors.rejectValue("oldPassword", "", "Incorrect old password.Try again !");
-        }
-        if (errors.hasErrors()) {
-            return setAjaxFormFieldErrors(errors, "change_");
-        }
-        // update user's password
-        HashMap<String, Object> updateItems = new HashMap<>();
-        updateItems.put("password", passwordEncoder.encode(newPassword));
-        userService.update(criteria, updateItems, getLoginUserId());
-
-        // response success
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", HttpStatus.OK);
-        return setAjaxPageMessage(response, "Success", "Notification.User.PasswordUpdate.Success", PageMessageStyle.SUCCESS, new Object[] { user.getName() });
+        model.addAttribute("user", user);
+        return "user_detail_page";
     }
 
 }

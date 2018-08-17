@@ -50,7 +50,7 @@
 			<add-attribute value="app/user/detail/page" />
 		</put-list-attribute>
 		<put-list-attribute name="pageStyles">
-			<add-attribute value="common/css/jquery.dataTables" />
+			<add-attribute value="common/jquery.dataTables" />
 			<add-attribute value="app/user/detail/page" />
 		</put-list-attribute>
 	</definition>

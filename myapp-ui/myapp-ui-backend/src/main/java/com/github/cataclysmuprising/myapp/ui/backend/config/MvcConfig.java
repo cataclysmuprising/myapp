@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,7 +28,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -40,8 +39,6 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.github.cataclysmuprising.myapp.common.util.converter.DateTimeConverter;
 import com.github.cataclysmuprising.myapp.common.util.converter.LocalDateConverter;
 import com.github.cataclysmuprising.myapp.ui.backend.common.util.CustomLocaleDefinitionsFactory;
@@ -55,7 +52,6 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
 
-    // https://www.petrikainulainen.net/programming/spring-framework/spring-from-the-trenches-using-type-converters-with-spring-mvc/
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new LocalDateConverter("dd-MM-yyyy"));
@@ -65,10 +61,6 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
-        // registry.addInterceptor(new RequestWatcherInterceptor());
-        // registry.addInterceptor(new
-        // LoginInterceptor()).addPathPatterns("login", "/login", "login/**",
-        // "/login/**");
     }
 
     @Bean
@@ -113,15 +105,4 @@ public class MvcConfig implements WebMvcConfigurer {
         return messageSource;
     }
 
-    // custom Object Mapper
-    @Bean
-    public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
-        JodaModule module = new JodaModule();
-        // @formatter:off
-		return new Jackson2ObjectMapperBuilder()
-				.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-				.findModulesViaServiceLoader(true)
-				.modulesToInstall(module);
-		// @formatter:on
-    }
 }

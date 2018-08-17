@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,14 +34,13 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 
 @MappedTypes(LocalTime.class)
-public class LocalTimeTypeHandler implements TypeHandler {
+public class LocalTimeTypeHandler implements TypeHandler<LocalTime> {
 
     @Override
-    public void setParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType) throws SQLException {
+    public void setParameter(PreparedStatement ps, int i, LocalTime parameter, JdbcType jdbcType) throws SQLException {
 
-        LocalTime time = (LocalTime) parameter;
-        if (time != null) {
-            DateTime datetime = new DateTime(1970, 1, 1, time.getHourOfDay(), time.getMinuteOfHour(), time.getSecondOfMinute(), 0);
+        if (parameter != null) {
+            DateTime datetime = new DateTime(1970, 1, 1, parameter.getHourOfDay(), parameter.getMinuteOfHour(), parameter.getSecondOfMinute(), 0);
             ps.setTime(i, new Time(datetime.toDate().getTime()));
         } else {
             ps.setTime(i, null);
@@ -49,7 +48,7 @@ public class LocalTimeTypeHandler implements TypeHandler {
     }
 
     @Override
-    public Object getResult(ResultSet rs, String columnName) throws SQLException {
+    public LocalTime getResult(ResultSet rs, String columnName) throws SQLException {
         Time time = rs.getTime(columnName);
         if (time != null) {
             return new LocalTime(time.getTime());
@@ -60,7 +59,7 @@ public class LocalTimeTypeHandler implements TypeHandler {
     }
 
     @Override
-    public Object getResult(CallableStatement cs, int columnIndex) throws SQLException {
+    public LocalTime getResult(CallableStatement cs, int columnIndex) throws SQLException {
         Time time = cs.getTime(columnIndex);
         if (time != null) {
             return new LocalTime(time.getTime());
@@ -70,7 +69,7 @@ public class LocalTimeTypeHandler implements TypeHandler {
     }
 
     @Override
-    public Object getResult(ResultSet rs, int columnIndex) throws SQLException {
+    public LocalTime getResult(ResultSet rs, int columnIndex) throws SQLException {
         Time time = rs.getTime(columnIndex);
         if (time != null) {
             return new LocalTime(time.getTime());

@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,28 +27,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.MappedTypes;
 import org.apache.ibatis.type.TypeHandler;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
 
-public class LocalDateTimeTypeHandler implements TypeHandler {
+@MappedTypes(LocalDateTime.class)
+public class LocalDateTimeTypeHandler implements TypeHandler<LocalDateTime> {
     @Override
-    public void setParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType) throws SQLException {
-        ps.setTimestamp(i, new java.sql.Timestamp(((LocalDateTime) parameter).toDateTime(DateTimeZone.getDefault()).toDate().getTime()));
+    public void setParameter(PreparedStatement ps, int i, LocalDateTime parameter, JdbcType jdbcType) throws SQLException {
+        ps.setTimestamp(i, new java.sql.Timestamp(parameter.toDateTime(DateTimeZone.getDefault()).toDate().getTime()));
     }
 
     @Override
-    public Object getResult(ResultSet rs, String columnName) throws SQLException {
+    public LocalDateTime getResult(ResultSet rs, String columnName) throws SQLException {
         return new LocalDateTime(rs.getTimestamp(columnName).getTime(), DateTimeZone.getDefault());
     }
 
     @Override
-    public Object getResult(CallableStatement cs, int columnIndex) throws SQLException {
+    public LocalDateTime getResult(CallableStatement cs, int columnIndex) throws SQLException {
         return new LocalDateTime(cs.getTimestamp(columnIndex).getTime(), DateTimeZone.getDefault());
     }
 
     @Override
-    public Object getResult(ResultSet rs, int columnIndex) throws SQLException {
+    public LocalDateTime getResult(ResultSet rs, int columnIndex) throws SQLException {
         return new LocalDateTime(rs.getTimestamp(columnIndex).getTime(), DateTimeZone.getDefault());
     }
 }

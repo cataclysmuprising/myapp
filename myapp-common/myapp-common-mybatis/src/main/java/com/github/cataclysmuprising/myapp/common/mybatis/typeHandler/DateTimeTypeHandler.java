@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,29 +34,18 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 @MappedTypes(DateTime.class)
-public class DateTimeTypeHandler implements TypeHandler {
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ibatis.type.TypeHandler#setParameter(java.sql. PreparedStatement, int, java.lang.Object, org.apache.ibatis.type.JdbcType)
-     */
+public class DateTimeTypeHandler implements TypeHandler<DateTime> {
     @Override
-    public void setParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType) throws SQLException {
+    public void setParameter(PreparedStatement ps, int i, DateTime parameter, JdbcType jdbcType) throws SQLException {
         if (parameter != null) {
-            ps.setTimestamp(i, new Timestamp(((DateTime) parameter).getMillis()));
+            ps.setTimestamp(i, new Timestamp(parameter.getMillis()));
         } else {
             ps.setTimestamp(i, null);
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ibatis.type.TypeHandler#getResult(java.sql.ResultSet, java.lang.String)
-     */
     @Override
-    public Object getResult(ResultSet rs, String columnName) throws SQLException {
+    public DateTime getResult(ResultSet rs, String columnName) throws SQLException {
         Timestamp ts = rs.getTimestamp(columnName);
         if (ts != null) {
             return new DateTime(ts.getTime(), DateTimeZone.getDefault());
@@ -65,13 +54,8 @@ public class DateTimeTypeHandler implements TypeHandler {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ibatis.type.TypeHandler#getResult(java.sql.CallableStatement, int)
-     */
     @Override
-    public Object getResult(CallableStatement cs, int columnIndex) throws SQLException {
+    public DateTime getResult(CallableStatement cs, int columnIndex) throws SQLException {
         Timestamp ts = cs.getTimestamp(columnIndex);
         if (ts != null) {
             return new DateTime(ts.getTime(), DateTimeZone.getDefault());
@@ -81,7 +65,7 @@ public class DateTimeTypeHandler implements TypeHandler {
     }
 
     @Override
-    public Object getResult(ResultSet rs, int columnIndex) throws SQLException {
+    public DateTime getResult(ResultSet rs, int columnIndex) throws SQLException {
         Timestamp ts = rs.getTimestamp(columnIndex);
         if (ts != null) {
             return new DateTime(ts.getTime(), DateTimeZone.getDefault());

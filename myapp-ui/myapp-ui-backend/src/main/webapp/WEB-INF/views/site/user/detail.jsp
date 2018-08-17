@@ -5,13 +5,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- Content Header (Page header) -->
 <section class="content-header">
-	<h1>T3k User Informations</h1>
+	<h1>User Detail Informations</h1>
 	<ol class="breadcrumb">
 		<li>
-			<a href="${homeUrl}"> Home </a>
+			<a href="${homeUrl}">
+				<i class="fa fa-home"></i>Home
+			</a>
 		</li>
 		<li>
-			<a href="${userHomeUrl}"> Admin User </a>
+			<a href="${userHomeUrl}">
+				<i class="fa fa-users"></i> User
+			</a>
 		</li>
 		<li class="active">${user.name}</li>
 	</ol>
@@ -46,21 +50,25 @@
 									<a class="pull-right">${user.nrc}</a>
 								</li>
 								<li class="list-group-item custom-list-group-item">
-									<b>Gender</b>
-									<a class="pull-right">${user.gender}</a>
-								</li>	
-								<li class="list-group-item custom-list-group-item">
-									<b>Date of Birth</b>
-									<a class="pull-right">${user.dob}</a>
+									<b>Phone</b>
+									<a class="pull-right">${user.phone}</a>
 								</li>	
 								<li class="list-group-item custom-list-group-item">
 									<b>Status</b>
 									<a class="pull-right">${user.status}</a>
-								</li>	
+								</li>															
 								<li class="list-group-item custom-list-group-item">
-									<b>UserType</b>
-									<a class="pull-right">${user.userType}</a>
-								</li>																																					
+									<b>Gender</b>
+									<a class="pull-right">${user.gender}</a>
+								</li>
+								<li class="list-group-item custom-list-group-item">
+									<b>Date of Birth</b>
+									<a class="pull-right">${user.dob}</a>
+								</li>
+								<li class="list-group-item custom-list-group-item">
+									<b>Address</b>
+									<a class="pull-right">${user.address}</a>
+								</li>								
 							</ul>
 						</div>
 					</div>

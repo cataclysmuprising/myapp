@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,31 +34,18 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 
 @MappedTypes(LocalDate.class)
-public class LocalDateTypeHandler implements TypeHandler {
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ibatis.type.TypeHandler#setParameter(java.sql. PreparedStatement, int, java.lang.Object, org.apache.ibatis.type.JdbcType)
-     */
+public class LocalDateTypeHandler implements TypeHandler<LocalDate> {
     @Override
-    public void setParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType) throws SQLException {
-
-        LocalDate date = (LocalDate) parameter;
-        if (date != null) {
-            ps.setDate(i, new Date(date.toDateTimeAtStartOfDay().toDate().getTime()));
+    public void setParameter(PreparedStatement ps, int i, LocalDate parameter, JdbcType jdbcType) throws SQLException {
+        if (parameter != null) {
+            ps.setDate(i, new Date(parameter.toDateTimeAtStartOfDay().toDate().getTime()));
         } else {
             ps.setDate(i, null);
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ibatis.type.TypeHandler#getResult(java.sql.ResultSet, java.lang.String)
-     */
     @Override
-    public Object getResult(ResultSet rs, String columnName) throws SQLException {
+    public LocalDate getResult(ResultSet rs, String columnName) throws SQLException {
         Date date = rs.getDate(columnName);
         if (date != null) {
             return new LocalDate(date.getTime(), DateTimeZone.getDefault());
@@ -67,13 +54,8 @@ public class LocalDateTypeHandler implements TypeHandler {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.ibatis.type.TypeHandler#getResult(java.sql.CallableStatement, int)
-     */
     @Override
-    public Object getResult(CallableStatement cs, int columnIndex) throws SQLException {
+    public LocalDate getResult(CallableStatement cs, int columnIndex) throws SQLException {
         Date date = cs.getDate(columnIndex);
         if (date != null) {
             return new LocalDate(date.getTime(), DateTimeZone.getDefault());
@@ -83,7 +65,7 @@ public class LocalDateTypeHandler implements TypeHandler {
     }
 
     @Override
-    public Object getResult(ResultSet rs, int columnIndex) throws SQLException {
+    public LocalDate getResult(ResultSet rs, int columnIndex) throws SQLException {
         Date date = rs.getDate(columnIndex);
         if (date != null) {
             return new LocalDate(date.getTime(), DateTimeZone.getDefault());
