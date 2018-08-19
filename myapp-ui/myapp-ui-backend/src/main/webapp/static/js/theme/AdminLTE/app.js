@@ -19,7 +19,6 @@ var FILE_SIZE_UNITS = new Array('Bytes', 'KB', 'MB', 'GB');
 var $pushMenu = $('[data-toggle="push-menu"]').data('lte.pushmenu');
 var $layout = $('body').data('lte.layout');
 var PAGE_MODE = "";
-var CONTY_NO_JSON = "application/x-www-form-urlencoded; charset=UTF-8";
 /**
  * ################################## # JS working functions on page ##################################
  */

@@ -255,7 +255,7 @@ li>a, .navbar-header>a, select>option {
  * -----------------------
  */
 .bootstrap-select .btn {
-	padding-top: 4.5px !important;
+	padding-top: 3.5px !important;
 }
 
 .bootstrap-select .btn-default, .bootstrap-select .dropdown-menu {
@@ -413,7 +413,7 @@ label.required:before {
 .btn-social i.fa {
 	box-shadow: -3px 0 4px 1px #fff;
 	font-size: 13px !important;
-	line-height: 26px !important;
+	line-height: 24px !important;
 }
 /*
  * avoid required style break line
@@ -827,21 +827,6 @@ div.input-fieldless blockquote span.help-block::before {
 		margin-top: 5px;
 		text-align: center;
 	}
-}
-
-.bootstrap-select>.dropdown-menu {
-	border: 1px solid #666666;
-	background-color: #EEEEEE;
-	box-shadow: none;
-}
-
-.bootstrap-select>.dropdown-menu>.dropdown-menu>li {
-	background-color: #EEEEEE;
-	color: white;
-}
-
-.bootstrap-select>.dropdown-menu>.dropdown-menu>li>a:hover {
-	background-color: #FFFFFF;
 }
 
 .add-icon {

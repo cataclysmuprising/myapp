@@ -60,10 +60,14 @@
 }
 
 .docs-toolbar {
-	margin-top: 50px;
+	margin-top: 30px;
 	margin-bottom: -10px;
 	text-align: center;
 	display: none;
+}
+
+.docs-toolbar .btn-group button {
+	margin-left: 1px !important;
 }
 
 .btn-outline:hover, .btn-outline:focus, .btn-outline:active {

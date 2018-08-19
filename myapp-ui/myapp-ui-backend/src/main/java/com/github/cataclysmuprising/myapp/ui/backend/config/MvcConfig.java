@@ -43,9 +43,7 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.github.cataclysmuprising.myapp.common.util.converter.DateTimeConverter;
 import com.github.cataclysmuprising.myapp.common.util.converter.LocalDateConverter;
@@ -124,8 +122,6 @@ public class MvcConfig implements WebMvcConfigurer {
         objectMapper.configure(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
         // Other options such as how to deal with nulls or identing...
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         objectMapper.setTimeZone(TimeZone.getDefault());
         converter.setObjectMapper(objectMapper);
         converters.add(converter);

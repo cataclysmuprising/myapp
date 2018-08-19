@@ -42,6 +42,16 @@
 			<add-attribute value="app/user/input/page" />
 		</put-list-attribute>
 	</definition>
+	<definition name="user_edit_page" extends="baseLayout">
+		<put-attribute name="content" value="/WEB-INF/views/site/user/edit.jsp" />
+		<put-list-attribute name="pageScripts">
+			<add-attribute value="common/jquery.validate" />
+			<add-attribute value="app/user/edit/page" />
+		</put-list-attribute>
+		<put-list-attribute name="pageStyles">
+			<add-attribute value="app/user/edit/page" />
+		</put-list-attribute>
+	</definition>	
 	<definition name="user_detail_page" extends="baseLayout">
 		<put-attribute name="content" value="/WEB-INF/views/site/user/detail.jsp" />
 		<put-list-attribute name="pageScripts">

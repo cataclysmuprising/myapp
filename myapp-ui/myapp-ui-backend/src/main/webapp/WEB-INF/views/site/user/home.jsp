@@ -34,7 +34,7 @@
 						</div>
 						<div class="col-sm-8">
 							<button type="button" class="btn btn-primary btn-flat btn-sm btn-social" id="btnSearch">
-								<i class="fa fa-search" style="line-height: 24px !important;"></i>Search
+								<i class="fa fa-search" style="line-height: 23px !important;"></i>Search
 							</button>
 							<button type="button" class="btn bg-olive btn-flat btn-sm btn-social" id="btnReset">
 								<i class="fa fa-recycle"></i>Reset

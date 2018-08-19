@@ -24,11 +24,8 @@ package com.github.cataclysmuprising.myapp.ui.backend.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -65,9 +62,6 @@ public class HomeController extends BaseController {
 
     @Autowired
     private UserService userService;
-
-    @Resource(name = "passwordEncoder")
-    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public String home() {

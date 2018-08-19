@@ -44,6 +44,7 @@ import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.github.cataclysmuprising.myapp.persistence.service.api.RoleService;
+import com.github.cataclysmuprising.myapp.ui.backend.config.security.CustomAuthenticationFailureHandler;
 import com.github.cataclysmuprising.myapp.ui.backend.config.security.CustomAuthenticationSuccessHandler;
 import com.github.cataclysmuprising.myapp.ui.backend.config.security.RoleBasedAccessDecisionVoter;
 
@@ -63,6 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CustomAuthenticationSuccessHandler successHandler;
+
+    @Autowired
+    private CustomAuthenticationFailureHandler failureHandler;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -91,6 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/login")
 				.usernameParameter("email")
 				.passwordParameter("password")
+				.failureHandler(failureHandler)
 				.successHandler(successHandler);
 		http
 				.rememberMe()

@@ -7,17 +7,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-		User Setup
-		<small>
-			<c:choose>
-				<c:when test="${pageMode eq 'CREATE' }">
-					(Create a new User)
-				</c:when>
-				<c:otherwise>
-					(Edit existing User)
-				</c:otherwise>
-			</c:choose>
-		</small>
+		User Setup <small> (Create a new User) </small>
 	</h1>
 	<ol class="breadcrumb">
 		<li>
@@ -30,16 +20,7 @@
 				<i class="fa fa-users"></i> User
 			</a>
 		</li>
-		<li class="active">
-			<c:choose>
-				<c:when test="${pageMode eq 'CREATE' }">
-					Add New
-				</c:when>
-				<c:otherwise>
-					Edit
-				</c:otherwise>
-			</c:choose>
-		</li>
+		<li class="active">Add New</li>
 	</ol>
 </section>
 <!-- Main content -->
@@ -47,14 +28,7 @@
 	<div class="inline-content">
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
-				<c:choose>
-					<c:when test="${pageMode eq 'EDIT'}">
-						<c:set var="submitUrl" value="/user/${userDto.id}/edit" />
-					</c:when>
-					<c:otherwise>
-						<c:set var="submitUrl" value="/user/add" />
-					</c:otherwise>
-				</c:choose>
+				<c:set var="submitUrl" value="/user/add" />
 				<spring:url value="${submitUrl}" var="userSubmitUrl" />
 				<form:form class="form-horizontal" modelAttribute="userDto" id="userForm" action="${userSubmitUrl}" method="post">
 					<div class="box box-solid row" style="width: 50%; margin: 0 auto;">
@@ -78,47 +52,48 @@
 								<div class="col-sm-6">
 									<div class="input-group">
 										<span class="input-group-addon">@</span>
-										<c:choose>
-											<c:when test="${pageMode eq 'CREATE'}">
-												<form:input id="email" type="email" path="email" placeholder="Email-Address" class="form-control input-sm" />
-											</c:when>
-											<c:otherwise>
-												<form:input id="email" type="email" path="email" placeholder="Email-Address" class="form-control input-sm" readonly="true" tabindex="-1" />
-											</c:otherwise>
-										</c:choose>
+										<form:input id="email" type="email" path="email" placeholder="Email-Address" class="form-control input-sm" />
 									</div>
 								</div>
 							</div>
-							<c:if test="${pageMode eq 'CREATE'}">
-								<div class="form-group">
-									<label for="password" class="control-label col-sm-4 required">Password :</label>
-									<div class="col-sm-6">
-										<div class="input-group">
-											<span class="input-group-addon">
-												<i class="fa fa-lock"></i>
-											</span>
-											<form:password id="password" path="password" placeholder="Enter Your Password" class="form-control input-sm" />
-											<span class="input-group-addon passwordFormatTooltip">
-												<i class="fa fa-info-circle help-tooltip"></i>
-											</span>
-										</div>
+							<div class="form-group">
+								<label for="password" class="control-label col-sm-4 required">Password :</label>
+								<div class="col-sm-6">
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-lock"></i>
+										</span>
+										<form:password id="password" path="password" placeholder="Enter Your Password" class="form-control input-sm" />
+										<span class="input-group-addon passwordFormatTooltip">
+											<i class="fa fa-info-circle help-tooltip"></i>
+										</span>
 									</div>
 								</div>
-								<div class="form-group">
-									<label for="confirmPassword" class="control-label col-sm-4 required">Password Confirm :</label>
-									<div class="col-sm-6">
-										<div class="input-group">
-											<span class="input-group-addon">
-												<i class="fa fa-expeditedssl"></i>
-											</span>
-											<form:password id="confirmPassword" path="confirmPassword" placeholder="Type again your password" class="form-control input-sm" />
-											<span class="input-group-addon passwordFormatTooltip">
-												<i class="fa fa-info-circle help-tooltip"></i>
-											</span>
-										</div>
+							</div>
+							<div class="form-group">
+								<label for="confirmPassword" class="control-label col-sm-4 required">Password Confirm :</label>
+								<div class="col-sm-6">
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-expeditedssl"></i>
+										</span>
+										<form:password id="confirmPassword" path="confirmPassword" placeholder="Type again your password" class="form-control input-sm" />
+										<span class="input-group-addon passwordFormatTooltip">
+											<i class="fa fa-info-circle help-tooltip"></i>
+										</span>
 									</div>
 								</div>
-							</c:if>
+							</div>
+							<div class="form-group">
+								<label for="status" class="control-label col-sm-4">Status :</label>
+								<div class="col-sm-6">
+									<form:select id="status" class="form-control input-sm selectpicker show-tick" path="status">
+										<form:option value="ACTIVE" label="Active" />
+										<form:option value="TEMPORARY" label="Temporary" />
+										<form:option value="LOCK" label="Locked" />
+									</form:select>
+								</div>
+							</div>
 						</div>
 						<div class="box-footer text-center">
 							<button class="btn bg-olive btn-flat small-margin btn-sm btn-social" type="button" id="btnReset">
