@@ -37,7 +37,7 @@ public class LoginHistoryBean extends BaseBean {
     private String ipAddress;
     private String os;
     private String userAgent;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private DateTime loginDate;
     private long userId;
     private UserBean user;
