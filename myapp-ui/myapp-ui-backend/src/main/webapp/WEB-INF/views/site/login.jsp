@@ -40,7 +40,6 @@
         </form>
     </div>
     <div class="login-box-footer text-center">
-        <a href="#" id="forgot-password">Forgot your password ?</a>
     </div>
 </section>
 </body>

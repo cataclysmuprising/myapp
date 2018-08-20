@@ -817,7 +817,6 @@ div.input-fieldless blockquote span.help-block::before {
 	}
 	form.form-horizontal.control-block .btn-add-new {
 		float: none;
-		position: static;
 		right: 0px
 	}
 }
